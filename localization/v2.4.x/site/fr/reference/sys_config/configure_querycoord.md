@@ -2,10 +2,9 @@
 id: configure_querycoord.md
 related_key: configure
 group: system_configuration.md
-summary: Découvrez comment configurer queryCoord pour Milvus.
-title: ''
+summary: Learn how to configure queryCoord for Milvus.
 ---
-<h1 id="queryCoord-related-Configurations" class="common-anchor-header">Configurations liées à queryCoord<button data-href="#queryCoord-related-Configurations" class="anchor-icon" translate="no">
+<h1 id="queryCoord-related-Configurations" class="common-anchor-header">queryCoord-related Configurations<button data-href="#queryCoord-related-Configurations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -20,7 +19,7 @@ title: ''
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>Configuration connexe de queryCoord, utilisée pour gérer la topologie et l'équilibrage de la charge pour les nœuds de requête, et le transfert de segments en croissance vers des segments scellés.</p>
+    </button></h1><p>Related configuration of queryCoord, used to manage topology and load balancing for the query nodes, and handoff from growing segments to sealed segments.</p>
 <h2 id="queryCoordautoHandoff" class="common-anchor-header"><code translate="no">queryCoord.autoHandoff</code><button data-href="#queryCoordautoHandoff" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
@@ -39,16 +38,16 @@ title: ''
     </button></h2><table id="queryCoord.autoHandoff">
   <thead>
     <tr>
-      <th class="width80">Description de la configuration</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>Valeur de commutation permettant de contrôler le remplacement automatique d'un segment croissant par le segment scellé indexé correspondant lorsque le segment croissant atteint le seuil de scellement.</li>      
-        <li>Si ce paramètre est défini comme faux, Milvus recherche simplement les segments croissants par force brute.</li>      </td>
-      <td>vrai</td>
+        <li>Switch value to control if to automatically replace a growing segment with the corresponding indexed sealed segment when the growing segment reaches the sealing threshold.</li>      
+        <li>If this parameter is set false, Milvus simply searches the growing segments with brute force.</li>      </td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
@@ -71,12 +70,12 @@ title: ''
   <thead>
     <tr>
       <th class="width80">Description</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Valeur de commutation permettant d'équilibrer automatiquement l'utilisation de la mémoire entre les nœuds de requête en répartissant uniformément les opérations de chargement et de libération des segments.      </td>
+      <td>        Switch value to control if to automatically balance the memory usage among query nodes by distributing segment loading and releasing operations evenly.      </td>
       <td>true</td>
     </tr>
   </tbody>
@@ -100,12 +99,12 @@ title: ''
   <thead>
     <tr>
       <th class="width80">Description</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Activer le canal d'équilibrage automatique      </td>
+      <td>        Enable auto balance channel      </td>
       <td>true</td>
     </tr>
   </tbody>
@@ -129,13 +128,13 @@ title: ''
   <thead>
     <tr>
       <th class="width80">Description</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        équilibreur automatique utilisé pour les segments sur les queryNodes      </td>
-      <td>Équilibreur basé sur le score</td>
+      <td>        auto balancer used for segments on queryNodes      </td>
+      <td>ScoreBasedBalancer</td>
     </tr>
   </tbody>
 </table>
@@ -158,12 +157,12 @@ title: ''
   <thead>
     <tr>
       <th class="width80">Description</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        le poids utilisé lors de l'équilibrage des segments entre les queryNodes      </td>
+      <td>        the weight used when balancing segments among queryNodes      </td>
       <td>0.1</td>
     </tr>
   </tbody>
@@ -186,13 +185,13 @@ title: ''
     </button></h2><table id="queryCoord.scoreUnbalanceTolerationFactor">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        la valeur minimale pour l'étendue déséquilibrée entre les nœuds de départ et d'arrivée lors de l'équilibrage      </td>
+      <td>        the least value for unbalanced extent between from and to nodes when doing balance      </td>
       <td>0.05</td>
     </tr>
   </tbody>
@@ -215,13 +214,13 @@ title: ''
     </button></h2><table id="queryCoord.reverseUnBalanceTolerationFactor">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        la plus grande valeur pour le déséquilibre entre les nœuds de départ et d'arrivée après l'équilibrage      </td>
+      <td>        the largest value for unbalanced extent between from and to nodes after doing balance      </td>
       <td>1.3</td>
     </tr>
   </tbody>
@@ -244,13 +243,13 @@ title: ''
     </button></h2><table id="queryCoord.overloadedMemoryThresholdPercentage">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Le seuil d'utilisation de la mémoire (en pourcentage) dans un nœud de requête pour déclencher l'équilibrage du segment scellé.      </td>
+      <td>        The threshold of memory usage (in percentage) in a query node to trigger the sealed segment balancing.      </td>
       <td>90</td>
     </tr>
   </tbody>
@@ -273,13 +272,13 @@ title: ''
     </button></h2><table id="queryCoord.balanceIntervalSeconds">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        L'intervalle auquel la coordination de la requête équilibre l'utilisation de la mémoire entre les nœuds de requête.      </td>
+      <td>        The interval at which query coord balances the memory usage among query nodes.      </td>
       <td>60</td>
     </tr>
   </tbody>
@@ -303,12 +302,12 @@ title: ''
   <thead>
     <tr>
       <th class="width80">Description</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Le seuil de différence d'utilisation de la mémoire (en pourcentage) entre deux nœuds de requête pour déclencher l'équilibrage du segment scellé.      </td>
+      <td>        The threshold of memory usage difference (in percentage) between any two query nodes to trigger the sealed segment balancing.      </td>
       <td>30</td>
     </tr>
   </tbody>
@@ -332,12 +331,12 @@ title: ''
   <thead>
     <tr>
       <th class="width80">Description</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        le poids du nombre de lignes utilisé lors de l'équilibrage des segments entre les nœuds de requête      </td>
+      <td>        the row count weight used when balancing segments among queryNodes      </td>
       <td>0.4</td>
     </tr>
   </tbody>
@@ -360,13 +359,13 @@ title: ''
     </button></h2><table id="queryCoord.segmentCountFactor">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        le poids du nombre de segments utilisé lors de l'équilibrage des segments entre les queryNodes      </td>
+      <td>        the segment count weight used when balancing segments among queryNodes      </td>
       <td>0.4</td>
     </tr>
   </tbody>
@@ -389,13 +388,13 @@ title: ''
     </button></h2><table id="queryCoord.globalSegmentCountFactor">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        le poids du nombre de segments utilisé lors de l'équilibrage des segments entre les queryNodes      </td>
+      <td>        the segment count weight used when balancing segments among queryNodes      </td>
       <td>0.1</td>
     </tr>
   </tbody>
@@ -418,13 +417,13 @@ title: ''
     </button></h2><table id="queryCoord.segmentCountMaxSteps">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        générateur de plan basé sur le nombre de segments pas max   </td>
+      <td>        segment count based plan generator max steps      </td>
       <td>50</td>
     </tr>
   </tbody>
@@ -447,13 +446,13 @@ title: ''
     </button></h2><table id="queryCoord.rowCountMaxSteps">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        pas max du générateur de plan basé sur le décompte des segments      </td>
+      <td>        segment count based plan generator max steps      </td>
       <td>50</td>
     </tr>
   </tbody>
@@ -476,13 +475,13 @@ title: ''
     </button></h2><table id="queryCoord.randomMaxSteps">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        pas maximum du générateur de plan basé sur le nombre de segments      </td>
+      <td>        segment count based plan generator max steps      </td>
       <td>10</td>
     </tr>
   </tbody>
@@ -505,13 +504,13 @@ title: ''
     </button></h2><table id="queryCoord.growingRowCountWeight">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        le poids en mémoire du nombre de rangées de segments croissants      </td>
+      <td>        the memory weight of growing segment row count      </td>
       <td>4</td>
     </tr>
   </tbody>
@@ -534,13 +533,13 @@ title: ''
     </button></h2><table id="queryCoord.delegatorMemoryOverloadFactor">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        le facteur de la mémoire surchargée du délégateur      </td>
+      <td>        the factor of delegator overloaded memory      </td>
       <td>0.1</td>
     </tr>
   </tbody>
@@ -563,13 +562,13 @@ title: ''
     </button></h2><table id="queryCoord.balanceCostThreshold">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Seuil du coût d'équilibrage, si la différence de coût du groupe après l'exécution du plan d'équilibrage est inférieure à cette valeur, le plan ne sera pas exécuté.      </td>
+      <td>        the threshold of balance cost, if the difference of cluster's cost after executing the balance plan is less than this value, the plan will not be executed      </td>
       <td>0.001</td>
     </tr>
   </tbody>
@@ -592,8 +591,8 @@ title: ''
     </button></h2><table id="queryCoord.channelTaskTimeout">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
@@ -621,13 +620,13 @@ title: ''
     </button></h2><table id="queryCoord.segmentTaskTimeout">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        2 minutes      </td>
+      <td>        2 minute      </td>
       <td>120000</td>
     </tr>
   </tbody>
@@ -650,13 +649,13 @@ title: ''
     </button></h2><table id="queryCoord.heartbeatAvailableInterval">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        10s, Seuls les QueryNodes qui ont récupéré des battements de cœur pendant cette durée sont disponibles.      </td>
+      <td>        10s, Only QueryNodes which fetched heartbeats within the duration are available      </td>
       <td>10000</td>
     </tr>
   </tbody>
@@ -679,13 +678,13 @@ title: ''
     </button></h2><table id="queryCoord.distRequestTimeout">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Délai d'attente pour la distribution des données de querycoord à partir des querynodes, en millisecondes.      </td>
+      <td>        the request timeout for querycoord fetching data distribution from querynodes, in milliseconds      </td>
       <td>5000</td>
     </tr>
   </tbody>
@@ -708,13 +707,13 @@ title: ''
     </button></h2><table id="queryCoord.heatbeatWarningLag">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        la valeur du délai pour l'avertissement du rapport de querycoord lorsque le dernier battement de chaleur est trop ancien, en millisecondes      </td>
+      <td>        the lag value for querycoord report warning when last heatbeat is too old, in milliseconds      </td>
       <td>5000</td>
     </tr>
   </tbody>
@@ -737,13 +736,13 @@ title: ''
     </button></h2><table id="queryCoord.checkHealthInterval">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        3s, l'intervalle pendant lequel la coordination des requêtes tente de vérifier l'état de santé du nœud de requête      </td>
+      <td>        3s, the interval when query coord try to check health of query node      </td>
       <td>3000</td>
     </tr>
   </tbody>
@@ -766,13 +765,13 @@ title: ''
     </button></h2><table id="queryCoord.checkHealthRPCTimeout">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        100ms, le délai d'attente du rpc de vérification de l'état de santé du nœud d'interrogation      </td>
+      <td>        100ms, the timeout of check health rpc to query node      </td>
       <td>2000</td>
     </tr>
   </tbody>
@@ -795,13 +794,13 @@ title: ''
     </button></h2><table id="queryCoord.brokerTimeout">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        5000ms, délai d'attente rpc du courtier querycoord      </td>
+      <td>        5000ms, querycoord broker rpc timeout      </td>
       <td>5000</td>
     </tr>
   </tbody>
@@ -824,13 +823,13 @@ title: ''
     </button></h2><table id="queryCoord.collectionRecoverTimes">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        si les délais de récupération de la collection atteignent la limite pendant l'état de chargement, la libérer      </td>
+      <td>        if collection recover times reach the limit during loading state, release it      </td>
       <td>3</td>
     </tr>
   </tbody>
@@ -853,13 +852,13 @@ title: ''
     </button></h2><table id="queryCoord.observerTaskParallel">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        numéro de la tâche du répartiteur de l'observateur parallèle      </td>
+      <td>        the parallel observer dispatcher task number      </td>
       <td>16</td>
     </tr>
   </tbody>
@@ -883,12 +882,12 @@ title: ''
   <thead>
     <tr>
       <th class="width80">Description</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        l'intervalle de vérification de la configuration de la balance automatique      </td>
+      <td>        the interval of check auto balance config      </td>
       <td>10</td>
     </tr>
   </tbody>
@@ -911,13 +910,13 @@ title: ''
     </button></h2><table id="queryCoord.checkNodeSessionInterval">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Intervalle (en secondes) de vérification de la session de cluster querynode      </td>
+      <td>        the interval(in seconds) of check querynode cluster session      </td>
       <td>60</td>
     </tr>
   </tbody>
@@ -940,13 +939,13 @@ title: ''
     </button></h2><table id="queryCoord.gracefulStopTimeout">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        secondes. forcer l'arrêt du nœud sans arrêt gracieux      </td>
+      <td>        seconds. force stop node without graceful stop      </td>
       <td>5</td>
     </tr>
   </tbody>
@@ -969,14 +968,14 @@ title: ''
     </button></h2><table id="queryCoord.enableStoppingBalance">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        si l'activation de l'arrêt de l'équilibre      </td>
-      <td>vrai</td>
+      <td>        whether enable stopping balance      </td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
@@ -999,12 +998,12 @@ title: ''
   <thead>
     <tr>
       <th class="width80">Description</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        le numéro de nœud le plus bas pour activer le mode exclusif du canal     </td>
+      <td>        the least node number for enable channel's exclusive mode      </td>
       <td>4</td>
     </tr>
   </tbody>
@@ -1027,13 +1026,13 @@ title: ''
     </button></h2><table id="queryCoord.collectionObserverInterval">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        l'intervalle de l'observateur de la collecte      </td>
+      <td>        the interval of collection observer      </td>
       <td>200</td>
     </tr>
   </tbody>
@@ -1056,13 +1055,13 @@ title: ''
     </button></h2><table id="queryCoord.checkExecutedFlagInterval">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Intervalle de contrôle du drapeau exécuté pour forcer le retrait de la dist.     </td>
+      <td>        the interval of check executed flag to force to pull dist      </td>
       <td>100</td>
     </tr>
   </tbody>
@@ -1085,13 +1084,13 @@ title: ''
     </button></h2><table id="queryCoord.updateCollectionLoadStatusInterval">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        5m, intervalle maximum pour la mise à jour de l'état de chargement de la collecte      </td>
+      <td>        5m, max interval for updating collection loaded status      </td>
       <td>5</td>
     </tr>
   </tbody>
@@ -1114,13 +1113,13 @@ title: ''
     </button></h2><table id="queryCoord.cleanExcludeSegmentInterval">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        la durée du segment d'exclusion du pipeline propre utilisé pour filtrer les données non valides, en secondes      </td>
+      <td>        the time duration of clean pipeline exclude segment which used for filter invalid data, in seconds      </td>
       <td>60</td>
     </tr>
   </tbody>
@@ -1143,13 +1142,13 @@ title: ''
     </button></h2><table id="queryCoord.ip">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Adresse TCP/IP de queryCoord. Si elle n'est pas spécifiée, la première adresse non diffusable est utilisée.      </td>
+      <td>        TCP/IP address of queryCoord. If not specified, use the first unicastable address      </td>
       <td></td>
     </tr>
   </tbody>
@@ -1173,12 +1172,12 @@ title: ''
   <thead>
     <tr>
       <th class="width80">Description</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Port TCP du queryCoord      </td>
+      <td>        TCP port of queryCoord      </td>
       <td>19531</td>
     </tr>
   </tbody>
@@ -1201,13 +1200,13 @@ title: ''
     </button></h2><table id="queryCoord.grpc.serverMaxSendSize">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Taille maximale de chaque requête RPC que le queryCoord peut envoyer, unité : octet     </td>
+      <td>        The maximum size of each RPC request that the queryCoord can send, unit: byte      </td>
       <td>536870912</td>
     </tr>
   </tbody>
@@ -1230,13 +1229,13 @@ title: ''
     </button></h2><table id="queryCoord.grpc.serverMaxRecvSize">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Taille maximale de chaque requête RPC que le queryCoord peut recevoir, unité : octet     </td>
+      <td>        The maximum size of each RPC request that the queryCoord can receive, unit: byte      </td>
       <td>268435456</td>
     </tr>
   </tbody>
@@ -1259,13 +1258,13 @@ title: ''
     </button></h2><table id="queryCoord.grpc.clientMaxSendSize">
   <thead>
     <tr>
-      <th class="width80">Valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        La taille maximale de chaque requête RPC que les clients du queryCoord peuvent envoyer, unité : byte    </td>
+      <td>        The maximum size of each RPC request that the clients on queryCoord can send, unit: byte      </td>
       <td>268435456</td>
     </tr>
   </tbody>
@@ -1288,13 +1287,13 @@ title: ''
     </button></h2><table id="queryCoord.grpc.clientMaxRecvSize">
   <thead>
     <tr>
-      <th class="width80">Description de la valeur par défaut</th>
-      <th class="width20">Valeur par défaut</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        La taille maximale de chaque requête RPC que les clients sur queryCoord peuvent recevoir, unité : byte    </td>
+      <td>        The maximum size of each RPC request that the clients on queryCoord can receive, unit: byte      </td>
       <td>536870912</td>
     </tr>
   </tbody>

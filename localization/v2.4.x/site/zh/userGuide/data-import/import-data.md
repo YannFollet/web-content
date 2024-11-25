@@ -1,10 +1,10 @@
 ---
 id: import-data.md
 order: 1
-title: 导入数据
-summary: 本页演示导入准备好的数据的程序。
+title: Import Data
+summary: This page demonstrates the procedure to import the prepared data.
 ---
-<h1 id="Import-data" class="common-anchor-header">导入数据<button data-href="#Import-data" class="anchor-icon" translate="no">
+<h1 id="Import-data" class="common-anchor-header">Import data<button data-href="#Import-data" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -19,8 +19,8 @@ summary: 本页演示导入准备好的数据的程序。
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>本页演示导入准备好的数据的步骤。</p>
-<h2 id="Before-you-start" class="common-anchor-header">开始之前<button data-href="#Before-you-start" class="anchor-icon" translate="no">
+    </button></h1><p>This page demonstrates the procedure to import the prepared data.</p>
+<h2 id="Before-you-start" class="common-anchor-header">Before you start<button data-href="#Before-you-start" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -36,18 +36,20 @@ summary: 本页演示导入准备好的数据的程序。
         ></path>
       </svg>
     </button></h2><ul>
-<li><p>您已经准备好数据并将其放入 Milvus 存储桶。</p>
-<p>如果没有，则应首先使用<strong>RemoteBulkWriter</strong>准备数据，并确保准备好的数据已传输到与 Milvus 实例一起启动的 MinIO 实例上的 Milvus 数据桶中。有关详细信息，请参阅<a href="/docs/zh/prepare-source-data.md">准备源数据</a>。</p></li>
-<li><p>您已经使用用于准备数据的模式创建了一个集合。如果没有，请参阅<a href="/docs/zh/manage-collections.md">管理集合</a>。</p></li>
+<li><p>You have already prepared your data and placed it into the Milvus bucket.</p>
+<p>If not, you should use <strong>RemoteBulkWriter</strong> to prepare your data first, and ensure that the prepared data has already been transferred to the Milvus bucket on the MinIO instance started along with your Milvus instance. For details, refer to <a href="/docs/zh/prepare-source-data.md">Prepare Source Data</a>.</p></li>
+<li><p>You have already created a collection with the schema you use to prepare your data. If not, refer to <a href="/docs/zh/manage-collections.md">Manage Collections</a>.</p></li>
 </ul>
 <div class="language-python">
-<p>以下代码片段使用给定模式创建了一个简单的集合。有关参数的更多信息，请参阅 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_schema.md"><code translate="no">create_schema()</code></a>和 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a>SDK 参考资料。</p>
+<p>The following code snippet creates a simple collection with the given schema. For more information on parameters, refer to <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_schema.md"><code translate="no">create_schema()</code></a> and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> in the SDK reference.</p>
 </div>
 <div class="language-java">
-<p>以下代码片段使用给定模式创建一个简单集合。有关参数的更多信息，请参阅 <a href="https://milvus.io/api-reference/java/v2.4.x/v1/Collection/createCollection.md"><code translate="no">createCollection()</code></a>有关参数的更多信息，请参阅 SDK 参考资料中的</p>
+<p>The following code snippet creates a simple collection with the given schema. For more information on parameters, refer to <a href="https://milvus.io/api-reference/java/v2.4.x/v1/Collection/createCollection.md"><code translate="no">createCollection()</code></a> in the SDK reference.</p>
 </div>
 <div class="multipleCode">
- <a href="#python">Python </a> <a href="#java">Java</a></div>
+  <a href="#python">Python </a>
+  <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python">client = MilvusClient(<span class="hljs-string">&quot;http://localhost:19530&quot;</span>)
 
 schema = MilvusClient.create_schema(
@@ -119,7 +121,7 @@ milvusClient.createCollection(CreateCollectionParam.newBuilder()
     .build()
 );
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Import-data" class="common-anchor-header">导入数据<button data-href="#Import-data" class="anchor-icon" translate="no">
+<h2 id="Import-data" class="common-anchor-header">Import data<button data-href="#Import-data" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -134,7 +136,7 @@ milvusClient.createCollection(CreateCollectionParam.newBuilder()
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>要导入准备好的数据，必须创建如下导入任务：</p>
+    </button></h2><p>To import the prepared data, you have to create an import job as follows:</p>
 <pre><code translate="no"><span class="hljs-built_in">export</span> MILVUS_URI=<span class="hljs-string">&quot;localhost:19530&quot;</span>
 
 curl --request POST <span class="hljs-string">&quot;http://<span class="hljs-variable">${MILVUS_URI}</span>/v2/vectordb/jobs/import/create&quot;</span> \
@@ -151,21 +153,21 @@ curl --request POST <span class="hljs-string">&quot;http://<span class="hljs-var
     &quot;collectionName&quot;: &quot;quick_setup&quot;
 }&#x27;</span>
 <button class="copy-code-btn"></button></code></pre>
-<p>请求体包含两个字段：</p>
+<p>The request body contains two fields:</p>
 <ul>
 <li><p><code translate="no">collectionName</code></p>
-<p>目标数据集的名称。</p></li>
+<p>The name of the target collection.</p></li>
 <li><p><code translate="no">files</code></p>
-<p>文件路径列表，相对于与您的 Milvus 实例一起启动的 MioIO 实例上 Milvus 数据桶的根路径。可能的子列表如下：</p>
+<p>A list of lists of file paths relative to the root path of the Milvus bucket on the MioIO instance started along with your Milvus instance. Possible sub-lists are as follows:</p>
 <ul>
-<li><p><strong>JSON 文件</strong></p>
-<p>如果准备的文件是 JSON 格式，则<strong>每个子列表都应包含单个准备的 JSON 文件的路径</strong>。</p>
+<li><p><strong>JSON files</strong></p>
+<p>If the prepared file is in JSON format, <strong>each sub-list should contain the path to a single prepared JSON file</strong>.</p>
 <pre><code translate="no">[
     <span class="hljs-string">&quot;/d1782fa1-6b65-4ff3-b05a-43a436342445/1.json&quot;</span>
 ],
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p><strong>Parquet 文件</strong></p>
-<p>如果准备的文件是 Parquet 格式，则<strong>每个子列表都应包含单个准备的 parquet 文件的路径</strong>。</p>
+<li><p><strong>Parquet files</strong></p>
+<p>If the prepared file is in Parquet format, <strong>each sub-list should contain the path to a single prepared parquet file</strong>.</p>
 <pre><code translate="no">[
     <span class="hljs-string">&quot;/a6fb2d1c-7b1b-427c-a8a3-178944e3b66d/1.parquet&quot;</span>
 ]
@@ -173,7 +175,7 @@ curl --request POST <span class="hljs-string">&quot;http://<span class="hljs-var
 <button class="copy-code-btn"></button></code></pre></li>
 </ul></li>
 </ul>
-<p>可能的返回值如下：</p>
+<p>The possible return is as follows:</p>
 <pre><code translate="no">{
     <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-number">200</span>,
     <span class="hljs-string">&quot;data&quot;</span>: {
@@ -181,7 +183,7 @@ curl --request POST <span class="hljs-string">&quot;http://<span class="hljs-var
     }
 }
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Check-import-progress" class="common-anchor-header">检查导入进度<button data-href="#Check-import-progress" class="anchor-icon" translate="no">
+<h2 id="Check-import-progress" class="common-anchor-header">Check import progress<button data-href="#Check-import-progress" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -196,7 +198,7 @@ curl --request POST <span class="hljs-string">&quot;http://<span class="hljs-var
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>获得导入任务 ID 后，可以按如下方式检查导入进度：</p>
+    </button></h2><p>Once you get an import job ID, you can check the import progress as follows:</p>
 <pre><code translate="no"><span class="hljs-built_in">export</span> MILVUS_URI=<span class="hljs-string">&quot;localhost:19530&quot;</span>
 
 curl --request POST <span class="hljs-string">&quot;http://<span class="hljs-variable">${MILVUS_URI}</span>/v2/vectordb/jobs/import/get_progress&quot;</span> \
@@ -205,7 +207,7 @@ curl --request POST <span class="hljs-string">&quot;http://<span class="hljs-var
     &quot;jobId&quot;: &quot;449839014328146739&quot;
 }&#x27;</span>
 <button class="copy-code-btn"></button></code></pre>
-<p>可能的返回如下</p>
+<p>The possible response is as follows:</p>
 <pre><code translate="no">{
     <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-number">200</span>,
     <span class="hljs-string">&quot;data&quot;</span>: {
@@ -240,7 +242,7 @@ curl --request POST <span class="hljs-string">&quot;http://<span class="hljs-var
     }
 }
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="List-Import-Jobs" class="common-anchor-header">列出导入任务<button data-href="#List-Import-Jobs" class="anchor-icon" translate="no">
+<h2 id="List-Import-Jobs" class="common-anchor-header">List Import Jobs<button data-href="#List-Import-Jobs" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -255,7 +257,7 @@ curl --request POST <span class="hljs-string">&quot;http://<span class="hljs-var
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>您可以列出与特定集合相关的所有导入任务，如下所示：</p>
+    </button></h2><p>You can list all import jobs relative to a specific collection as follows:</p>
 <pre><code translate="no"><span class="hljs-built_in">export</span> MILVUS_URI=<span class="hljs-string">&quot;localhost:19530&quot;</span>
 
 curl --request POST <span class="hljs-string">&quot;http://<span class="hljs-variable">${MILVUS_URI}</span>/v2/vectordb/jobs/import/list&quot;</span> \
@@ -264,7 +266,7 @@ curl --request POST <span class="hljs-string">&quot;http://<span class="hljs-var
     &quot;collectionName&quot;: &quot;quick_setup&quot;
 }&#x27;</span>
 <button class="copy-code-btn"></button></code></pre>
-<p>可能的值如下：</p>
+<p>The possible values are as follows:</p>
 <pre><code translate="no">{
     <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-number">200</span>,
     <span class="hljs-string">&quot;data&quot;</span>: {

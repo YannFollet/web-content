@@ -1,9 +1,9 @@
 ---
 id: boolean.md
-summary: Conoscere le regole delle espressioni booleane in Milvus.
-title: Regole di filtraggio scalari
+summary: Learn about boolean expression rules in Milvus.
+title: Scalar Filtering Rules
 ---
-<h1 id="Scalar-Filtering-Rules" class="common-anchor-header">Regole di filtraggio scalari<button data-href="#Scalar-Filtering-Rules" class="anchor-icon" translate="no">
+<h1 id="Scalar-Filtering-Rules" class="common-anchor-header">Scalar Filtering Rules<button data-href="#Scalar-Filtering-Rules" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -18,7 +18,7 @@ title: Regole di filtraggio scalari
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><h2 id="Overview" class="common-anchor-header">Panoramica<button data-href="#Overview" class="anchor-icon" translate="no">
+    </button></h1><h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -33,8 +33,8 @@ title: Regole di filtraggio scalari
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Un'espressione di predicato produce un valore booleano. Milvus esegue il filtraggio scalare cercando con i predicati. Un'espressione di predicato, quando viene valutata, restituisce VERO o FALSO. Per istruzioni sull'uso delle espressioni di predicato, consultare il <a href="/api-reference/pymilvus/v2.4.x/About.md">Python SDK API Reference</a>.</p>
-<p>Le regole della grammatica<a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form">EBNF</a> descrivono le regole delle espressioni booleane:</p>
+    </button></h2><p>A predicate expression outputs a boolean value. Milvus conducts scalar filtering by searching with predicates. A predicate expression, when evaluated, returns either TRUE or FALSE. View <a href="/api-reference/pymilvus/v2.4.x/About.md">Python SDK API Reference</a> for instruction on using predicate expressions.</p>
+<p><a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form">EBNF</a> grammar rules describe boolean expressions rules:</p>
 <pre><code translate="no"><span class="hljs-title class_">Expr</span> = <span class="hljs-title class_">LogicalExpr</span> | <span class="hljs-variable constant_">NIL</span>
 <span class="hljs-title class_">LogicalExpr</span> = <span class="hljs-title class_">LogicalExpr</span> <span class="hljs-title class_">BinaryLogicalOp</span> <span class="hljs-title class_">LogicalExpr</span> 
               | <span class="hljs-title class_">UnaryLogicalOp</span> <span class="hljs-title class_">LogicalExpr</span>
@@ -73,44 +73,44 @@ title: Regole di filtraggio scalari
 <span class="hljs-title class_">ArrayExpr</span> =  <span class="hljs-title class_">Constant</span> | <span class="hljs-title class_">ConstantArray</span> | <span class="hljs-variable constant_">STRING</span> | <span class="hljs-variable constant_">BOOLEAN</span>;
 <span class="hljs-title class_">Array</span> = <span class="hljs-string">&quot;[&quot;</span> <span class="hljs-title class_">ArrayExpr</span> { <span class="hljs-string">&quot;,&quot;</span> <span class="hljs-title class_">ArrayExpr</span> } <span class="hljs-string">&quot;]&quot;</span>;
 <button class="copy-code-btn"></button></code></pre>
-<p>La tabella seguente elenca la descrizione di ogni simbolo citato nelle regole delle espressioni booleane.</p>
+<p>The following table lists the description of each symbol mentioned in the above Boolean expression rules.</p>
 <table>
 <thead>
-<tr><th>Notazione</th><th>Descrizione</th></tr>
+<tr><th>Notation</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>=</td><td>Definizione.</td></tr>
-<tr><td>,</td><td>Concatenazione.</td></tr>
-<tr><td>;</td><td>Terminazione.</td></tr>
-<tr><td>|</td><td>Alternanza.</td></tr>
-<tr><td>{...}</td><td>Ripetizione.</td></tr>
-<tr><td>(...)</td><td>Raggruppamento.</td></tr>
-<tr><td>NULLA</td><td>Vuoto. L'espressione può essere una stringa vuota.</td></tr>
-<tr><td>INTEGRO</td><td>Numeri interi come 1, 2, 3.</td></tr>
-<tr><td>PIANO</td><td>Numeri a virgola mobile come 1.0, 2.0.</td></tr>
-<tr><td>CONST</td><td>Numeri interi o numeri float.</td></tr>
-<tr><td>IDENTIFICATORE</td><td>Identificatore. In Milvus, IDENTIFIER rappresenta il nome del campo.</td></tr>
-<tr><td>LogicalOp</td><td>LogicalOp è un operatore logico che consente di combinare più operazioni relazionali in un unico confronto. Il valore restituito di un LogicalOp è TRUE (1) o FALSE (0). Esistono due tipi di LogicalOp: BinaryLogicalOp e UnaryLogicalOp.</td></tr>
-<tr><td>UnaryLogicalOp</td><td>UnaryLogicalOp si riferisce all'operatore logico unario &quot;not&quot;.</td></tr>
-<tr><td>Operatore logico binario</td><td>Operatori logici binari che eseguono azioni su due operandi. In un'espressione complessa con due o più operandi, l'ordine di valutazione dipende dalle regole di precedenza.</td></tr>
-<tr><td>ArithmeticOp</td><td>Un ArithmeticOp, ossia un operatore aritmetico, esegue operazioni matematiche come addizione e sottrazione sugli operandi.</td></tr>
-<tr><td>UnaryArithOp</td><td>Un UnaryArithOp è un operatore aritmetico che esegue un'operazione su un singolo operando. L'UnaryArithOp negativo trasforma un'espressione positiva in una negativa o viceversa.</td></tr>
-<tr><td>ArithOp binario</td><td>Un BinaryArithOp, ossia un operatore binario, esegue operazioni su due operandi. In un'espressione complessa con due o più operandi, l'ordine di valutazione dipende dalle regole di precedenza.</td></tr>
-<tr><td>CmpOp</td><td>CmpOp è un operatore relazionale che esegue azioni su due operandi.</td></tr>
-<tr><td>CmpOpRestricted</td><td>CmpOpRestricted è limitato a &quot;Meno di&quot; e &quot;Uguale&quot;.</td></tr>
-<tr><td>CostanteExpr</td><td>ConstantExpr può essere una costante o una BinaryArithOp su due ConstExpr o una UnaryArithOp su una singola ConstantExpr. È definita in modo ricorsivo.</td></tr>
-<tr><td>Array di costanti</td><td>ConstantArray è racchiuso tra parentesi quadre e ConstantExpr può essere ripetuto tra le parentesi quadre. ConstArray deve includere almeno una ConstantExpr.</td></tr>
-<tr><td>TermExpr</td><td>TermExpr viene utilizzato per verificare se il valore di un IDENTIFIER è presente in un ConstantArray. TermExpr è rappresentato da &quot;in&quot;.</td></tr>
-<tr><td>ConfrontaExpr</td><td>Una CompareExpr, ovvero un'espressione di confronto, può essere costituita da operazioni relazionali su due IDENTIFIER, oppure da operazioni relazionali su un IDENTIFIER e una ConstantExpr, oppure da operazioni ternarie su due ConstantExpr e un IDENTIFIER.</td></tr>
-<tr><td>Espressione singola</td><td>SingleExpr, cioè un'espressione singola, può essere una TermExpr o una CompareExpr.</td></tr>
-<tr><td>Espressioni logiche</td><td>Una LogicalExpr può essere una BinaryLogicalOp su due LogicalExpr, o una UnaryLogicalOp su una singola LogicalExpr, o una LogicalExpr raggruppata tra parentesi, o una SingleExpr. La LogicalExpr è definita in modo ricorsivo.</td></tr>
-<tr><td>Expr</td><td>Expr, un'abbreviazione che significa espressione, può essere LogicalExpr o NIL.</td></tr>
-<tr><td>MatchOp</td><td>Un MatchOp, ossia un operatore di corrispondenza, confronta una stringa con una costante di stringa o una costante di prefisso, infisso o suffisso di stringa.</td></tr>
-<tr><td>JsonArrayOp</td><td>Un JsonOp, cioè un operatore JSON, verifica se l'identificatore specificato contiene gli elementi specificati.</td></tr>
-<tr><td>ArrayOp</td><td>Un ArrayOp, cioè un operatore di array, verifica se l'identificatore specificato contiene gli elementi specificati.</td></tr>
+<tr><td>=</td><td>Definition.</td></tr>
+<tr><td>,</td><td>Concatenation.</td></tr>
+<tr><td>;</td><td>Termination.</td></tr>
+<tr><td>|</td><td>Alternation.</td></tr>
+<tr><td>{…}</td><td>Repetition.</td></tr>
+<tr><td>(…)</td><td>Grouping.</td></tr>
+<tr><td>NIL</td><td>Empty. The expression can be an empty string.</td></tr>
+<tr><td>INTEGER</td><td>Integers such as 1, 2, 3.</td></tr>
+<tr><td>FLOAT</td><td>Float numbers such as 1.0, 2.0.</td></tr>
+<tr><td>CONST</td><td>Integers or float numbers.</td></tr>
+<tr><td>IDENTIFIER</td><td>Identifier. In Milvus, the IDENTIFIER represents the field name.</td></tr>
+<tr><td>LogicalOp</td><td>A LogicalOp is a logical operator that supports combining more than one relational operation in one comparison. Returned value of a LogicalOp is either TRUE (1) or FALSE (0). There are two types of LogicalOps, including BinaryLogicalOps and UnaryLogicalOps.</td></tr>
+<tr><td>UnaryLogicalOp</td><td>UnaryLogicalOp refers to the unary logical operator &quot;not&quot;.</td></tr>
+<tr><td>BinaryLogicalOp</td><td>Binary logical operators that perform actions on two operands. In a complex expression with two or more operands, the order of evaluation depends on precedence rules.</td></tr>
+<tr><td>ArithmeticOp</td><td>An ArithmeticOp, namely an arithmetic operator, performs mathematical operations such as addition and subtraction on operands.</td></tr>
+<tr><td>UnaryArithOp</td><td>A UnaryArithOp is an arithmetic operator that performs an operation on a single operand. The negative UnaryArithOp changes a positive expression into a negative one, or the other way round.</td></tr>
+<tr><td>BinaryArithOp</td><td>A BinaryArithOp, namely a binary operator, performs operations on two operands. In a complex expression with two or more operands, the order of evaluation depends on precedence rules.</td></tr>
+<tr><td>CmpOp</td><td>CmpOp is a relational operator that perform actions on two operands.</td></tr>
+<tr><td>CmpOpRestricted</td><td>CmpOpRestricted is restricted to “Less than” and &quot;Equal&quot;.</td></tr>
+<tr><td>ConstantExpr</td><td>ConstantExpr can be a Constant or a BinaryArithOp on two ConstExprs or a UnaryArithOp on a single ConstantExpr. It is defined recursively.</td></tr>
+<tr><td>ConstantArray</td><td>ConstantArray is wrapped by square brackets, and ConstantExpr can be repeated in the square brackets. ConstArray must include at least one ConstantExpr.</td></tr>
+<tr><td>TermExpr</td><td>TermExpr is used to check whether the value of an IDENTIFIER appears in a ConstantArray. TermExpr is represented by &quot;in&quot;.</td></tr>
+<tr><td>CompareExpr</td><td>A CompareExpr, namely comparison expression can be relational operations on two IDENTIFIERs, or relational operations on one IDENTIFIER and one ConstantExpr, or ternary operation on two ConstantExprs and one IDENTIFIER.</td></tr>
+<tr><td>SingleExpr</td><td>SingleExpr, namely single expression, can be either a TermExpr or a CompareExpr.</td></tr>
+<tr><td>LogicalExpr</td><td>A LogicalExpr can be a BinaryLogicalOp on two LogicalExprs, or a UnaryLogicalOp on a single LogicalExpr, or a LogicalExpr grouped within parentheses, or a SingleExpr. The LogicalExpr is defined recursively.</td></tr>
+<tr><td>Expr</td><td>Expr, an abbreviation meaning expression, can be LogicalExpr or NIL.</td></tr>
+<tr><td>MatchOp</td><td>A MatchOp, namely a match operator, compares a string to a string constant or a string prefix, infix, or suffix constant.</td></tr>
+<tr><td>JsonArrayOp</td><td>A JsonOp, namely a JSON operator, checks whether the specified identifier contains the specified elements.</td></tr>
+<tr><td>ArrayOp</td><td>An ArrayOp, namely an array operator, checks whether the specified identifier contains the specified elements.</td></tr>
 </tbody>
 </table>
-<h2 id="Operators" class="common-anchor-header">Operatori<button data-href="#Operators" class="anchor-icon" translate="no">
+<h2 id="Operators" class="common-anchor-header">Operators<button data-href="#Operators" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -125,45 +125,45 @@ title: Regole di filtraggio scalari
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><h3 id="Logical-operators" class="common-anchor-header">Operatori logici</h3><p>Gli operatori logici eseguono un confronto tra due espressioni.</p>
+    </button></h2><h3 id="Logical-operators" class="common-anchor-header">Logical operators</h3><p>Logical operators perform a comparison between two expressions.</p>
 <table>
 <thead>
-<tr><th>Simbolo</th><th>Operazione</th><th>Esempio</th><th>Descrizione</th></tr>
+<tr><th>Symbol</th><th>Operation</th><th>Example</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>'e' &amp;&amp;</td><td>e</td><td>expr1 &amp;&amp; expr2</td><td>È vero se sono vere sia expr1 che expr2.</td></tr>
-<tr><td>'o' ||</td><td>o</td><td>expr1 || expr2</td><td>È vero se sono vere sia expr1 che expr2.</td></tr>
+<tr><td>‘and’ &amp;&amp;</td><td>and</td><td>expr1 &amp;&amp; expr2</td><td>True if both expr1 and expr2 are true.</td></tr>
+<tr><td>‘or’ ||</td><td>or</td><td>expr1 || expr2</td><td>True if either expr1 or expr2 are true.</td></tr>
 </tbody>
 </table>
-<h3 id="Binary-arithmetic-operators" class="common-anchor-header">Operatori aritmetici binari</h3><p>Gli operatori aritmetici binari contengono due operandi e possono eseguire operazioni aritmetiche di base e restituire il risultato corrispondente.</p>
+<h3 id="Binary-arithmetic-operators" class="common-anchor-header">Binary arithmetic operators</h3><p>Binary arithmetic operators contain two operands and can perform basic arithmetic operations and return the corresponding result.</p>
 <table>
 <thead>
-<tr><th>Simbolo</th><th>Operazione</th><th>Esempio</th><th>Descrizione</th></tr>
+<tr><th>Symbol</th><th>Operation</th><th>Example</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>+</td><td>Addizione</td><td>a + b</td><td>Aggiunge i due operandi.</td></tr>
-<tr><td>-</td><td>Sottrazione</td><td>a - b</td><td>Sottrarre il secondo operando dal primo operando.</td></tr>
-<tr><td>*</td><td>Moltiplicazione</td><td>a * b</td><td>Moltiplica i due operandi.</td></tr>
-<tr><td>/</td><td>Divisione</td><td>a / b</td><td>Divide il primo operando per il secondo operando.</td></tr>
-<tr><td>**</td><td>Potenza</td><td>a ** b</td><td>Eleva il primo operando alla potenza del secondo operando.</td></tr>
-<tr><td>%</td><td>Modulo</td><td>a % b</td><td>Divide il primo operando per il secondo operando e restituisce la parte rimanente.</td></tr>
+<tr><td>+</td><td>Addition</td><td>a + b</td><td>Add the two operands.</td></tr>
+<tr><td>-</td><td>Subtraction</td><td>a - b</td><td>Subtract the second operand from the first operand.</td></tr>
+<tr><td>*</td><td>Multiplication</td><td>a * b</td><td>Multiply the two operands.</td></tr>
+<tr><td>/</td><td>Division</td><td>a / b</td><td>Divide the first operand by the second operand.</td></tr>
+<tr><td>**</td><td>Power</td><td>a ** b</td><td>Raise the first operand to the power of the second operand.</td></tr>
+<tr><td>%</td><td>Modulo</td><td>a % b</td><td>Divide the first operand by the second operand and yield the remainder portion.</td></tr>
 </tbody>
 </table>
-<h3 id="Relational-operators" class="common-anchor-header">Operatori relazionali</h3><p>Gli operatori relazionali utilizzano i simboli per verificare l'uguaglianza, la disuguaglianza o l'ordine relativo tra due espressioni.</p>
+<h3 id="Relational-operators" class="common-anchor-header">Relational operators</h3><p>Relational operators use symbols to check for equality, inequality, or relative order between two expressions.</p>
 <table>
 <thead>
-<tr><th>Simbolo</th><th>Operazione</th><th>Esempio</th><th>Descrizione</th></tr>
+<tr><th>Symbol</th><th>Operation</th><th>Example</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>&lt;</td><td>Meno di</td><td>a &lt; b</td><td>Vero se a è minore di b.</td></tr>
-<tr><td>&gt;</td><td>Maggiore di</td><td>a &gt; b</td><td>Vero se a è maggiore di b.</td></tr>
-<tr><td>==</td><td>Uguale</td><td>a == b</td><td>Vero se a è uguale a b.</td></tr>
-<tr><td>!=</td><td>Non uguale</td><td>a = b</td><td>Vero se a non è uguale a b.</td></tr>
-<tr><td>&lt;=</td><td>Meno di o uguale</td><td>a &lt;= b</td><td>Vero se a è minore o uguale a b.</td></tr>
-<tr><td>&gt;=</td><td>Maggiore o uguale a</td><td>a &gt;= b</td><td>Vero se a è maggiore o uguale a b.</td></tr>
+<tr><td>&lt;</td><td>Less than</td><td>a &lt; b</td><td>True if a is less than b.</td></tr>
+<tr><td>&gt;</td><td>Greater than</td><td>a &gt; b</td><td>True if a is greater than b.</td></tr>
+<tr><td>==</td><td>Equal</td><td>a == b</td><td>True if a is equal to b.</td></tr>
+<tr><td>!=</td><td>Not equal</td><td>a != b</td><td>True if a is not equal to b.</td></tr>
+<tr><td>&lt;=</td><td>Less than or equal</td><td>a &lt;= b</td><td>True if a is less than or equal to b.</td></tr>
+<tr><td>&gt;=</td><td>Greater than or equal</td><td>a &gt;= b</td><td>True if a is greater than or equal to b.</td></tr>
 </tbody>
 </table>
-<h2 id="Operator-precedence-and-associativity" class="common-anchor-header">Precedenza e associatività degli operatori<button data-href="#Operator-precedence-and-associativity" class="anchor-icon" translate="no">
+<h2 id="Operator-precedence-and-associativity" class="common-anchor-header">Operator precedence and associativity<button data-href="#Operator-precedence-and-associativity" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -178,42 +178,42 @@ title: Regole di filtraggio scalari
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>La tabella seguente elenca la precedenza e l'associatività degli operatori. Gli operatori sono elencati dall'alto verso il basso, con precedenza decrescente.</p>
+    </button></h2><p>The following table lists the precedence and associativity of operators. Operators are listed top to bottom, in descending precedence.</p>
 <table>
 <thead>
-<tr><th>Precedenza</th><th>Operatore</th><th>Descrizione</th><th>Associatività</th></tr>
+<tr><th>Precedence</th><th>Operator</th><th>Description</th><th>Associativity</th></tr>
 </thead>
 <tbody>
-<tr><td>1</td><td>+ -</td><td>UnarioArithOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>2</td><td>non</td><td>UnarioLogicOp</td><td>Da destra a sinistra</td></tr>
-<tr><td>3</td><td>**</td><td>BinaryArithOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>4</td><td>* / %</td><td>BinaryArithOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>5</td><td>+ -</td><td>BinaryArithOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>6</td><td>&lt; &lt;= &gt; &gt;=</td><td>CmpOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>7</td><td>== !=</td><td>CmpOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>8</td><td>come LIKE</td><td>MatchOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>9</td><td>json_contains JSON_CONTAINS</td><td>JsonArrayOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>9</td><td>array_contiene ARRAY_CONTAINS</td><td>ArrayOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>10</td><td>json_contains_all JSON_CONTAINS_ALL</td><td>JsonArrayOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>10</td><td>array_contains_all ARRAY_CONTAINS_ALL</td><td>ArrayOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>11</td><td>json_contains_any JSON_CONTAINS_ANY</td><td>JsonArrayOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>11</td><td>array_contains_any ARRAY_CONTAINS_ANY</td><td>ArrayOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>12</td><td>lunghezza_array ARRAY_LENGTH</td><td>ArrayOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>13</td><td>&amp;&amp; e</td><td>BinaryLogicOp</td><td>Da sinistra a destra</td></tr>
-<tr><td>14</td><td>|| o</td><td>BinaryLogicOp</td><td>Da sinistra a destra</td></tr>
+<tr><td>1</td><td>+ -</td><td>UnaryArithOp</td><td>Left-to-right</td></tr>
+<tr><td>2</td><td>not</td><td>UnaryLogicOp</td><td>Right-to-left</td></tr>
+<tr><td>3</td><td>**</td><td>BinaryArithOp</td><td>Left-to-right</td></tr>
+<tr><td>4</td><td>* / %</td><td>BinaryArithOp</td><td>Left-to-right</td></tr>
+<tr><td>5</td><td>+ -</td><td>BinaryArithOp</td><td>Left-to-right</td></tr>
+<tr><td>6</td><td>&lt; &lt;= &gt; &gt;=</td><td>CmpOp</td><td>Left-to-right</td></tr>
+<tr><td>7</td><td>== !=</td><td>CmpOp</td><td>Left-to-right</td></tr>
+<tr><td>8</td><td>like LIKE</td><td>MatchOp</td><td>Left-to-right</td></tr>
+<tr><td>9</td><td>json_contains JSON_CONTAINS</td><td>JsonArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>9</td><td>array_contains ARRAY_CONTAINS</td><td>ArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>10</td><td>json_contains_all JSON_CONTAINS_ALL</td><td>JsonArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>10</td><td>array_contains_all ARRAY_CONTAINS_ALL</td><td>ArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>11</td><td>json_contains_any JSON_CONTAINS_ANY</td><td>JsonArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>11</td><td>array_contains_any ARRAY_CONTAINS_ANY</td><td>ArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>12</td><td>array_length  ARRAY_LENGTH</td><td>ArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>13</td><td>&amp;&amp; and</td><td>BinaryLogicOp</td><td>Left-to-right</td></tr>
+<tr><td>14</td><td>|| or</td><td>BinaryLogicOp</td><td>Left-to-right</td></tr>
 </tbody>
 </table>
-<p>Le espressioni vengono normalmente valutate da sinistra a destra. Le espressioni complesse vengono valutate una alla volta. L'ordine di valutazione delle espressioni è determinato dalla precedenza degli operatori utilizzati.</p>
-<p>Se un'espressione contiene due o più operatori con la stessa precedenza, l'operatore più a sinistra viene valutato per primo.</p>
+<p>Expressions are normally evaluated from left to right. Complex expressions are evaluated one at a time. The order in which the expressions are evaluated is determined by the precedence of the operators used.</p>
+<p>If an expression contains two or more operators with the same precedence, the operator to the left is evaluated first.</p>
 <div class="alert note">
-<p>Ad esempio, 10 / 2 * 5 verrà valutato come (10 / 2) e il risultato verrà moltiplicato per 5.</p>
+<p>For example, 10 / 2 * 5 will be evaluated as (10 / 2) and the result multiplied by 5.</p>
 </div>
-<p>Quando un'operazione con precedenza inferiore deve essere elaborata per prima, deve essere racchiusa tra parentesi.</p>
+<p>When a lower precedence operation should be processed first, it should be enclosed within parentheses.</p>
 <div class="alert note">
-<p>Ad esempio, 30 / 2 + 8. Questa operazione viene normalmente valutata come 30 diviso 2 e 8 aggiunto al risultato. Se si vuole dividere per 2 + 8, si deve scrivere 30 / (2 + 8).</p>
+<p>For example, 30 / 2 + 8. This is normally evaluated as 30 divided by 2 then 8 added to the result. If you want to divide by 2 + 8, it should be written as 30 / (2 + 8).</p>
 </div>
-<p>Le parentesi possono essere annidate all'interno delle espressioni. Le espressioni parentetiche più interne vengono valutate per prime.</p>
-<h2 id="Usage" class="common-anchor-header">Utilizzo<button data-href="#Usage" class="anchor-icon" translate="no">
+<p>Parentheses can be nested within expressions. Innermost parenthetical expressions are evaluated first.</p>
+<h2 id="Usage" class="common-anchor-header">Usage<button data-href="#Usage" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -228,7 +228,7 @@ title: Regole di filtraggio scalari
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Di seguito sono elencati esempi di utilizzo di tutte le espressioni booleane disponibili in Milvus (<code translate="no">int64</code> rappresenta il campo scalare che contiene dati di tipo INT64, <code translate="no">float</code> rappresenta il campo scalare che contiene dati di tipo floating-point e <code translate="no">VARCHAR</code> rappresenta il campo scalare che contiene dati di tipo VARCHAR):</p>
+    </button></h2><p>Samples of all available boolean expression usage in Milvus are listed as follows (<code translate="no">int64</code> represents the scalar field that contains data of INT64 type,  <code translate="no">float</code> represents the scalar field that contains data of floating-point type, and <code translate="no">VARCHAR</code> represents the scalar field that contains data of VARCHAR  type):</p>
 <ol>
 <li>CmpOp</li>
 </ol>
@@ -241,29 +241,29 @@ title: Regole di filtraggio scalari
 <pre><code translate="no"><span class="hljs-variable constant_">VARCHAR</span> &gt; <span class="hljs-string">&quot;str1&quot;</span>
 <button class="copy-code-btn"></button></code></pre>
 <ol start="2">
-<li>BinaryLogicalOp e parentesi</li>
+<li>BinaryLogicalOp and parentheses</li>
 </ol>
 <pre><code translate="no"><span class="hljs-string">&quot;(int64 &gt; 0 &amp;&amp; int64 &lt; 400) or (int64 &gt; 500 &amp;&amp; int64 &lt; 1000)&quot;</span>
 <button class="copy-code-btn"></button></code></pre>
 <ol start="3">
-<li>TermExpr e UnaryLogicOp</li>
+<li>TermExpr and UnaryLogicOp</li>
 </ol>
 <pre><code translate="no"><span class="hljs-string">&quot;int64 not in [1, 2, 3]&quot;</span>
 <button class="copy-code-btn"></button></code></pre>
 <pre><code translate="no"><span class="hljs-variable constant_">VARCHAR</span> not <span class="hljs-keyword">in</span> [<span class="hljs-string">&quot;str1&quot;</span>, <span class="hljs-string">&quot;str2&quot;</span>]
 <button class="copy-code-btn"></button></code></pre>
 <ol start="4">
-<li>TermExpr, BinaryLogicalOp e CmpOp (su campi diversi)</li>
+<li>TermExpr, BinaryLogicalOp, and CmpOp (on different fields)</li>
 </ol>
 <pre><code translate="no"><span class="hljs-string">&quot;int64 in [1, 2, 3] and float != 2&quot;</span>
 <button class="copy-code-btn"></button></code></pre>
 <ol start="5">
-<li>BinaryLogicalOp e CmpOp</li>
+<li>BinaryLogicalOp and CmpOp</li>
 </ol>
 <pre><code translate="no"><span class="hljs-string">&quot;int64 == 0 || int64 == 1 || int64 == 2&quot;</span>
 <button class="copy-code-btn"></button></code></pre>
 <ol start="6">
-<li>CmpOp e UnaryArithOp o BinaryArithOp</li>
+<li>CmpOp and UnaryArithOp or BinaryArithOp</li>
 </ol>
 <pre><code translate="no"><span class="hljs-string">&quot;200+300 &lt; int64 &lt;= 500+500&quot;</span>
 <button class="copy-code-btn"></button></code></pre>
@@ -280,7 +280,7 @@ title: Regole di filtraggio scalari
 </ol>
 <ul>
 <li><p><code translate="no">JSON_CONTAINS(identifier, JsonExpr)</code></p>
-<p>Se l'espressione JSON di un'istruzione <code translate="no">JSON_CONTAINS</code> (il secondo argomento) è una lista, l'identificatore (il primo argomento) deve essere una lista di liste. Altrimenti, l'istruzione valuta sempre False.</p>
+<p>If the JSON expression of a <code translate="no">JSON_CONTAINS</code> (the second argument) statement is a list, the identifier (the first argument) should be list of list. Otherwise, the statement always evaluates to False.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># {&quot;x&quot;: [1,2,3]}</span>
 json_contains(x, <span class="hljs-number">1</span>) <span class="hljs-comment"># ==&gt; true</span>
 json_contains(x, <span class="hljs-string">&quot;a&quot;</span>) <span class="hljs-comment"># ==&gt; false</span>
@@ -290,13 +290,13 @@ json_contains(x, [<span class="hljs-number">1</span>,<span class="hljs-number">2
 json_contains(x, [<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>]) <span class="hljs-comment"># ==&gt; false</span>
 <button class="copy-code-btn"></button></code></pre></li>
 <li><p><code translate="no">JSON_CONTAINS_ALL(identifier, JsonExpr)</code></p>
-<p>L'espressione JSON di un'istruzione <code translate="no">JSON_CONTAINS_ALL</code> deve sempre essere un elenco.</p>
+<p>The JSON expression in a <code translate="no">JSON_CONTAINS_ALL</code> statement should always be a list.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># {&quot;x&quot;: [1,2,3,4,5,7,8]}</span>
 json_contains_all(x, [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">8</span>]) <span class="hljs-comment"># ==&gt; true</span>
 json_contains_all(x, [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]) <span class="hljs-comment"># ==&gt; false 6 is not exists</span>
 <button class="copy-code-btn"></button></code></pre></li>
 <li><p><code translate="no">JSON_CONTAINS_ANY(identifier, JsonExpr)</code></p>
-<p>L'espressione JSON in un'istruzione <code translate="no">JSON_CONTAINS_ANY</code> deve essere sempre un elenco. Altrimenti, si comporta come <code translate="no">JSON_CONTAINS</code>.</p>
+<p>The JSON expression in a <code translate="no">JSON_CONTAINS_ANY</code> statement should always be a list. Otherwise, it acts the same as <code translate="no">JSON_CONTAINS</code>.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># {&quot;x&quot;: [1,2,3,4,5,7,8]}</span>
 json_contains_any(x, [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">8</span>]) <span class="hljs-comment"># ==&gt; true</span>
 json_contains_any(x, [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]) <span class="hljs-comment"># ==&gt; true</span>
@@ -308,31 +308,31 @@ json_contains_any(x, [<span class="hljs-number">6</span>,<span class="hljs-numbe
 </ol>
 <ul>
 <li><p><code translate="no">ARRAY_CONTAINS(identifier, ArrayExpr)</code></p>
-<p>Se l'espressione array di un'istruzione <code translate="no">ARRAY_CONTAINS</code> (il secondo argomento) è un elenco, l'identificatore (il primo argomento) deve essere elenco di elenco. Altrimenti, l'istruzione valuta sempre False.</p>
+<p>If the array expression of an <code translate="no">ARRAY_CONTAINS</code> (the second argument) statement is a list, the identifier (the first argument) should be list of list. Otherwise, the statement always evaluates to False.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># &#x27;int_array&#x27;: [1,2,3]</span>
 array_contains(int_array, <span class="hljs-number">1</span>) <span class="hljs-comment"># ==&gt; true</span>
 array_contains(int_array, <span class="hljs-string">&quot;a&quot;</span>) <span class="hljs-comment"># ==&gt; false</span>
 <button class="copy-code-btn"></button></code></pre></li>
 <li><p><code translate="no">ARRAY_CONTAINS_ALL(identifier, ArrayExpr)</code></p>
-<p>L'espressione della matrice in un'istruzione <code translate="no">ARRAY_CONTAINS_ALL</code> deve sempre essere un elenco.</p>
+<p>The array expression in an <code translate="no">ARRAY_CONTAINS_ALL</code> statement should always be a list.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># &quot;int_array&quot;: [1,2,3,4,5,7,8]</span>
 array_contains_all(int_array, [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">8</span>]) <span class="hljs-comment"># ==&gt; true</span>
 array_contains_all(int_array, [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]) <span class="hljs-comment"># ==&gt; false 6 is not exists</span>
 <button class="copy-code-btn"></button></code></pre></li>
 <li><p><code translate="no">ARRAY_CONTAINS_ANY(identifier, ArrayExpr)</code></p>
-<p>L'espressione della matrice in un'istruzione <code translate="no">ARRAY_CONTAINS_ANY</code> deve essere sempre un elenco. Altrimenti, si comporta come <code translate="no">ARRAY_CONTAINS</code>.</p>
+<p>The array expression in an <code translate="no">ARRAY_CONTAINS_ANY</code> statement should always be a list. Otherwise, it acts the same as <code translate="no">ARRAY_CONTAINS</code>.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># &quot;int_array&quot;: [1,2,3,4,5,7,8]</span>
 array_contains_any(int_array, [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">8</span>]) <span class="hljs-comment"># ==&gt; true</span>
 array_contains_any(int_array, [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]) <span class="hljs-comment"># ==&gt; true</span>
 array_contains_any(int_array, [<span class="hljs-number">6</span>,<span class="hljs-number">9</span>]) <span class="hljs-comment"># ==&gt; false</span>
 <button class="copy-code-btn"></button></code></pre></li>
 <li><p><code translate="no">ARRAY_LENGTH(identifier)</code></p>
-<p>Verificare il numero di elementi di una matrice.</p>
+<p>Check the number of elements in an array.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># &quot;int_array&quot;: [1,2,3,4,5,7,8]</span>
 array_length(int_array) <span class="hljs-comment"># ==&gt; 7</span>
 <button class="copy-code-btn"></button></code></pre></li>
 </ul>
-<h2 id="Whats-next" class="common-anchor-header">Cosa succede ora<button data-href="#Whats-next" class="anchor-icon" translate="no">
+<h2 id="Whats-next" class="common-anchor-header">What’s next<button data-href="#Whats-next" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -347,9 +347,9 @@ array_length(int_array) <span class="hljs-comment"># ==&gt; 7</span>
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Ora che sapete come funzionano i bitset in Milvus, potreste anche voler</p>
+    </button></h2><p>Now that you know how bitsets work in Milvus, you might also want to:</p>
 <ul>
-<li>Imparare a condurre una <a href="/docs/it/multi-vector-search.md">ricerca ibrida</a>.</li>
-<li>Imparare a <a href="https://milvus.io/blog/2022-08-08-How-to-use-string-data-to-empower-your-similarity-search-applications.md">usare le stringhe per filtrare i</a> risultati della ricerca.</li>
-<li>Imparare a <a href="/docs/it/enable-dynamic-field.md">utilizzare i campi dinamici nella costruzione di espressioni booleane</a>.</li>
+<li>Learn how to conduct a <a href="/docs/it/multi-vector-search.md">Hybrid Search</a>.</li>
+<li>Learn how to <a href="https://milvus.io/blog/2022-08-08-How-to-use-string-data-to-empower-your-similarity-search-applications.md">use strings to filter</a> your search results.</li>
+<li>Learn how to <a href="/docs/it/enable-dynamic-field.md">use dynamic fields in building boolean expressions</a>.</li>
 </ul>

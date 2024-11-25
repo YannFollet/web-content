@@ -2,10 +2,9 @@
 id: configure_quotaandlimits.md
 related_key: configure
 group: system_configuration.md
-summary: 了解如何为 Milvus 配置 quotaAndLimits。
-title: ''
+summary: Learn how to configure quotaAndLimits for Milvus.
 ---
-<h1 id="quotaAndLimits-related-Configurations" class="common-anchor-header">配额和限制相关配置<button data-href="#quotaAndLimits-related-Configurations" class="anchor-icon" translate="no">
+<h1 id="quotaAndLimits-related-Configurations" class="common-anchor-header">quotaAndLimits-related Configurations<button data-href="#quotaAndLimits-related-Configurations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -20,21 +19,21 @@ title: ''
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>QuotaConfig，Milvus 配额和限制的配置。</p>
-<p>默认情况下，我们启用</p>
+    </button></h1><p>QuotaConfig, configurations of Milvus quota and limits.</p>
+<p>By default, we enable:</p>
 <ol>
-<li><p>TT 保护；</p></li>
-<li><p>内存保护</p></li>
-<li><p>磁盘配额保护。</p></li>
+<li><p>TT protection;</p></li>
+<li><p>Memory protection.</p></li>
+<li><p>Disk quota protection.</p></li>
 </ol>
-<p>可以启用</p>
+<p>You can enable:</p>
 <ol>
-<li><p>DML 吞吐量限制；</p></li>
-<li><p>DDL、DQL qps/rps 限制；</p></li>
-<li><p>DQL 队列长度/延迟保护；</p></li>
-<li><p>DQL 结果速率保护；</p></li>
+<li><p>DML throughput limitation;</p></li>
+<li><p>DDL, DQL qps/rps limitation;</p></li>
+<li><p>DQL Queue length/latency protection;</p></li>
+<li><p>DQL result rate protection;</p></li>
 </ol>
-<p>如有必要，也可以手动强制拒绝 RW 请求。</p>
+<p>If necessary, you can also manually force to deny RW requests.</p>
 <h2 id="quotaAndLimitsenabled" class="common-anchor-header"><code translate="no">quotaAndLimits.enabled</code><button data-href="#quotaAndLimitsenabled" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
@@ -53,13 +52,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.enabled">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        true "表示启用配额和限制，"false "表示禁用。      </td>
+      <td>        `true` to enable quota and limits, `false` to disable.      </td>
       <td>true</td>
     </tr>
   </tbody>
@@ -82,16 +81,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.quotaCenterCollectInterval">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>quotaCenterCollectInterval 是 quotaCenter</li>      
-        <li>从代理、查询群集和数据群集收集指标的时间间隔。</li>      
-        <li>秒，（0 ~ 65536）</li>      </td>
+        <li>quotaCenterCollectInterval is the time interval that quotaCenter</li>      
+        <li>collects metrics from Proxies, Query cluster and Data cluster.</li>      
+        <li>seconds, (0 ~ 65536)</li>      </td>
       <td>3</td>
     </tr>
   </tbody>
@@ -114,13 +113,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limits.allocRetryTimes">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        从速率限制删除分配转发数据失败时的重试次数      </td>
+      <td>        retry times when delete alloc forward data from rate limit failed      </td>
       <td>15</td>
     </tr>
   </tbody>
@@ -143,13 +142,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limits.allocWaitInterval">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        删除分配转发数据速率失败时的重试等待时间，毫秒      </td>
+      <td>        retry wait duration when delete alloc forward data rate failed, in millisecond      </td>
       <td>1000</td>
     </tr>
   </tbody>
@@ -172,14 +171,14 @@ title: ''
     </button></h2><table id="quotaAndLimits.limits.complexDeleteLimitEnable">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        是否通过限制器复杂删除检查前向数据      </td>
-      <td>假</td>
+      <td>        whether complex delete check forward data by limiter      </td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
@@ -201,13 +200,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limits.maxCollectionNumPerDB">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        每个数据库的最大集合数。      </td>
+      <td>        Maximum number of collections per database.      </td>
       <td>65536</td>
     </tr>
   </tbody>
@@ -230,13 +229,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limits.maxInsertSize">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        单个插入请求的最大大小，以字节为单位，-1 表示无限制      </td>
+      <td>        maximum size of a single insert request, in bytes, -1 means no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -259,13 +258,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limits.maxResourceGroupNumOfQueryNode">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        查询节点资源组的最大数量      </td>
+      <td>        maximum number of resource groups of query nodes      </td>
       <td>1024</td>
     </tr>
   </tbody>
@@ -288,14 +287,14 @@ title: ''
     </button></h2><table id="quotaAndLimits.ddl.enabled">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        是否启用 DDL 请求节流。      </td>
-      <td>假</td>
+      <td>        Whether DDL request throttling is enabled.      </td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
@@ -317,16 +316,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.ddl.collectionRate">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒与集合相关的 DDL 请求的最大数量。</li>      
-        <li>将该项设置为 10 表示 Milvus 每秒处理的与集合相关的 DDL 请求不超过 10 个，包括集合创建请求、集合删除请求、集合加载请求和集合释放请求。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.ddl.enabled 设置为 true。</li>      </td>
+        <li>Maximum number of collection-related DDL requests per second.</li>      
+        <li>Setting this item to 10 indicates that Milvus processes no more than 10 collection-related DDL requests per second, including collection creation requests, collection drop requests, collection load requests, and collection release requests.</li>      
+        <li>To use this setting, set quotaAndLimits.ddl.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -349,16 +348,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.ddl.partitionRate">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒与分区相关的 DDL 请求的最大数量。</li>      
-        <li>将该项设置为 10 表示 Milvus 每秒处理的分区相关请求不超过 10 个，包括分区创建请求、分区删除请求、分区加载请求和分区释放请求。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.ddl.enabled 设置为 true。</li>      </td>
+        <li>Maximum number of partition-related DDL requests per second.</li>      
+        <li>Setting this item to 10 indicates that Milvus processes no more than 10 partition-related requests per second, including partition creation requests, partition drop requests, partition load requests, and partition release requests.</li>      
+        <li>To use this setting, set quotaAndLimits.ddl.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -381,13 +380,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.ddl.db.collectionRate">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        db 级别的 qps，默认无限制，用于 CreateCollection、DropCollection、LoadCollection、ReleaseCollection 的速率      </td>
+      <td>        qps of db level , default no limit, rate for CreateCollection, DropCollection, LoadCollection, ReleaseCollection      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -410,13 +409,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.ddl.db.partitionRate">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        数据库级别的 qps，默认无限制，创建分区、删除分区、加载分区、释放分区的速率      </td>
+      <td>        qps of db level, default no limit, rate for CreatePartition, DropPartition, LoadPartition, ReleasePartition      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -439,14 +438,14 @@ title: ''
     </button></h2><table id="quotaAndLimits.indexRate.enabled">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        是否启用与索引相关的请求节流。      </td>
-      <td>假</td>
+      <td>        Whether index-related request throttling is enabled.      </td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
@@ -468,16 +467,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.indexRate.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒索引相关请求的最大数量。</li>      
-        <li>将该项设置为 10 表示 Milvus 每秒处理的分区相关请求（包括索引创建请求和索引删除请求）不超过 10 个。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.indexRate.enabled 设置为 true。</li>      </td>
+        <li>Maximum number of index-related requests per second.</li>      
+        <li>Setting this item to 10 indicates that Milvus processes no more than 10 partition-related requests per second, including index creation requests and index drop requests.</li>      
+        <li>To use this setting, set quotaAndLimits.indexRate.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -500,13 +499,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.indexRate.db.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        db 级别的 qps，默认无限制，CreateIndex、DropIndex 的速率      </td>
+      <td>        qps of db level, default no limit, rate for CreateIndex, DropIndex      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -529,14 +528,14 @@ title: ''
     </button></h2><table id="quotaAndLimits.flushRate.enabled">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        是否启用刷新请求节流。      </td>
-      <td>真</td>
+      <td>        Whether flush request throttling is enabled.      </td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
@@ -558,16 +557,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.flushRate.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒刷新请求的最大数量。</li>      
-        <li>将该项设置为 10 表示 Milvus 每秒处理的刷新请求不超过 10 个。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.flushRate.enabled 设置为 true。</li>      </td>
+        <li>Maximum number of flush requests per second.</li>      
+        <li>Setting this item to 10 indicates that Milvus processes no more than 10 flush requests per second.</li>      
+        <li>To use this setting, set quotaAndLimits.flushRate.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -590,13 +589,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.flushRate.collection.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        qps，默认无限制，在集合级别的刷新速率。      </td>
+      <td>        qps, default no limit, rate for flush at collection level.      </td>
       <td>0.1</td>
     </tr>
   </tbody>
@@ -619,13 +618,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.flushRate.db.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        数据库级的 qps，默认无限制，冲洗速率      </td>
+      <td>        qps of db level, default no limit, rate for flush      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -648,14 +647,14 @@ title: ''
     </button></h2><table id="quotaAndLimits.compactionRate.enabled">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        是否启用手动压缩请求节流。      </td>
-      <td>假</td>
+      <td>        Whether manual compaction request throttling is enabled.      </td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
@@ -677,16 +676,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.compactionRate.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒手动压缩请求的最大数量。</li>      
-        <li>将该项设置为 10 表示 Milvus 每秒处理的手动压缩请求不超过 10 个。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.compaction.enabled 设置为 true。</li>      </td>
+        <li>Maximum number of manual-compaction requests per second.</li>      
+        <li>Setting this item to 10 indicates that Milvus processes no more than 10 manual-compaction requests per second.</li>      
+        <li>To use this setting, set quotaAndLimits.compaction.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -709,13 +708,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.compactionRate.db.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        db 级别的 qps，默认无限制，用于手动压缩的速率      </td>
+      <td>        qps of db level, default no limit, rate for manualCompaction      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -738,14 +737,14 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.enabled">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        是否启用 DML 请求节流。      </td>
-      <td>假</td>
+      <td>        Whether DML request throttling is enabled.      </td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
@@ -767,16 +766,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.insertRate.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒最高数据插入速率。</li>      
-        <li>将该项设置为 5 表示 Milvus 只允许以每秒 5 MB 的速度插入数据。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.dml.enabled 设置为 true。</li>      </td>
+        <li>Highest data insertion rate per second.</li>      
+        <li>Setting this item to 5 indicates that Milvus only allows data insertion at the rate of 5 MB/s.</li>      
+        <li>To use this setting, set quotaAndLimits.dml.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -799,13 +798,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.insertRate.db.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB/秒，默认无限制      </td>
+      <td>        MB/s, default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -828,16 +827,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.insertRate.collection.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒每个数据集的最高数据插入速率。</li>      
-        <li>将该项设置为 5 表示 Milvus 只允许以每秒 5 MB 的速度向任何数据集插入数据。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.dml.enabled 设置为 true。</li>      </td>
+        <li>Highest data insertion rate per collection per second.</li>      
+        <li>Setting this item to 5 indicates that Milvus only allows data insertion to any collection at the rate of 5 MB/s.</li>      
+        <li>To use this setting, set quotaAndLimits.dml.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -860,13 +859,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.insertRate.partition.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB/秒，默认无限制      </td>
+      <td>        MB/s, default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -889,13 +888,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.upsertRate.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB/s，默认无限制      </td>
+      <td>        MB/s, default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -918,13 +917,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.upsertRate.db.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB/s，默认无限制      </td>
+      <td>        MB/s, default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -947,13 +946,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.upsertRate.collection.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB/s，默认无限制      </td>
+      <td>        MB/s, default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -976,13 +975,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.upsertRate.partition.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB/s，默认无限制      </td>
+      <td>        MB/s, default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1005,16 +1004,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.deleteRate.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒最高数据删除速率。</li>      
-        <li>将此项设置为 0.1 表示 Milvus 只允许以每秒 0.1 MB 的速度删除数据。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.dml.enabled 设置为 true。</li>      </td>
+        <li>Highest data deletion rate per second.</li>      
+        <li>Setting this item to 0.1 indicates that Milvus only allows data deletion at the rate of 0.1 MB/s.</li>      
+        <li>To use this setting, set quotaAndLimits.dml.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1037,13 +1036,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.deleteRate.db.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB/s, 默认无限制      </td>
+      <td>        MB/s, default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1066,16 +1065,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.deleteRate.collection.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒最高数据删除速率。</li>      
-        <li>将该项设置为 0.1 表示 Milvus 只允许以每秒 0.1 MB 的速度从任何数据集中删除数据。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.dml.enabled 设置为 true。</li>      </td>
+        <li>Highest data deletion rate per second.</li>      
+        <li>Setting this item to 0.1 indicates that Milvus only allows data deletion from any collection at the rate of 0.1 MB/s.</li>      
+        <li>To use this setting, set quotaAndLimits.dml.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1098,13 +1097,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.deleteRate.partition.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB/s，默认无限制      </td>
+      <td>        MB/s, default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1127,13 +1126,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.bulkLoadRate.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB/s，默认无限制，暂不支持。TODO：限制 bulkLoad 速率      </td>
+      <td>        MB/s, default no limit, not support yet. TODO: limit bulkLoad rate      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1156,13 +1155,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.bulkLoadRate.db.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB/s，默认无限制，暂不支持。TODO：限制数据库批量加载速率      </td>
+      <td>        MB/s, default no limit, not support yet. TODO: limit db bulkLoad rate      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1185,13 +1184,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.bulkLoadRate.collection.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB/s，默认无限制，暂不支持。TODO：限制收集批量加载率      </td>
+      <td>        MB/s, default no limit, not support yet. TODO: limit collection bulkLoad rate      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1214,13 +1213,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dml.bulkLoadRate.partition.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB/s，默认无限制，暂不支持。TODO：限制分区批量加载速率      </td>
+      <td>        MB/s, default no limit, not support yet. TODO: limit partition bulkLoad rate      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1243,14 +1242,14 @@ title: ''
     </button></h2><table id="quotaAndLimits.dql.enabled">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        是否启用 DQL 请求节流。      </td>
-      <td>假</td>
+      <td>        Whether DQL request throttling is enabled.      </td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
@@ -1272,16 +1271,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.dql.searchRate.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒搜索向量的最大数量。</li>      
-        <li>将此项设置为 100 表示 Milvus 每秒只允许搜索 100 个向量，无论这 100 个向量是集中在一次搜索中还是分散在多次搜索中。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.dql.enabled 设置为 true。</li>      </td>
+        <li>Maximum number of vectors to search per second.</li>      
+        <li>Setting this item to 100 indicates that Milvus only allows searching 100 vectors per second no matter whether these 100 vectors are all in one search or scattered across multiple searches.</li>      
+        <li>To use this setting, set quotaAndLimits.dql.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1304,13 +1303,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dql.searchRate.db.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        vps（每秒向量数），默认无限制      </td>
+      <td>        vps (vectors per second), default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1333,16 +1332,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.dql.searchRate.collection.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒每个集合搜索向量的最大数量。</li>      
-        <li>将该项设置为 100 表示 Milvus 每秒只允许搜索每个集合的 100 个向量，无论这 100 个向量是在一次搜索中全部搜索完，还是分散在多次搜索中。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.dql.enabled 设置为 true。</li>      </td>
+        <li>Maximum number of vectors to search per collection per second.</li>      
+        <li>Setting this item to 100 indicates that Milvus only allows searching 100 vectors per second per collection no matter whether these 100 vectors are all in one search or scattered across multiple searches.</li>      
+        <li>To use this setting, set quotaAndLimits.dql.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1365,13 +1364,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dql.searchRate.partition.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        vps（每秒向量数），默认无限制      </td>
+      <td>        vps (vectors per second), default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1394,16 +1393,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.dql.queryRate.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒最大查询次数。</li>      
-        <li>将此项设置为 100 表示 Milvus 每秒只允许 100 次查询。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.dql.enabled 设置为 true。</li>      </td>
+        <li>Maximum number of queries per second.</li>      
+        <li>Setting this item to 100 indicates that Milvus only allows 100 queries per second.</li>      
+        <li>To use this setting, set quotaAndLimits.dql.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1426,13 +1425,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dql.queryRate.db.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        qps，默认无限制      </td>
+      <td>        qps, default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1455,16 +1454,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.dql.queryRate.collection.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>每秒每个集合的最大查询次数。</li>      
-        <li>将此项设置为 100 表示 Milvus 只允许每秒对每个集合进行 100 次查询。</li>      
-        <li>要使用此设置，请同时将 quotaAndLimits.dql.enabled 设置为 true。</li>      </td>
+        <li>Maximum number of queries per collection per second.</li>      
+        <li>Setting this item to 100 indicates that Milvus only allows 100 queries per collection per second.</li>      
+        <li>To use this setting, set quotaAndLimits.dql.enabled to true at the same time.</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1487,13 +1486,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.dql.queryRate.partition.max">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        qps，默认无限制      </td>
+      <td>        qps, default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1516,16 +1515,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.forceDeny">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>forceDeny false 表示允许 dml 请求（某些特定条件除外，如水标记的节点内存</li>      
-        <li>true表示始终拒绝所有 dml 请求。</li>      </td>
-      <td>假</td>
+        <li>forceDeny false means dml requests are allowed (except for some</li>      
+        <li>specific conditions, such as memory of nodes to water marker), true means always reject all dml requests.</li>      </td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
@@ -1547,17 +1546,17 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.ttProtection.maxTimeTickDelay">
   <thead>
     <tr>
-      <th class="width80">描述</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>maxTimeTickDelay 表示 DML 操作的反向压力。</li>      
-        <li>DML 速率将根据滴答延迟时间与 maxTimeTickDelay 的比率降低、</li>      
-        <li>如果滴答延迟时间大于 maxTimeTickDelay，所有 DML 请求都将被拒绝。</li>      
-        <li>秒数</li>      </td>
+        <li>maxTimeTickDelay indicates the backpressure for DML Operations.</li>      
+        <li>DML rates would be reduced according to the ratio of time tick delay to maxTimeTickDelay,</li>      
+        <li>if time tick delay is greater than maxTimeTickDelay, all DML requests would be rejected.</li>      
+        <li>seconds</li>      </td>
       <td>300</td>
     </tr>
   </tbody>
@@ -1580,16 +1579,16 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.memProtection.enabled">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>当内存使用率 &gt; 内存高水位时，所有 DML 请求都将被拒绝；</li>      
-        <li>内存低水位 &lt; 内存使用率 &lt; 内存高水位时，降低 dml 速率；</li>      
-        <li>当内存使用率 &lt; 内存低水位时，不执行任何操作。</li>      </td>
+        <li>When memory usage > memoryHighWaterLevel, all dml requests would be rejected;</li>      
+        <li>When memoryLowWaterLevel < memory usage < memoryHighWaterLevel, reduce the dml rate;</li>      
+        <li>When memory usage < memoryLowWaterLevel, no action.</li>      </td>
       <td>true</td>
     </tr>
   </tbody>
@@ -1612,13 +1611,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.memProtection.dataNodeMemoryLowWaterLevel">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        (0,1]，数据节点中的内存低水位      </td>
+      <td>        (0, 1], memoryLowWaterLevel in DataNodes      </td>
       <td>0.85</td>
     </tr>
   </tbody>
@@ -1641,13 +1640,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.memProtection.dataNodeMemoryHighWaterLevel">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        (0,1]，数据节点中的内存高水位      </td>
+      <td>        (0, 1], memoryHighWaterLevel in DataNodes      </td>
       <td>0.95</td>
     </tr>
   </tbody>
@@ -1670,13 +1669,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.memProtection.queryNodeMemoryLowWaterLevel">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        (0,1]，查询节点中的内存低水位      </td>
+      <td>        (0, 1], memoryLowWaterLevel in QueryNodes      </td>
       <td>0.85</td>
     </tr>
   </tbody>
@@ -1699,13 +1698,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.memProtection.queryNodeMemoryHighWaterLevel">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        (0,1]，查询节点中的内存高水位      </td>
+      <td>        (0, 1], memoryHighWaterLevel in QueryNodes      </td>
       <td>0.95</td>
     </tr>
   </tbody>
@@ -1728,17 +1727,17 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.growingSegmentsSizeProtection.enabled">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>如果增长的分段大小小于低水位线，则不会采取任何措施。</li>      
-        <li>当增长的分段大小超过低水位时，将降低 dml 速率、</li>      
-        <li>但速率不会低于 minRateRatio * dmlRate。</li>      </td>
-      <td>假</td>
+        <li>No action will be taken if the growing segments size is less than the low watermark.</li>      
+        <li>When the growing segments size exceeds the low watermark, the dml rate will be reduced,</li>      
+        <li>but the rate will not be lower than minRateRatio * dmlRate.</li>      </td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
@@ -1760,14 +1759,14 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.diskProtection.enabled">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        当对象存储的总文件大小大于 `diskQuota` 时，所有 dml 请求将被拒绝；      </td>
-      <td>真</td>
+      <td>        When the total file size of object storage is greater than `diskQuota`, all dml requests would be rejected;      </td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
@@ -1789,13 +1788,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.diskProtection.diskQuota">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB，（0，+inf），默认无限制      </td>
+      <td>        MB, (0, +inf), default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1818,13 +1817,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.diskProtection.diskQuotaPerDB">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB，（0，+inf），默认无限制      </td>
+      <td>        MB, (0, +inf), default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1847,13 +1846,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.diskProtection.diskQuotaPerCollection">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB，（0，+inf），默认无限制      </td>
+      <td>        MB, (0, +inf), default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1876,13 +1875,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.diskProtection.diskQuotaPerPartition">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        MB，（0，+inf），默认无限制      </td>
+      <td>        MB, (0, +inf), default no limit      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -1905,14 +1904,14 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.l0SegmentsRowCountProtection.enabled">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        启用 l0 段行数配额的开关      </td>
-      <td>假</td>
+      <td>        switch to enable l0 segment row count quota      </td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
@@ -1934,13 +1933,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.l0SegmentsRowCountProtection.lowWaterLevel">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        l0 段行数配额，低水位      </td>
+      <td>        l0 segment row count quota, low water level      </td>
       <td>32768</td>
     </tr>
   </tbody>
@@ -1963,13 +1962,13 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitWriting.l0SegmentsRowCountProtection.highWaterLevel">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        l0 段行数配额，低水位      </td>
+      <td>        l0 segment row count quota, low water level      </td>
       <td>65536</td>
     </tr>
   </tbody>
@@ -1992,15 +1991,15 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitReading.forceDeny">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>forceDeny false 表示允许 dql 请求（某些特定条件除外，如收集已放弃），true 表示始终拒绝所有 dql 请求。</li>      
-        <li>true表示始终拒绝所有 dql 请求。</li>      </td>
+        <li>forceDeny false means dql requests are allowed (except for some</li>      
+        <li>specific conditions, such as collection has been dropped), true means always reject all dql requests.</li>      </td>
       <td>false</td>
     </tr>
   </tbody>
@@ -2023,17 +2022,17 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitReading.queueProtection.nqInQueueThreshold">
   <thead>
     <tr>
-      <th class="width80">描述</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>nqInQueueThreshold 表示系统受到搜索/查询路径的反向压力。</li>      
-        <li>如果任何查询节点队列中的 NQ 大于 nqInQueueThreshold，搜索和查询速率将逐渐降温</li>      
-        <li>直到队列中的 NQ 不再超过 nqInQueueThreshold。我们认为查询请求的 NQ 为 1。</li>      
-        <li>int，默认无限制</li>      </td>
+        <li>nqInQueueThreshold indicated that the system was under backpressure for Search/Query path.</li>      
+        <li>If NQ in any QueryNode's queue is greater than nqInQueueThreshold, search&query rates would gradually cool off</li>      
+        <li>until the NQ in queue no longer exceeds nqInQueueThreshold. We think of the NQ of query request as 1.</li>      
+        <li>int, default no limit</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -2056,18 +2055,18 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitReading.queueProtection.queueLatencyThreshold">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>queueLatencyThreshold 表示系统在搜索/查询路径上受到反向压力。</li>      
-        <li>如果队列的 dql 延迟大于 queueLatencyThreshold，搜索和查询速率将逐渐降温</li>      
-        <li>直到队列延迟不再超过 queueLatencyThreshold。</li>      
-        <li>这里的延迟是指一段时间内的平均延迟。</li>      
-        <li>毫秒，默认无限制</li>      </td>
+        <li>queueLatencyThreshold indicated that the system was under backpressure for Search/Query path.</li>      
+        <li>If dql latency of queuing is greater than queueLatencyThreshold, search&query rates would gradually cool off</li>      
+        <li>until the latency of queuing no longer exceeds queueLatencyThreshold.</li>      
+        <li>The latency here refers to the averaged latency over a period of time.</li>      
+        <li>milliseconds, default no limit</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -2090,17 +2089,17 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitReading.resultProtection.maxReadResultRate">
   <thead>
     <tr>
-      <th class="width80">描述</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>maxReadResultRate 表示系统受到搜索/查询路径的反向压力。</li>      
-        <li>如果 dql 结果速率大于 maxReadResultRate，则搜索和查询速率会逐渐降温</li>      
-        <li>直到读取结果速率不再超过 maxReadResultRate。</li>      
-        <li>MB/s，默认无限制</li>      </td>
+        <li>maxReadResultRate indicated that the system was under backpressure for Search/Query path.</li>      
+        <li>If dql result rate is greater than maxReadResultRate, search&query rates would gradually cool off</li>      
+        <li>until the read result rate no longer exceeds maxReadResultRate.</li>      
+        <li>MB/s, default no limit</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -2123,14 +2122,14 @@ title: ''
     </button></h2><table id="quotaAndLimits.limitReading.coolOffSpeed">
   <thead>
     <tr>
-      <th class="width80">说明</th>
-      <th class="width20">默认值</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>colOffSpeed 是搜索和查询速率的冷却速度。</li>      
+        <li>colOffSpeed is the speed of search&query rates cool off.</li>      
         <li>(0, 1]</li>      </td>
       <td>0.9</td>
     </tr>

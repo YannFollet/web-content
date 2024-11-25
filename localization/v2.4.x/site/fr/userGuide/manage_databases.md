@@ -1,9 +1,8 @@
 ---
 id: manage_databases.md
-title: Gérer les bases de données
-summary: ''
+title: Manage Databases
 ---
-<h1 id="Manage-Databases" class="common-anchor-header">Gestion des bases de données<button data-href="#Manage-Databases" class="anchor-icon" translate="no">
+<h1 id="Manage-Databases" class="common-anchor-header">Manage Databases<button data-href="#Manage-Databases" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -18,11 +17,11 @@ summary: ''
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>Comme pour les moteurs de base de données traditionnels, vous pouvez également créer des bases de données dans Milvus et attribuer des privilèges à certains utilisateurs pour les gérer. Ces utilisateurs ont alors le droit de gérer les collections dans les bases de données. Un cluster Milvus prend en charge un maximum de 64 bases de données.</p>
+    </button></h1><p>Similar to traditional database engines, you can also create databases in Milvus and allocate privileges to certain users to manage them. Then such users have the right to manage the collections in the databases. A Milvus cluster supports a maximum of 64 databases.</p>
 <div class="alert note">
-<p>Les extraits de code de cette page utilisent le <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Connections/connect.md">module ORM PyMilvus</a> pour interagir avec Milvus. Des extraits de code avec le nouveau <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/About.md">SDK MilvusClient</a> seront bientôt disponibles.</p>
+<p>The code snippets on this page use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Connections/connect.md">PyMilvus ORM module</a> to interact with Milvus. Code snippets with the new <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/About.md">MilvusClient SDK</a> will be available soon.</p>
 </div>
-<h2 id="Create-database" class="common-anchor-header">Créer une base de données<button data-href="#Create-database" class="anchor-icon" translate="no">
+<h2 id="Create-database" class="common-anchor-header">Create database<button data-href="#Create-database" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -38,16 +37,19 @@ summary: ''
         ></path>
       </svg>
     </button></h2><div class="language-python">
-<p>Utilisez <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Connections/connect.md">connect()</a> pour vous connecter au serveur Milvus et <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/db/create_database.md">create_database()</a> pour créer une nouvelle base de données :</p>
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Connections/connect.md">connect()</a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/db/create_database.md">create_database()</a> to create a new database:</p>
 </div>
 <div class="language-java">
-<p>Utiliser <a href="https://milvus.io/api-reference/java/v2.4.x/v1/Connections/MilvusClient.md">MilvusClient</a> pour se connecter au serveur Milvus et <a href="https://milvus.io/api-reference/java/v2.4.x/v1/Database/createDatabase.md">createDatabase()</a> pour créer une nouvelle base de données :</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v1/Connections/MilvusClient.md">MilvusClient</a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/java/v2.4.x/v1/Database/createDatabase.md">createDatabase()</a> to create a new database:</p>
 </div>
 <div class="language-javascript">
-<p>Utiliser <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md">MilvusClient</a> pour se connecter au serveur Milvus et <a href="https://milvus.io/api-reference/node/v2.4.x/Database/createDatabase.md">createDatabase()</a> pour créer une nouvelle base de données :</p>
+<p>Use <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md">MilvusClient</a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/node/v2.4.x/Database/createDatabase.md">createDatabase()</a> to create a new database:</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> connections, db
 
 conn = connections.<span class="hljs-title function_">connect</span>(host=<span class="hljs-string">&quot;127.0.0.1&quot;</span>, port=<span class="hljs-number">19530</span>)
@@ -93,8 +95,8 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">//   detail: &#x27;&#x27;</span>
 <span class="hljs-comment">// }</span>
 <button class="copy-code-btn"></button></code></pre>
-<p>Les extraits de code ci-dessus se connectent à la base de données par défaut et créent une nouvelle base de données nommée <code translate="no">my_database</code>.</p>
-<h2 id="Use-a-database" class="common-anchor-header">Utiliser une base de données<button data-href="#Use-a-database" class="anchor-icon" translate="no">
+<p>The above code snippets connects to the default database and creates a new database named <code translate="no">my_database</code>.</p>
+<h2 id="Use-a-database" class="common-anchor-header">Use a database<button data-href="#Use-a-database" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -109,10 +111,13 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Un cluster Milvus est livré avec une base de données par défaut, nommée "default". Les collections sont créées dans la base de données par défaut, sauf indication contraire.</p>
-<p>Pour modifier la base de données par défaut, procédez comme suit :</p>
+    </button></h2><p>A Milvus cluster ships with a default database, named 'default’. Collections are created in the default database unless otherwise specified.</p>
+<p>To change the default database, do as follows:</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python">db.<span class="hljs-title function_">using_database</span>(<span class="hljs-string">&quot;my_database&quot;</span>)
 <button class="copy-code-btn"></button></code></pre>
 <pre><code translate="no" class="language-java"><span class="hljs-comment">// No equivalent method is available.</span>
@@ -124,9 +129,12 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(res);
 <button class="copy-code-btn"></button></code></pre>
-<p>Vous pouvez également définir une base de données à utiliser lors de la connexion à votre cluster Milvus comme suit :</p>
+<p>You can also set a database to use upon connecting to your Milvus cluster as follows:</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python">conn = connections.<span class="hljs-title function_">connect</span>(
     host=<span class="hljs-string">&quot;127.0.0.1&quot;</span>,
     port=<span class="hljs-string">&quot;19530&quot;</span>,
@@ -147,7 +155,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// 1. Set up a Milvus Client</span>
 client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MilvusClient</span>({ address, db_name });
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="List-databases" class="common-anchor-header">Liste des bases de données<button data-href="#List-databases" class="anchor-icon" translate="no">
+<h2 id="List-databases" class="common-anchor-header">List databases<button data-href="#List-databases" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -163,16 +171,19 @@ client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">M
         ></path>
       </svg>
     </button></h2><div class="language-python">
-<p>Pour trouver toutes les bases de données existantes dans votre cluster Milvus, utilisez la méthode <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/db/list_database.md">list_database()</a>:</p>
+<p>To find all existing databases in your Milvus cluster, use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/db/list_database.md">list_database()</a> method:</p>
 </div>
 <div class="language-java">
-<p>Pour trouver toutes les bases de données existantes dans votre cluster Milvus, utilisez la méthode <a href="https://milvus.io/api-reference/java/v2.4.x/v1/Database/listDatabases.md">listDatabases()</a>:</p>
+<p>To find all existing databases in your Milvus cluster, use the <a href="https://milvus.io/api-reference/java/v2.4.x/v1/Database/listDatabases.md">listDatabases()</a> method:</p>
 </div>
 <div class="language-javascript">
-<p>Pour trouver toutes les bases de données existantes dans votre cluster Milvus, utilisez la méthode <a href="https://milvus.io/api-reference/node/v2.4.x/Database/listDatabases.md">listDatabases()</a>:</p>
+<p>To find all existing databases in your Milvus cluster, use the <a href="https://milvus.io/api-reference/node/v2.4.x/Database/listDatabases.md">listDatabases()</a> method:</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python">db.list_database()
 
 <span class="hljs-comment"># Output</span>
@@ -198,7 +209,7 @@ System.out.<span class="hljs-built_in">println</span>(listDatabasesResponse.getD
 
 <span class="hljs-comment">// [ &#x27;default&#x27;, &#x27;my_database&#x27; ]</span>
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Drop-database" class="common-anchor-header">Abandonner une base de données<button data-href="#Drop-database" class="anchor-icon" translate="no">
+<h2 id="Drop-database" class="common-anchor-header">Drop database<button data-href="#Drop-database" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -213,18 +224,21 @@ System.out.<span class="hljs-built_in">println</span>(listDatabasesResponse.getD
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Pour supprimer une base de données, vous devez d'abord supprimer toutes ses collections. Sinon, l'abandon échoue.</p>
+    </button></h2><p>To drop a database, you have to drop all its collections first. Otherwise, the drop fails.</p>
 <div class="language-python">
-<p>Pour supprimer une base de données, utilisez la méthode <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/db/drop_database.md">drop_database()</a>:</p>
+<p>To drop a database, use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/db/drop_database.md">drop_database()</a> method:</p>
 </div>
 <div class="language-java">
-<p>Pour supprimer une base de données, utilisez la méthode <a href="https://milvus.io/api-reference/java/v2.4.x/v1/Database/dropDatabase.md">drop_database()</a>:</p>
+<p>To drop a database, use the <a href="https://milvus.io/api-reference/java/v2.4.x/v1/Database/dropDatabase.md">dropDatabase()</a> method:</p>
 </div>
 <div class="language-javascript">
-<p>Pour déposer une base de données, utilisez la méthode <a href="https://milvus.io/api-reference/node/v2.4.x/Database/dropDatabase.md">dropDatabase()</a>:</p>
+<p>To drop a database, use the <a href="https://milvus.io/api-reference/node/v2.4.x/Database/dropDatabase.md">dropDatabase()</a> method:</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python">db.drop_database(<span class="hljs-string">&quot;my_database&quot;</span>)
 
 db.list_database()
@@ -244,7 +258,7 @@ response = client.dropDatabase(dropDatabaseParam);
     <span class="hljs-attr">db_name</span>: <span class="hljs-string">&quot;my_database&quot;</span>,
 });
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Use-RBAC-with-database" class="common-anchor-header">Utiliser RBAC avec une base de données<button data-href="#Use-RBAC-with-database" class="anchor-icon" translate="no">
+<h2 id="Use-RBAC-with-database" class="common-anchor-header">Use RBAC with database<button data-href="#Use-RBAC-with-database" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -259,15 +273,18 @@ response = client.dropDatabase(dropDatabaseParam);
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>RBAC couvre également les opérations de base de données et assure la compatibilité avec l'avenir. Le mot <strong>base de données</strong> dans les API de permission (Grant / Revoke / List Grant) a les significations suivantes :</p>
+    </button></h2><p>RBAC also covers database operations and ensures forward compatibility. The word <strong>database</strong> in the Permission APIs (Grant / Revoke / List Grant) has the following meanings:</p>
 <ul>
-<li>Si ni une connexion Milvus ni un appel à l'API de permission ne spécifie une <code translate="no">db_name</code>, la <strong>base</strong> de données fait référence à la base de données par défaut.</li>
-<li>Si une connexion Milvus spécifie un <code translate="no">db_name</code>, mais qu'un appel Permission API ultérieur ne le fait pas, la <strong>base</strong> de <strong>données</strong> renvoie à la base de données dont le nom a été spécifié dans la connexion Milvus.</li>
-<li>Si un appel Permission API est effectué sur une connexion Milvus, avec ou sans <code translate="no">db_name</code>, la <strong>base</strong> de <strong>données</strong> fait référence à la base de données dont le nom a été spécifié dans l'appel Permission API.</li>
+<li>If neither a Milvus connection nor a Permission API call specifies a <code translate="no">db_name</code>, <strong>database</strong> refers to the default database.</li>
+<li>If a Milvus connection specifies a <code translate="no">db_name</code>, but a Permission API call afterward does not, <strong>database</strong> refers to the database whose name was specified in the Milvus connection.</li>
+<li>If a Permission API call is made upon a Milvus connection, with or without <code translate="no">db_name</code> specified, <strong>database</strong> refers to the database whose name was specified in the Permission API call.</li>
 </ul>
-<p>L'extrait de code suivant est partagé entre les blocs énumérés ci-dessous.</p>
+<p>The following code snippet is shared among the listed blocks below.</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> connections, Role
 
 _URI = <span class="hljs-string">&quot;http://localhost:19530&quot;</span>
@@ -321,9 +338,12 @@ _DB_NAME = <span class="hljs-string">&quot;default&quot;</span>
 }
 <button class="copy-code-btn"></button></code></pre>
 <ul>
-<li><p>Si aucune connexion Milvus ni aucun appel à l'API Permission ne spécifie une adresse <code translate="no">db_name</code>, <strong>la base</strong> de <strong>données</strong> renvoie à la base de données par défaut.</p>
+<li><p>If neither a Milvus connection nor a Permission API call specifies a <code translate="no">db_name</code>, <strong>database</strong> refers to the default database.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">_ROLE_NAME = <span class="hljs-string">&quot;test_role&quot;</span>
 _PRIVILEGE_INSERT = <span class="hljs-string">&quot;Insert&quot;</span>
 
@@ -427,9 +447,12 @@ response = client.revokeRolePrivilege(RevokeRolePrivilegeParam.newBuilder()
   <span class="hljs-attr">privilege</span>: <span class="hljs-variable constant_">PRIVILEGE_INSERT</span>,
 });
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>Si une connexion Milvus spécifie un <code translate="no">db_name</code>, mais qu'un appel Permission API ultérieur ne le fait pas, la <strong>base</strong> de <strong>données</strong> renvoie à la base de données dont le nom a été spécifié dans la connexion Milvus.</p>
+<li><p>If a Milvus connection specifies a <code translate="no">db_name</code>, but a Permission API call afterward does not, <strong>database</strong> refers to the database whose name was specified in the Milvus connection.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># <span class="hljs-doctag">NOTE:</span> please make sure the &#x27;foo&#x27; db has been created</span>
 connect_to_milvus(db_name=<span class="hljs-string">&quot;foo&quot;</span>)
 
@@ -509,9 +532,12 @@ response = client.revokeRolePrivilege(RevokeRolePrivilegeParam.newBuilder()
   <span class="hljs-attr">privilege</span>: <span class="hljs-variable constant_">PRIVILEGE_INSERT</span>,
 });
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>Si un appel à l'API Permission est effectué sur une connexion Milvus, avec ou sans <code translate="no">db_name</code>, la <strong>base</strong> de <strong>données</strong> fait référence à la base de données dont le nom a été spécifié dans l'appel à l'API Permission.</p>
+<li><p>If a Permission API call is made upon a Milvus connection, with or without <code translate="no">db_name</code> specified, <strong>database</strong> refers to the database whose name was specified in the Permission API call.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># <span class="hljs-doctag">NOTE:</span> please make sure the &#x27;foo&#x27; db has been created</span>
 
 db_name = <span class="hljs-string">&quot;foo&quot;</span>
@@ -577,7 +603,7 @@ response = client.revokeRolePrivilege(RevokeRolePrivilegeParam.newBuilder()
 <pre><code translate="no" class="language-javascript"><span class="hljs-comment">// The Node.js SDK currently cannot support this case.</span>
 <button class="copy-code-btn"></button></code></pre></li>
 </ul>
-<h2 id="Whats-next" class="common-anchor-header">Prochaines étapes<button data-href="#Whats-next" class="anchor-icon" translate="no">
+<h2 id="Whats-next" class="common-anchor-header">What’s next<button data-href="#Whats-next" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -593,6 +619,6 @@ response = client.revokeRolePrivilege(RevokeRolePrivilegeParam.newBuilder()
         ></path>
       </svg>
     </button></h2><ul>
-<li><p><a href="/docs/fr/rbac.md">Activer le RBAC</a></p></li>
-<li><p><a href="/docs/fr/multi_tenancy.md">Multi-tenance</a></p></li>
+<li><p><a href="/docs/fr/rbac.md">Enable RBAC</a></p></li>
+<li><p><a href="/docs/fr/multi_tenancy.md">Multi-tenancy</a></p></li>
 </ul>

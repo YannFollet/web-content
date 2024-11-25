@@ -1,9 +1,9 @@
 ---
 id: boolean.md
-summary: Milvusのブーリアン式ルールについて学ぶ。
-title: スカラー・フィルタリング・ルール
+summary: Learn about boolean expression rules in Milvus.
+title: Scalar Filtering Rules
 ---
-<h1 id="Scalar-Filtering-Rules" class="common-anchor-header">スカラー・フィルタリング・ルール<button data-href="#Scalar-Filtering-Rules" class="anchor-icon" translate="no">
+<h1 id="Scalar-Filtering-Rules" class="common-anchor-header">Scalar Filtering Rules<button data-href="#Scalar-Filtering-Rules" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -18,7 +18,7 @@ title: スカラー・フィルタリング・ルール
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><h2 id="Overview" class="common-anchor-header">概要<button data-href="#Overview" class="anchor-icon" translate="no">
+    </button></h1><h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -33,8 +33,8 @@ title: スカラー・フィルタリング・ルール
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>述語式はブール値を出力します。Milvusは述語で検索することによりスカラーフィルタリングを行います。述語式は評価されるとTRUEかFALSEのどちらかを返します。述語式の使い方については<a href="/api-reference/pymilvus/v2.4.x/About.md">Python SDK API Referenceを</a>参照してください。</p>
-<p><a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form">EBNF</a>文法規則はブール式の規則を記述します：</p>
+    </button></h2><p>A predicate expression outputs a boolean value. Milvus conducts scalar filtering by searching with predicates. A predicate expression, when evaluated, returns either TRUE or FALSE. View <a href="/api-reference/pymilvus/v2.4.x/About.md">Python SDK API Reference</a> for instruction on using predicate expressions.</p>
+<p><a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form">EBNF</a> grammar rules describe boolean expressions rules:</p>
 <pre><code translate="no"><span class="hljs-title class_">Expr</span> = <span class="hljs-title class_">LogicalExpr</span> | <span class="hljs-variable constant_">NIL</span>
 <span class="hljs-title class_">LogicalExpr</span> = <span class="hljs-title class_">LogicalExpr</span> <span class="hljs-title class_">BinaryLogicalOp</span> <span class="hljs-title class_">LogicalExpr</span> 
               | <span class="hljs-title class_">UnaryLogicalOp</span> <span class="hljs-title class_">LogicalExpr</span>
@@ -73,44 +73,44 @@ title: スカラー・フィルタリング・ルール
 <span class="hljs-title class_">ArrayExpr</span> =  <span class="hljs-title class_">Constant</span> | <span class="hljs-title class_">ConstantArray</span> | <span class="hljs-variable constant_">STRING</span> | <span class="hljs-variable constant_">BOOLEAN</span>;
 <span class="hljs-title class_">Array</span> = <span class="hljs-string">&quot;[&quot;</span> <span class="hljs-title class_">ArrayExpr</span> { <span class="hljs-string">&quot;,&quot;</span> <span class="hljs-title class_">ArrayExpr</span> } <span class="hljs-string">&quot;]&quot;</span>;
 <button class="copy-code-btn"></button></code></pre>
-<p>以下の表は、上記のブール式の規則で言及されている各シンボルの説明の一覧です。</p>
+<p>The following table lists the description of each symbol mentioned in the above Boolean expression rules.</p>
 <table>
 <thead>
-<tr><th>記法</th><th>説明</th></tr>
+<tr><th>Notation</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>=</td><td>定義。</td></tr>
-<tr><td>,</td><td>連結。</td></tr>
-<tr><td>;</td><td>終端。</td></tr>
-<tr><td>|</td><td>交替。</td></tr>
-<tr><td>{...}</td><td>繰り返し。</td></tr>
-<tr><td>(...)</td><td>グループ化。</td></tr>
-<tr><td>NIL</td><td>空。式は空文字列でもよい。</td></tr>
-<tr><td>INTEGER</td><td>1、2、3などの整数。</td></tr>
-<tr><td>FLOAT</td><td>1.0、2.0などの浮動小数点数。</td></tr>
-<tr><td>CONST</td><td>整数または浮動小数点数。</td></tr>
-<tr><td>IDENTIFIER</td><td>識別子。MilvusではIDENTIFIERはフィールド名を表す。</td></tr>
-<tr><td>論理演算子</td><td>LogicalOp は論理演算子で、1回の比較で複数の関係演算を組み合わせることができます。LogicalOp の戻り値は TRUE (1) または FALSE (0) です。LogicalOp には、BinaryLogicalOp と UnaryLogicalOp の 2 つのタイプがあります。</td></tr>
-<tr><td>UnaryLogicalOp</td><td>UnaryLogicalOp は、単項論理演算子 &quot;not&quot; を指します。</td></tr>
-<tr><td>BinaryLogicalOp (バイナリ論理演算子)</td><td>2 つのオペランドに対してアクションを実行する二項論理演算子。2 つ以上のオペランドを持つ複雑な式では、評価の順序は優先順位ルールに依存します。</td></tr>
-<tr><td>算術演算子</td><td>ArithmeticOp (算術演算子) は、オペランドに対して加算や減算などの数学演算を実行します。</td></tr>
-<tr><td>UnaryArithOp</td><td>UnaryArithOp は、単一のオペランドに対して演算を実行する算術演算子です。負の UnaryArithOp は、正の式を負の式に変更します。</td></tr>
-<tr><td>BinaryArithOp</td><td>BinaryArithOp は二項演算子で、2 つのオペランドに対して演算を行います。2つ以上のオペランドを持つ複雑な式では、評価の順序は優先順位規則に依存します。</td></tr>
-<tr><td>CmpOp</td><td>CmpOp は、2 つのオペランドに対して処理を実行する関係演算子です。</td></tr>
-<tr><td>CmpOpRestricted</td><td>CmpOpRestricted は、&quot;Less than&quot; および &quot;Equal&quot; に制限されています。</td></tr>
-<tr><td>ConstantExpr</td><td>ConstantExprは、定数、2つのConstExpr上のBinaryArithOp、または1つのConstantExpr上のUnaryArithOpになります。再帰的に定義されます。</td></tr>
-<tr><td>ConstantArray</td><td>ConstantArrayは角括弧で囲まれ、ConstantExprは角括弧の中で繰り返すことができます。ConstArrayは、少なくとも1つのConstantExprを含まなければなりません。</td></tr>
-<tr><td>TermExpr</td><td>TermExprは、IDENTIFIERの値がConstantArrayに含まれるかどうかをチェックするために使用されます。TermExprは &quot;in &quot;で表されます。</td></tr>
-<tr><td>CompareExpr</td><td>CompareExpr、つまり比較式は、2つのIDENTIFIERに対する関係演算、1つのIDENTIFIERと1つのConstantExprに対する関係演算、2つのConstantExprと1つのIDENTIFIERに対する3項演算になります。</td></tr>
-<tr><td>SingleExpr</td><td>SingleExpr、つまり単一の式は、TermExprまたは CompareExprのいずれかになります。</td></tr>
-<tr><td>LogicalExpr</td><td>LogicalExpr は、2 つの LogicalExpr 上の BinaryLogicalOp、1 つの LogicalExpr 上の UnaryLogicalOp、括弧内にグループ化された LogicalExpr、または SingleExpr のいずれかです。LogicalExpr は再帰的に定義されます。</td></tr>
-<tr><td>Expr</td><td>Expr は式を意味する略語で、LogicalExpr または NIL を指定できます。</td></tr>
-<tr><td>MatchOp</td><td>MatchOp、つまりマッチ演算子は、文字列と文字列定数、または文字列の接頭辞、接尾辞、接尾辞定数を比較します。</td></tr>
-<tr><td>JsonArrayOp</td><td>JsonOp (JSON 演算子) は、指定された識別子が指定された要素を含むかどうかをチェックします。</td></tr>
-<tr><td>ArrayOp</td><td>ArrayOp（配列演算子）は、指定された識別子が指定された要素を含むかどうかをチェックします。</td></tr>
+<tr><td>=</td><td>Definition.</td></tr>
+<tr><td>,</td><td>Concatenation.</td></tr>
+<tr><td>;</td><td>Termination.</td></tr>
+<tr><td>|</td><td>Alternation.</td></tr>
+<tr><td>{…}</td><td>Repetition.</td></tr>
+<tr><td>(…)</td><td>Grouping.</td></tr>
+<tr><td>NIL</td><td>Empty. The expression can be an empty string.</td></tr>
+<tr><td>INTEGER</td><td>Integers such as 1, 2, 3.</td></tr>
+<tr><td>FLOAT</td><td>Float numbers such as 1.0, 2.0.</td></tr>
+<tr><td>CONST</td><td>Integers or float numbers.</td></tr>
+<tr><td>IDENTIFIER</td><td>Identifier. In Milvus, the IDENTIFIER represents the field name.</td></tr>
+<tr><td>LogicalOp</td><td>A LogicalOp is a logical operator that supports combining more than one relational operation in one comparison. Returned value of a LogicalOp is either TRUE (1) or FALSE (0). There are two types of LogicalOps, including BinaryLogicalOps and UnaryLogicalOps.</td></tr>
+<tr><td>UnaryLogicalOp</td><td>UnaryLogicalOp refers to the unary logical operator &quot;not&quot;.</td></tr>
+<tr><td>BinaryLogicalOp</td><td>Binary logical operators that perform actions on two operands. In a complex expression with two or more operands, the order of evaluation depends on precedence rules.</td></tr>
+<tr><td>ArithmeticOp</td><td>An ArithmeticOp, namely an arithmetic operator, performs mathematical operations such as addition and subtraction on operands.</td></tr>
+<tr><td>UnaryArithOp</td><td>A UnaryArithOp is an arithmetic operator that performs an operation on a single operand. The negative UnaryArithOp changes a positive expression into a negative one, or the other way round.</td></tr>
+<tr><td>BinaryArithOp</td><td>A BinaryArithOp, namely a binary operator, performs operations on two operands. In a complex expression with two or more operands, the order of evaluation depends on precedence rules.</td></tr>
+<tr><td>CmpOp</td><td>CmpOp is a relational operator that perform actions on two operands.</td></tr>
+<tr><td>CmpOpRestricted</td><td>CmpOpRestricted is restricted to “Less than” and &quot;Equal&quot;.</td></tr>
+<tr><td>ConstantExpr</td><td>ConstantExpr can be a Constant or a BinaryArithOp on two ConstExprs or a UnaryArithOp on a single ConstantExpr. It is defined recursively.</td></tr>
+<tr><td>ConstantArray</td><td>ConstantArray is wrapped by square brackets, and ConstantExpr can be repeated in the square brackets. ConstArray must include at least one ConstantExpr.</td></tr>
+<tr><td>TermExpr</td><td>TermExpr is used to check whether the value of an IDENTIFIER appears in a ConstantArray. TermExpr is represented by &quot;in&quot;.</td></tr>
+<tr><td>CompareExpr</td><td>A CompareExpr, namely comparison expression can be relational operations on two IDENTIFIERs, or relational operations on one IDENTIFIER and one ConstantExpr, or ternary operation on two ConstantExprs and one IDENTIFIER.</td></tr>
+<tr><td>SingleExpr</td><td>SingleExpr, namely single expression, can be either a TermExpr or a CompareExpr.</td></tr>
+<tr><td>LogicalExpr</td><td>A LogicalExpr can be a BinaryLogicalOp on two LogicalExprs, or a UnaryLogicalOp on a single LogicalExpr, or a LogicalExpr grouped within parentheses, or a SingleExpr. The LogicalExpr is defined recursively.</td></tr>
+<tr><td>Expr</td><td>Expr, an abbreviation meaning expression, can be LogicalExpr or NIL.</td></tr>
+<tr><td>MatchOp</td><td>A MatchOp, namely a match operator, compares a string to a string constant or a string prefix, infix, or suffix constant.</td></tr>
+<tr><td>JsonArrayOp</td><td>A JsonOp, namely a JSON operator, checks whether the specified identifier contains the specified elements.</td></tr>
+<tr><td>ArrayOp</td><td>An ArrayOp, namely an array operator, checks whether the specified identifier contains the specified elements.</td></tr>
 </tbody>
 </table>
-<h2 id="Operators" class="common-anchor-header">演算子<button data-href="#Operators" class="anchor-icon" translate="no">
+<h2 id="Operators" class="common-anchor-header">Operators<button data-href="#Operators" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -125,45 +125,45 @@ title: スカラー・フィルタリング・ルール
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><h3 id="Logical-operators" class="common-anchor-header">論理演算子</h3><p>論理演算子は、2 つの式の比較を行います。</p>
+    </button></h2><h3 id="Logical-operators" class="common-anchor-header">Logical operators</h3><p>Logical operators perform a comparison between two expressions.</p>
 <table>
 <thead>
-<tr><th>記号</th><th>演算子</th><th>例</th><th>論理演算子</th></tr>
+<tr><th>Symbol</th><th>Operation</th><th>Example</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>および</td><td>と</td><td>expr1 &amp;&amp; expr2</td><td>expr1 と expr2 の両方が真なら真。</td></tr>
-<tr><td>または</td><td>または</td><td>expr1 || expr2</td><td>expr1 と expr2 のどちらかが真なら真。</td></tr>
+<tr><td>‘and’ &amp;&amp;</td><td>and</td><td>expr1 &amp;&amp; expr2</td><td>True if both expr1 and expr2 are true.</td></tr>
+<tr><td>‘or’ ||</td><td>or</td><td>expr1 || expr2</td><td>True if either expr1 or expr2 are true.</td></tr>
 </tbody>
 </table>
-<h3 id="Binary-arithmetic-operators" class="common-anchor-header">二項演算子</h3><p>二項演算子は 2 つのオペランドを含み、基本的な算術演算を実行し、対応する結果を返します。</p>
+<h3 id="Binary-arithmetic-operators" class="common-anchor-header">Binary arithmetic operators</h3><p>Binary arithmetic operators contain two operands and can perform basic arithmetic operations and return the corresponding result.</p>
 <table>
 <thead>
-<tr><th>記号</th><th>演算</th><th>例</th><th>説明</th></tr>
+<tr><th>Symbol</th><th>Operation</th><th>Example</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>+</td><td>加算</td><td>a + b</td><td>2つのオペランドを加算します。</td></tr>
-<tr><td>-</td><td>減算</td><td>a - b</td><td>最初のオペランドから2番目のオペランドを引く。</td></tr>
-<tr><td>*</td><td>乗算</td><td>a * b</td><td>2つのオペランドを乗算する。</td></tr>
-<tr><td>/</td><td>除算</td><td>a / b</td><td>最初のオペランドを2番目のオペランドで割る。</td></tr>
-<tr><td>**</td><td>べき乗</td><td>a ** b</td><td>最初のオペランドを 2 番目のオペランドのべき乗にします。</td></tr>
-<tr><td>%</td><td>モジュロ</td><td>a % b</td><td>第 1 オペランドを第 2 オペランドで割り、余り部分を返す。</td></tr>
+<tr><td>+</td><td>Addition</td><td>a + b</td><td>Add the two operands.</td></tr>
+<tr><td>-</td><td>Subtraction</td><td>a - b</td><td>Subtract the second operand from the first operand.</td></tr>
+<tr><td>*</td><td>Multiplication</td><td>a * b</td><td>Multiply the two operands.</td></tr>
+<tr><td>/</td><td>Division</td><td>a / b</td><td>Divide the first operand by the second operand.</td></tr>
+<tr><td>**</td><td>Power</td><td>a ** b</td><td>Raise the first operand to the power of the second operand.</td></tr>
+<tr><td>%</td><td>Modulo</td><td>a % b</td><td>Divide the first operand by the second operand and yield the remainder portion.</td></tr>
 </tbody>
 </table>
-<h3 id="Relational-operators" class="common-anchor-header">関係演算子</h3><p>関係演算子は記号を使用して、2 つの式の間の等式、不等式、相対順序をチェックします。</p>
+<h3 id="Relational-operators" class="common-anchor-header">Relational operators</h3><p>Relational operators use symbols to check for equality, inequality, or relative order between two expressions.</p>
 <table>
 <thead>
-<tr><th>記号</th><th>演算</th><th>例</th><th>説明</th></tr>
+<tr><th>Symbol</th><th>Operation</th><th>Example</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>&lt;</td><td>未満</td><td>a &lt; b</td><td>a が b より小さい場合に真。</td></tr>
-<tr><td>&gt;</td><td>より大きい</td><td>a &gt; b</td><td>aがbより大きければ真。</td></tr>
-<tr><td>==</td><td>等しい</td><td>a == b</td><td>a が b と等しければ真。</td></tr>
-<tr><td>!=</td><td>等しくない</td><td>a != b</td><td>aがbと等しくない場合に真。</td></tr>
-<tr><td>&lt;=</td><td>以下または等しい</td><td>a &lt;= b</td><td>aがb以下であれば真。</td></tr>
-<tr><td>&gt;=</td><td>より大きいか等しい</td><td>a &gt;= b</td><td>a が b より大きいか等しい場合に真。</td></tr>
+<tr><td>&lt;</td><td>Less than</td><td>a &lt; b</td><td>True if a is less than b.</td></tr>
+<tr><td>&gt;</td><td>Greater than</td><td>a &gt; b</td><td>True if a is greater than b.</td></tr>
+<tr><td>==</td><td>Equal</td><td>a == b</td><td>True if a is equal to b.</td></tr>
+<tr><td>!=</td><td>Not equal</td><td>a != b</td><td>True if a is not equal to b.</td></tr>
+<tr><td>&lt;=</td><td>Less than or equal</td><td>a &lt;= b</td><td>True if a is less than or equal to b.</td></tr>
+<tr><td>&gt;=</td><td>Greater than or equal</td><td>a &gt;= b</td><td>True if a is greater than or equal to b.</td></tr>
 </tbody>
 </table>
-<h2 id="Operator-precedence-and-associativity" class="common-anchor-header">演算子の優先順位と連想度<button data-href="#Operator-precedence-and-associativity" class="anchor-icon" translate="no">
+<h2 id="Operator-precedence-and-associativity" class="common-anchor-header">Operator precedence and associativity<button data-href="#Operator-precedence-and-associativity" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -178,42 +178,42 @@ title: スカラー・フィルタリング・ルール
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>次の表は、演算子の優先順位と連想度の一覧である。演算子は上から下へ、優先順位の高い順に並んでいます。</p>
+    </button></h2><p>The following table lists the precedence and associativity of operators. Operators are listed top to bottom, in descending precedence.</p>
 <table>
 <thead>
-<tr><th>優先順位</th><th>演算子</th><th>説明</th><th>連想度</th></tr>
+<tr><th>Precedence</th><th>Operator</th><th>Description</th><th>Associativity</th></tr>
 </thead>
 <tbody>
-<tr><td>1</td><td>+ -</td><td>単項演算子</td><td>左から右</td></tr>
-<tr><td>2</td><td>でない</td><td>ユナリオロジック</td><td>右から左</td></tr>
-<tr><td>3</td><td>**</td><td>バイナリ</td><td>左から右</td></tr>
-<tr><td>4</td><td>* / %</td><td>バイナリ</td><td>左から右</td></tr>
-<tr><td>5</td><td>+ -</td><td>バイナリ</td><td>左から右</td></tr>
-<tr><td>6</td><td>&lt; &lt;= &gt; &gt;=</td><td>CmpOp</td><td>左から右</td></tr>
-<tr><td>7</td><td>== !=</td><td>CmpOp</td><td>左から右</td></tr>
-<tr><td>8</td><td>LIKEのような</td><td>マッチオプ</td><td>左から右</td></tr>
-<tr><td>9</td><td>JSON_CONTAINS JSON_CONTAINS</td><td>JsonArrayOp</td><td>左から右</td></tr>
-<tr><td>9</td><td>array_containsはARRAY_CONTAINSを含みます。</td><td>ArrayOp</td><td>左から右</td></tr>
-<tr><td>10</td><td>JSON_CONTAINS_ALL JSON_CONTAINS_ALL</td><td>JsonArrayOp。</td><td>左から右</td></tr>
-<tr><td>10</td><td>配列をすべて含む ARRAY_CONTAINS_ALL</td><td>ArrayOp</td><td>左から右</td></tr>
-<tr><td>11</td><td>JSON_CONTAINS_ANY JSON_CONTAINS_ANY</td><td>JsonArrayOp</td><td>左から右</td></tr>
-<tr><td>11</td><td>array_contains_any ARRAY_CONTAINS_ANY</td><td>ArrayOp</td><td>左から右</td></tr>
-<tr><td>12</td><td>配列の長さ ARRAY_LENGTH</td><td>配列オープン</td><td>左から右</td></tr>
-<tr><td>13</td><td>と</td><td>バイナリロジック</td><td>左から右</td></tr>
-<tr><td>14</td><td>|| または</td><td>バイナリロジック</td><td>左から右</td></tr>
+<tr><td>1</td><td>+ -</td><td>UnaryArithOp</td><td>Left-to-right</td></tr>
+<tr><td>2</td><td>not</td><td>UnaryLogicOp</td><td>Right-to-left</td></tr>
+<tr><td>3</td><td>**</td><td>BinaryArithOp</td><td>Left-to-right</td></tr>
+<tr><td>4</td><td>* / %</td><td>BinaryArithOp</td><td>Left-to-right</td></tr>
+<tr><td>5</td><td>+ -</td><td>BinaryArithOp</td><td>Left-to-right</td></tr>
+<tr><td>6</td><td>&lt; &lt;= &gt; &gt;=</td><td>CmpOp</td><td>Left-to-right</td></tr>
+<tr><td>7</td><td>== !=</td><td>CmpOp</td><td>Left-to-right</td></tr>
+<tr><td>8</td><td>like LIKE</td><td>MatchOp</td><td>Left-to-right</td></tr>
+<tr><td>9</td><td>json_contains JSON_CONTAINS</td><td>JsonArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>9</td><td>array_contains ARRAY_CONTAINS</td><td>ArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>10</td><td>json_contains_all JSON_CONTAINS_ALL</td><td>JsonArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>10</td><td>array_contains_all ARRAY_CONTAINS_ALL</td><td>ArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>11</td><td>json_contains_any JSON_CONTAINS_ANY</td><td>JsonArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>11</td><td>array_contains_any ARRAY_CONTAINS_ANY</td><td>ArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>12</td><td>array_length  ARRAY_LENGTH</td><td>ArrayOp</td><td>Left-to-right</td></tr>
+<tr><td>13</td><td>&amp;&amp; and</td><td>BinaryLogicOp</td><td>Left-to-right</td></tr>
+<tr><td>14</td><td>|| or</td><td>BinaryLogicOp</td><td>Left-to-right</td></tr>
 </tbody>
 </table>
-<p>式は通常左から右に評価される。複雑な式は1つずつ評価される。式を評価する順序は、使用する演算子の優先順位によって決まります。</p>
-<p>式に同じ優先順位の演算子が2つ以上含まれる場合は、左側の演算子が最初に評価されます。</p>
+<p>Expressions are normally evaluated from left to right. Complex expressions are evaluated one at a time. The order in which the expressions are evaluated is determined by the precedence of the operators used.</p>
+<p>If an expression contains two or more operators with the same precedence, the operator to the left is evaluated first.</p>
 <div class="alert note">
-<p>たとえば、10 / 2 * 5 は (10 / 2) と評価され、その結果に 5 が掛けられる。</p>
+<p>For example, 10 / 2 * 5 will be evaluated as (10 / 2) and the result multiplied by 5.</p>
 </div>
-<p>優先順位の低い演算子を先に処理する場合は、括弧で囲む。</p>
+<p>When a lower precedence operation should be processed first, it should be enclosed within parentheses.</p>
 <div class="alert note">
-<p>例えば、30 / 2 + 8。これは通常、30を2で割った結果に8を足したものとして評価される。2 + 8で割りたい場合は、30 / (2 + 8)と記述します。</p>
+<p>For example, 30 / 2 + 8. This is normally evaluated as 30 divided by 2 then 8 added to the result. If you want to divide by 2 + 8, it should be written as 30 / (2 + 8).</p>
 </div>
-<p>括弧は式の中に入れ子にすることができる。最も内側の括弧式が最初に評価されます。</p>
-<h2 id="Usage" class="common-anchor-header">使用法<button data-href="#Usage" class="anchor-icon" translate="no">
+<p>Parentheses can be nested within expressions. Innermost parenthetical expressions are evaluated first.</p>
+<h2 id="Usage" class="common-anchor-header">Usage<button data-href="#Usage" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -228,7 +228,7 @@ title: スカラー・フィルタリング・ルール
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Milvusで使用可能な全てのブール式の使用例を以下に示す(<code translate="no">int64</code> は INT64型のデータを含むスカラーフィールド、<code translate="no">float</code> は浮動小数点型のデータを含むスカラーフィールド、<code translate="no">VARCHAR</code> は VARCHAR型のデータを含むスカラーフィールドを表す)：</p>
+    </button></h2><p>Samples of all available boolean expression usage in Milvus are listed as follows (<code translate="no">int64</code> represents the scalar field that contains data of INT64 type,  <code translate="no">float</code> represents the scalar field that contains data of floating-point type, and <code translate="no">VARCHAR</code> represents the scalar field that contains data of VARCHAR  type):</p>
 <ol>
 <li>CmpOp</li>
 </ol>
@@ -241,29 +241,29 @@ title: スカラー・フィルタリング・ルール
 <pre><code translate="no"><span class="hljs-variable constant_">VARCHAR</span> &gt; <span class="hljs-string">&quot;str1&quot;</span>
 <button class="copy-code-btn"></button></code></pre>
 <ol start="2">
-<li>BinaryLogicalOpと括弧</li>
+<li>BinaryLogicalOp and parentheses</li>
 </ol>
 <pre><code translate="no"><span class="hljs-string">&quot;(int64 &gt; 0 &amp;&amp; int64 &lt; 400) or (int64 &gt; 500 &amp;&amp; int64 &lt; 1000)&quot;</span>
 <button class="copy-code-btn"></button></code></pre>
 <ol start="3">
-<li>TermExpr および UnaryLogicOp</li>
+<li>TermExpr and UnaryLogicOp</li>
 </ol>
 <pre><code translate="no"><span class="hljs-string">&quot;int64 not in [1, 2, 3]&quot;</span>
 <button class="copy-code-btn"></button></code></pre>
 <pre><code translate="no"><span class="hljs-variable constant_">VARCHAR</span> not <span class="hljs-keyword">in</span> [<span class="hljs-string">&quot;str1&quot;</span>, <span class="hljs-string">&quot;str2&quot;</span>]
 <button class="copy-code-btn"></button></code></pre>
 <ol start="4">
-<li>TermExpr、BinaryLogicalOp、および CmpOp（異なるフィールド上）</li>
+<li>TermExpr, BinaryLogicalOp, and CmpOp (on different fields)</li>
 </ol>
 <pre><code translate="no"><span class="hljs-string">&quot;int64 in [1, 2, 3] and float != 2&quot;</span>
 <button class="copy-code-btn"></button></code></pre>
 <ol start="5">
-<li>BinaryLogicalOp および CmpOp</li>
+<li>BinaryLogicalOp and CmpOp</li>
 </ol>
 <pre><code translate="no"><span class="hljs-string">&quot;int64 == 0 || int64 == 1 || int64 == 2&quot;</span>
 <button class="copy-code-btn"></button></code></pre>
 <ol start="6">
-<li>CmpOp および UnaryArithOp または BinaryArithOp</li>
+<li>CmpOp and UnaryArithOp or BinaryArithOp</li>
 </ol>
 <pre><code translate="no"><span class="hljs-string">&quot;200+300 &lt; int64 &lt;= 500+500&quot;</span>
 <button class="copy-code-btn"></button></code></pre>
@@ -280,7 +280,7 @@ title: スカラー・フィルタリング・ルール
 </ol>
 <ul>
 <li><p><code translate="no">JSON_CONTAINS(identifier, JsonExpr)</code></p>
-<p><code translate="no">JSON_CONTAINS</code> （第2引数）ステートメントのJSON式がリストの場合、識別子（第1引数）はリストのリストでなければなりません。そうでない場合、ステートメントは常に False と評価されます。</p>
+<p>If the JSON expression of a <code translate="no">JSON_CONTAINS</code> (the second argument) statement is a list, the identifier (the first argument) should be list of list. Otherwise, the statement always evaluates to False.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># {&quot;x&quot;: [1,2,3]}</span>
 json_contains(x, <span class="hljs-number">1</span>) <span class="hljs-comment"># ==&gt; true</span>
 json_contains(x, <span class="hljs-string">&quot;a&quot;</span>) <span class="hljs-comment"># ==&gt; false</span>
@@ -290,13 +290,13 @@ json_contains(x, [<span class="hljs-number">1</span>,<span class="hljs-number">2
 json_contains(x, [<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>]) <span class="hljs-comment"># ==&gt; false</span>
 <button class="copy-code-btn"></button></code></pre></li>
 <li><p><code translate="no">JSON_CONTAINS_ALL(identifier, JsonExpr)</code></p>
-<p><code translate="no">JSON_CONTAINS_ALL</code> ステートメントの JSON 式は、常にリストでなければなりません。</p>
+<p>The JSON expression in a <code translate="no">JSON_CONTAINS_ALL</code> statement should always be a list.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># {&quot;x&quot;: [1,2,3,4,5,7,8]}</span>
 json_contains_all(x, [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">8</span>]) <span class="hljs-comment"># ==&gt; true</span>
 json_contains_all(x, [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]) <span class="hljs-comment"># ==&gt; false 6 is not exists</span>
 <button class="copy-code-btn"></button></code></pre></li>
 <li><p><code translate="no">JSON_CONTAINS_ANY(identifier, JsonExpr)</code></p>
-<p><code translate="no">JSON_CONTAINS_ANY</code> 、JSON式は常にリストでなければならない。そうでない場合は、<code translate="no">JSON_CONTAINS</code> と同じ動作をする。</p>
+<p>The JSON expression in a <code translate="no">JSON_CONTAINS_ANY</code> statement should always be a list. Otherwise, it acts the same as <code translate="no">JSON_CONTAINS</code>.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># {&quot;x&quot;: [1,2,3,4,5,7,8]}</span>
 json_contains_any(x, [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">8</span>]) <span class="hljs-comment"># ==&gt; true</span>
 json_contains_any(x, [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]) <span class="hljs-comment"># ==&gt; true</span>
@@ -308,31 +308,31 @@ json_contains_any(x, [<span class="hljs-number">6</span>,<span class="hljs-numbe
 </ol>
 <ul>
 <li><p><code translate="no">ARRAY_CONTAINS(identifier, ArrayExpr)</code></p>
-<p><code translate="no">ARRAY_CONTAINS</code> （第2引数）文の配列式がリストの場合、識別子（第1引数）はリストのリストでなければならない。そうでない場合、文は常に False と評価される。</p>
+<p>If the array expression of an <code translate="no">ARRAY_CONTAINS</code> (the second argument) statement is a list, the identifier (the first argument) should be list of list. Otherwise, the statement always evaluates to False.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># &#x27;int_array&#x27;: [1,2,3]</span>
 array_contains(int_array, <span class="hljs-number">1</span>) <span class="hljs-comment"># ==&gt; true</span>
 array_contains(int_array, <span class="hljs-string">&quot;a&quot;</span>) <span class="hljs-comment"># ==&gt; false</span>
 <button class="copy-code-btn"></button></code></pre></li>
 <li><p><code translate="no">ARRAY_CONTAINS_ALL(identifier, ArrayExpr)</code></p>
-<p><code translate="no">ARRAY_CONTAINS_ALL</code> 文の配列式は常にリストでなければならない。</p>
+<p>The array expression in an <code translate="no">ARRAY_CONTAINS_ALL</code> statement should always be a list.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># &quot;int_array&quot;: [1,2,3,4,5,7,8]</span>
 array_contains_all(int_array, [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">8</span>]) <span class="hljs-comment"># ==&gt; true</span>
 array_contains_all(int_array, [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]) <span class="hljs-comment"># ==&gt; false 6 is not exists</span>
 <button class="copy-code-btn"></button></code></pre></li>
 <li><p><code translate="no">ARRAY_CONTAINS_ANY(identifier, ArrayExpr)</code></p>
-<p><code translate="no">ARRAY_CONTAINS_ANY</code> 文の配列式は常にリストでなければならない。そうでない場合は、<code translate="no">ARRAY_CONTAINS</code> と同じ動作をします。</p>
+<p>The array expression in an <code translate="no">ARRAY_CONTAINS_ANY</code> statement should always be a list. Otherwise, it acts the same as <code translate="no">ARRAY_CONTAINS</code>.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># &quot;int_array&quot;: [1,2,3,4,5,7,8]</span>
 array_contains_any(int_array, [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">8</span>]) <span class="hljs-comment"># ==&gt; true</span>
 array_contains_any(int_array, [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]) <span class="hljs-comment"># ==&gt; true</span>
 array_contains_any(int_array, [<span class="hljs-number">6</span>,<span class="hljs-number">9</span>]) <span class="hljs-comment"># ==&gt; false</span>
 <button class="copy-code-btn"></button></code></pre></li>
 <li><p><code translate="no">ARRAY_LENGTH(identifier)</code></p>
-<p>配列の要素数をチェックする。</p>
+<p>Check the number of elements in an array.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># &quot;int_array&quot;: [1,2,3,4,5,7,8]</span>
 array_length(int_array) <span class="hljs-comment"># ==&gt; 7</span>
 <button class="copy-code-btn"></button></code></pre></li>
 </ul>
-<h2 id="Whats-next" class="common-anchor-header">次のステップ<button data-href="#Whats-next" class="anchor-icon" translate="no">
+<h2 id="Whats-next" class="common-anchor-header">What’s next<button data-href="#Whats-next" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -347,9 +347,9 @@ array_length(int_array) <span class="hljs-comment"># ==&gt; 7</span>
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Milvusでビットセットがどのように機能するかがわかったところで、次のこともやってみましょう：</p>
+    </button></h2><p>Now that you know how bitsets work in Milvus, you might also want to:</p>
 <ul>
-<li><a href="/docs/ja/multi-vector-search.md">ハイブリッド検索の</a>方法</li>
-<li><a href="https://milvus.io/blog/2022-08-08-How-to-use-string-data-to-empower-your-similarity-search-applications.md">文字列を使って</a>検索結果を<a href="https://milvus.io/blog/2022-08-08-How-to-use-string-data-to-empower-your-similarity-search-applications.md">フィルタリング</a>する方法を学ぶ。</li>
-<li><a href="/docs/ja/enable-dynamic-field.md">ブーリアン式の構築におけるダイナミックフィールドの使用</a>方法を学ぶ。</li>
+<li>Learn how to conduct a <a href="/docs/ja/multi-vector-search.md">Hybrid Search</a>.</li>
+<li>Learn how to <a href="https://milvus.io/blog/2022-08-08-How-to-use-string-data-to-empower-your-similarity-search-applications.md">use strings to filter</a> your search results.</li>
+<li>Learn how to <a href="/docs/ja/enable-dynamic-field.md">use dynamic fields in building boolean expressions</a>.</li>
 </ul>

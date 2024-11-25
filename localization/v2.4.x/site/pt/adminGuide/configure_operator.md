@@ -2,10 +2,10 @@
 id: configure_operator.md
 label: Milvus Operator
 related_key: Milvus Operator
-summary: Saiba como configurar o Milvus com o Milvus Operator.
-title: Configurar o Milvus com o Milvus Operator
+summary: Learn how to configure Milvus with Milvus Operator.
+title: Configure Milvus with Milvus Operator
 ---
-<h1 id="Configure-Milvus-with-Milvus-Operator" class="common-anchor-header">Configurar o Milvus com o Milvus Operator<button data-href="#Configure-Milvus-with-Milvus-Operator" class="anchor-icon" translate="no">
+<h1 id="Configure-Milvus-with-Milvus-Operator" class="common-anchor-header">Configure Milvus with Milvus Operator<button data-href="#Configure-Milvus-with-Milvus-Operator" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -20,17 +20,18 @@ title: Configurar o Milvus com o Milvus Operator
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>No ambiente de produção, é necessário atribuir recursos ao cluster Milvus com base no tipo de máquina e na carga de trabalho. É possível configurar durante a implantação ou atualizar as configurações enquanto o cluster estiver em execução.</p>
-<p>Este tópico apresenta como configurar um cluster Milvus ao instalá-lo com o Milvus Operator.</p>
-<p>Este tópico pressupõe que você implantou o Milvus Operator. Consulte <a href="/docs/pt/install_cluster-milvusoperator.md">Implantar o Milvus Operator</a> para obter mais informações.</p>
-<p>A configuração de um cluster do Milvus com o Milvus Operator inclui:</p>
+    </button></h1><p>In production environment, you need to allocate resources to the Milvus cluster based on machine type and workload. You can configure during deployment or update the configurations while the cluster is running.</p>
+<p>This topic introduces how to configure a Milvus cluster when you install it with Milvus Operator.</p>
+<p>This topic assumes that you have deployed Milvus Operator. See <a href="/docs/pt/install_cluster-milvusoperator.md">Deploy Milvus Operator</a> for more information.</p>
+<p>Configuring a Milvus cluster with Milvus Operator includes:</p>
 <ul>
-<li>Configurações globais de recursos</li>
-<li>Configurações de recursos privados</li>
+<li>Global resource configurations</li>
+<li>Private resource configurations</li>
 </ul>
 <div class="alert note">
-As configurações de recursos privados substituirão as configurações de recursos globais. Se configurar os recursos globalmente e especificar o recurso privado de um determinado componente ao mesmo tempo, o componente dará prioridade e responderá primeiro às configurações privadas.</div>
-<h2 id="Configure-global-resources" class="common-anchor-header">Configurar recursos globais<button data-href="#Configure-global-resources" class="anchor-icon" translate="no">
+Private resource configurations will overwrite global resource configurations. If you configure the resources globally and specify the private resource of a certain component at the same time, the component will prioritize and respond to the private configurations first.
+</div>
+<h2 id="Configure-global-resources" class="common-anchor-header">Configure global resources<button data-href="#Configure-global-resources" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -45,10 +46,10 @@ As configurações de recursos privados substituirão as configurações de recu
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Ao utilizar o Milvus Operator para iniciar um cluster Milvus, é necessário especificar um ficheiro de configuração. O exemplo aqui apresentado utiliza o ficheiro de configuração predefinido.</p>
+    </button></h2><p>When using Milvus Operator to start a Milvus cluster, you need to specify a configuration file. The example here uses the default configuration file.</p>
 <pre><code translate="no" class="language-yaml">kubectl apply -f <span class="hljs-attr">https</span>:<span class="hljs-comment">//raw.githubusercontent.com/zilliztech/milvus-operator/main/config/samples/milvus_cluster_default.yaml</span>
 <button class="copy-code-btn"></button></code></pre>
-<p>Os detalhes do ficheiro de configuração são os seguintes:</p>
+<p>The details of the configuration file is as follows:</p>
 <pre><code translate="no" class="language-yaml">apiVersion: milvus.io/v1beta1
 kind: Milvus
 metadata:
@@ -61,16 +62,16 @@ spec:
   components: {}
   config: {}
 <button class="copy-code-btn"></button></code></pre>
-<p>O campo <code translate="no">spec.components</code> inclui a configuração de recursos globais e privados de todos os componentes do Milvus. A seguir estão quatro campos comumente usados para configurar o recurso global.</p>
+<p>The field <code translate="no">spec.components</code> includes both the global and private resource configuration of all Milvus components. The following are four commonly used fields to configure global resource.</p>
 <ul>
-<li><code translate="no">image</code>: A imagem do docker Milvus utilizada.</li>
-<li><code translate="no">resources</code>: Os recursos de computação atribuídos a cada componente.</li>
-<li><code translate="no">tolerations</code> e <code translate="no">nodeSelector</code>: As regras de agendamento de cada componente Milvus no cluster K8s. Consulte <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/">tolerâncias</a> e <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/">nodeSelector</a> para obter mais informações.</li>
-<li><code translate="no">env</code>: As variáveis de ambiente.</li>
+<li><code translate="no">image</code>: The Milvus docker image used.</li>
+<li><code translate="no">resources</code>: The compute resources allocated to each component.</li>
+<li><code translate="no">tolerations</code> and <code translate="no">nodeSelector</code>: The scheduling rules of each Milvus component in the K8s cluster. See <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/">tolerations</a> and <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/">nodeSelector</a> for more information.</li>
+<li><code translate="no">env</code>: The environment variables.</li>
 </ul>
-<p>Se pretender configurar mais campos, consulte a documentação <a href="https://pkg.go.dev/github.com/zilliztech/milvus-operator/apis/milvus.io/v1beta1#ComponentSpec">aqui</a>.</p>
-<p>Para configurar o recurso global para o cluster Milvus, crie um ficheiro <code translate="no">milvuscluster_resource.yaml</code>.</p>
-<h3 id="Example" class="common-anchor-header">Exemplo</h3><p>O exemplo seguinte configura o recurso global para um cluster Milvus.</p>
+<p>If you want to configure more fields, see documentation <a href="https://pkg.go.dev/github.com/zilliztech/milvus-operator/apis/milvus.io/v1beta1#ComponentSpec">here</a>.</p>
+<p>To configure global resource for Milvus cluster, create a <code translate="no">milvuscluster_resource.yaml</code> file.</p>
+<h3 id="Example" class="common-anchor-header">Example</h3><p>The following example configures global resource for a Milvus cluster.</p>
 <pre><code translate="no">apiVersion: milvus.io/v1beta1
 kind: Milvus
 metadata:
@@ -91,12 +92,13 @@ spec:
         cpu: 200m
         memory: 512Mi
 <button class="copy-code-btn"></button></code></pre>
-<p>Execute o seguinte comando para aplicar as novas configurações:</p>
+<p>Run the following command to apply new configurations:</p>
 <pre><code translate="no">kubectl apply -f milvuscluster_resource.yaml
 <button class="copy-code-btn"></button></code></pre>
 <div class="alert note">
-Os recursos do cluster serão atualizados de acordo com o arquivo de configuração se houver um cluster Milvus chamado <code translate="no">my-release</code> no cluster K8s. Caso contrário, será criado um novo cluster Milvus.</div>
-<h2 id="Configure-private-resources" class="common-anchor-header">Configurar recursos privados<button data-href="#Configure-private-resources" class="anchor-icon" translate="no">
+Cluster resources will be updated according to the configuration file if there is a Milvus cluster named <code translate="no">my-release</code> in the K8s cluster. Otherwise, a new Milvus cluster will be created.
+</div>
+<h2 id="Configure-private-resources" class="common-anchor-header">Configure private resources<button data-href="#Configure-private-resources" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -111,24 +113,26 @@ Os recursos do cluster serão atualizados de acordo com o arquivo de configuraç
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Originalmente no Milvus 2.0, um cluster Milvus inclui sete componentes: proxy, coordenada raiz, coordenada de dados, coordenada de consulta, nó de índice, nó de dados e nó de consulta. No entanto, um novo componente, mix coord, é lançado juntamente com o Milvus 2.1.0. O mix coord inclui todos os componentes do coordenador. Por conseguinte, iniciar uma coord mista significa que não é necessário instalar e iniciar outros coordenadores, incluindo a coord raiz, a coord de dados e a coord de consulta.</p>
-<p>Os campos comuns utilizados para configurar cada componente incluem:</p>
+    </button></h2><p>Originally in Milvus 2.0, a Milvus cluster includes seven components: proxy, root coord, data coord, query coord, index node, data node, and query node. However, a new component, mix coord, is released along with Milvus 2.1.0. Mix coord includes all coordinator components. Therefore, starting a mix coord means that you do not need to install and start other coordinators including root coord, data coord, and query coord.</p>
+<p>Common fields used to configure each component include:</p>
 <ul>
-<li><code translate="no">replica</code>: O número de réplicas de cada componente.</li>
-<li><code translate="no">port</code>: O número da porta de escuta de cada componente.</li>
-<li>Os quatro campos comumente usados na configuração global de recursos: <code translate="no">image</code>, <code translate="no">env</code>, <code translate="no">nodeSelector</code>, <code translate="no">tolerations</code>, <code translate="no">resources</code> (ver acima). Para mais campos configuráveis, clique em cada componente <a href="https://pkg.go.dev/github.com/zilliztech/milvus-operator/apis/milvus.io/v1beta1#MilvusComponents">nesta documentação</a>.</li>
+<li><code translate="no">replica</code>: The number of replicas of each component.</li>
+<li><code translate="no">port</code>: The listen port number of each component.</li>
+<li>The four commonly used fields in global resource configuration: <code translate="no">image</code>, <code translate="no">env</code>, <code translate="no">nodeSelector</code>, <code translate="no">tolerations</code>, <code translate="no">resources</code> (see above). For more configurable fields, click on each component in <a href="https://pkg.go.dev/github.com/zilliztech/milvus-operator/apis/milvus.io/v1beta1#MilvusComponents">this documentation</a>.</li>
 </ul>
 <div class="alert note">
-Além disso, ao configurar o proxy, há um campo extra chamado `serviceType`. Este campo define o tipo de serviço que o Milvus fornece no cluster K8s.</div>
-<p>Para configurar recursos para um componente específico, adicione o nome do componente no campo em <code translate="no">spec.componets</code> primeiro e depois configure seus recursos privados.</p>
+In addition, when configuring proxy, there is an extra field called `serviceType`. This field defines the type of service Milvus provides in the K8s cluster.
+</div>
+<p>To configure resources for a specific component, add the component name in the field under <code translate="no">spec.componets</code> first and then configure its private resources.</p>
 <div class="filter">
-<a href="#component">Componentes ou dependências</a> <a href="#purpose">Objectivos da configuração</a> </div>
+<a href="#component">Components or dependencies</a> <a href="#purpose">Configuration purposes</a> 
+</div>
 <div class="filter-component table-wrapper">
 <table id="component">
 <thead>
   <tr>
-    <th>Dependências</th>
-    <th>Componentes</th>
+    <th>Dependencies</th>
+    <th>Components</th>
   </tr>
 </thead>
 <tbody>
@@ -136,33 +140,33 @@ Além disso, ao configurar o proxy, há um campo extra chamado `serviceType`. Es
     <td>
         <ul>
             <li><a href="/docs/pt/configure_etcd.md">etcd</a></li>
-            <li><a href="/docs/pt/configure_minio.md">MinIO ou S3</a></li>
+            <li><a href="/docs/pt/configure_minio.md">MinIO or S3</a></li>
             <li><a href="/docs/pt/configure_pulsar.md">Pulsar</a></li>
             <li><a href="/docs/pt/configure_rocksmq.md">RocksMQ</a></li>
         </ul>
     </td>
     <td>
         <ul>
-            <li><a href="/docs/pt/configure_rootcoord.md">Coordenada de raiz</a></li>
+            <li><a href="/docs/pt/configure_rootcoord.md">Root coord</a></li>
             <li><a href="/docs/pt/configure_proxy.md">Proxy</a></li>
-            <li><a href="/docs/pt/configure_querycoord.md">Coordenada de consulta</a></li>
-            <li><a href="/docs/pt/configure_querynode.md">Nó de consulta</a></li>
-            <li><a href="/docs/pt/configure_indexnode.md">Nó de índice</a></li>
-            <li><a href="/docs/pt/configure_datacoord.md">Coordenada de dados</a></li>
-            <li><a href="/docs/pt/configure_datanode.md">Nó de dados</a></li>
-            <li><a href="/docs/pt/configure_localstorage.md">Armazenamento local</a></li>
-            <li><a href="/docs/pt/configure_log.md">Registo</a></li>
-            <li><a href="/docs/pt/configure_msgchannel.md">Canal de mensagem</a></li>
-            <li><a href="/docs/pt/configure_common.md">Comum</a></li>
+            <li><a href="/docs/pt/configure_querycoord.md">Query coord</a></li>
+            <li><a href="/docs/pt/configure_querynode.md">Query node</a></li>
+            <li><a href="/docs/pt/configure_indexnode.md">Index node</a></li>
+            <li><a href="/docs/pt/configure_datacoord.md">Data coord</a></li>
+            <li><a href="/docs/pt/configure_datanode.md">Data node</a></li>
+            <li><a href="/docs/pt/configure_localstorage.md">Local storage</a></li>
+            <li><a href="/docs/pt/configure_log.md">Log</a></li>
+            <li><a href="/docs/pt/configure_msgchannel.md">Message channel</a></li>
+            <li><a href="/docs/pt/configure_common.md">Common</a></li>
             <li><a href="/docs/pt/configure_gpu.md">GPU</a></li>
             <li><a href="/docs/pt/configure_grpc.md">GRPC</a></li>
-            <li><a href="/docs/pt/configure_indexcoord.md">Coordenação de índices</a></li>
+            <li><a href="/docs/pt/configure_indexcoord.md">Index coord</a></li>
             <li><a href="/docs/pt/configure_metastore.md">Metastore</a></li>
-            <li><a href="/docs/pt/configure_mq.md">Fila de mensagens</a></li>
+            <li><a href="/docs/pt/configure_mq.md">Message Queue</a></li>
             <li><a href="/docs/pt/configure_natsmq.md">Natsmq</a></li>
             <li><a href="/docs/pt/configure_tikv.md">Tikv</a></li>
-            <li><a href="/docs/pt/configure_trace.md">Rastreio</a></li>
-            <li><a href="/docs/pt/configure_quotaandlimits.md">Quotas e limites</a></li>
+            <li><a href="/docs/pt/configure_trace.md">Trace</a></li>
+            <li><a href="/docs/pt/configure_quotaandlimits.md">Quota and Limits</a></li>
         </ul>
     </td>
   </tr>
@@ -173,13 +177,13 @@ Além disso, ao configurar o proxy, há um campo extra chamado `serviceType`. Es
 <table id="purpose">
 <thead>
   <tr>
-    <th>Objetivo</th>
-    <th>Parâmetros</th>
+    <th>Purpose</th>
+    <th>Parameters</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td>Afinação do desempenho</td>
+    <td>Performance tuning</td>
     <td>
         <ul>
             <li><a href="/docs/pt/configure_querynode.md#queryNodegracefulTime"><code translate="no">queryNode.gracefulTime</code></a></li>
@@ -194,7 +198,7 @@ Além disso, ao configurar o proxy, há um campo extra chamado `serviceType`. Es
     </td>
   </tr>
   <tr>
-    <td>Dados e meta</td>
+    <td>Data and meta</td>
     <td>
         <ul>
             <li><a href="/docs/pt/configure_common.md#commonretentionDuration"><code translate="no">common.retentionDuration</code></a></li>
@@ -206,7 +210,7 @@ Além disso, ao configurar o proxy, há um campo extra chamado `serviceType`. Es
     </td>
   </tr>
   <tr>
-    <td>Administração</td>
+    <td>Administration</td>
     <td>
         <ul>
             <li><a href="/docs/pt/configure_log.md#loglevel"><code translate="no">log.level</code></a></li>
@@ -218,7 +222,7 @@ Além disso, ao configurar o proxy, há um campo extra chamado `serviceType`. Es
     </td>
   </tr>
   <tr>
-    <td>Quotas e limites</td>
+    <td>Quota and Limits</td>
     <td>
         <ul>
             <li><a href="/docs/pt/configure_quotaandlimits.md#quotaAndLimitslimitsmaxCollectionNumPerDB"><code translate="no">quotaAndLimits.limits.maxCollectionNumPerDB</code></a></li>
@@ -264,7 +268,7 @@ Além disso, ao configurar o proxy, há um campo extra chamado `serviceType`. Es
 </tbody>
 </table>
 </div>
-<h3 id="Example" class="common-anchor-header">Exemplo</h3><p>O exemplo abaixo configura as réplicas e os recursos de computação do proxy e do datanode no arquivo <code translate="no">milvuscluster.yaml</code>.</p>
+<h3 id="Example" class="common-anchor-header">Example</h3><p>The example below configures the replicas and compute resources of proxy and datanode in the <code translate="no">milvuscluster.yaml</code> file.</p>
 <pre><code translate="no">apiVersion: milvus.io/v1beta1
 kind: Milvus
 metadata:
@@ -308,11 +312,12 @@ spec:
   dependencies: {}
 <button class="copy-code-btn"></button></code></pre>
 <div class="alert note">
-Este exemplo configura não apenas os recursos globais, mas também os recursos de computação privados para o root coord e o proxy. Ao utilizar este ficheiro de configuração para iniciar um cluster Milvus, as configurações dos recursos privados serão aplicadas ao root coord e ao proxy, enquanto os restantes componentes seguirão a configuração dos recursos globais.</div>
-<p>Execute o seguinte comando para aplicar novas configurações:</p>
+This example configures not only global resources but also private compute resources for root coord and proxy. When using this configuration file to start a Milvus cluster, the private resources configurations will be applied to root coord and proxy, while the rest of the components will follow the global resource configuration.
+</div>
+<p>Run the following command to apply new configurations:</p>
 <pre><code translate="no">kubectl apply -f milvuscluster.yaml
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Whats-next" class="common-anchor-header">O que vem a seguir<button data-href="#Whats-next" class="anchor-icon" translate="no">
+<h2 id="Whats-next" class="common-anchor-header">What’s next<button data-href="#Whats-next" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -328,9 +333,10 @@ Este exemplo configura não apenas os recursos globais, mas também os recursos 
         ></path>
       </svg>
     </button></h2><ul>
-<li>Saiba como gerenciar as seguintes dependências do Milvus com o Milvus Operator:<ul>
-<li><a href="/docs/pt/object_storage_operator.md">Configurar o Armazenamento de Objetos com o Milvus Operator</a></li>
-<li><a href="/docs/pt/meta_storage_operator.md">Configurar o Meta Storage com Milvus Operator</a></li>
-<li><a href="/docs/pt/message_storage_operator.md">Configurar o armazenamento de mensagens com o Milvus Operator</a></li>
+<li>Learn how to manage the following Milvus dependencies with Milvus Operator:
+<ul>
+<li><a href="/docs/pt/object_storage_operator.md">Configure Object Storage with Milvus Operator</a></li>
+<li><a href="/docs/pt/meta_storage_operator.md">Configure Meta Storage with Milvus Operator</a></li>
+<li><a href="/docs/pt/message_storage_operator.md">Configure Message Storage with Milvus Operator</a></li>
 </ul></li>
 </ul>
