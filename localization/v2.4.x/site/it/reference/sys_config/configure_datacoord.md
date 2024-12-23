@@ -2,10 +2,9 @@
 id: configure_datacoord.md
 related_key: configure
 group: system_configuration.md
-summary: Imparare a configurare dataCoord per Milvus.
-title: ''
+summary: Learn how to configure dataCoord for Milvus.
 ---
-<h1 id="dataCoord-related-Configurations" class="common-anchor-header">Configurazioni relative ai datiCorda<button data-href="#dataCoord-related-Configurations" class="anchor-icon" translate="no">
+<h1 id="dataCoord-related-Configurations" class="common-anchor-header">dataCoord-related Configurations<button data-href="#dataCoord-related-Configurations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -38,13 +37,13 @@ title: ''
     </button></h2><table id="dataCoord.channel.watchTimeoutInterval">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Timeout per la visione dei canali (in secondi). L'avanzamento dell'aggiornamento del tickler del datanode resetterà il timer di timeout.      </td>
+      <td>        Timeout on watching channels (in seconds). Datanode tickler update watch progress will reset timeout timer.      </td>
       <td>300</td>
     </tr>
   </tbody>
@@ -67,14 +66,14 @@ title: ''
     </button></h2><table id="dataCoord.channel.balanceWithRpc">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Se abilitare il bilanciamento con RPC; l'impostazione predefinita prevede l'uso di etcd watch     </td>
-      <td>vero</td>
+      <td>        Whether to enable balance with RPC, default to use etcd watch      </td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
@@ -96,13 +95,13 @@ title: ''
     </button></h2><table id="dataCoord.channel.legacyVersionWithoutRPCWatch">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        I datanode &lt;= questa versione sono considerati nodi legacy, che non hanno watch() basato su rpc. Viene utilizzato solo durante gli aggiornamenti periodici, quando i nodi legacy non riceveranno nuovi canali.      </td>
+      <td>        Datanodes <= this version are considered as legacy nodes, which doesn't have rpc based watch(). This is only used during rolling upgrade where legacy nodes won't get new channels      </td>
       <td>2.4.1</td>
     </tr>
   </tbody>
@@ -125,13 +124,13 @@ title: ''
     </button></h2><table id="dataCoord.channel.balanceSilentDuration">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Durata dopo la quale il channel manager avvia il bilanciamento dei canali in background      </td>
+      <td>        The duration after which the channel manager start background channel balancing      </td>
       <td>300</td>
     </tr>
   </tbody>
@@ -154,13 +153,13 @@ title: ''
     </button></h2><table id="dataCoord.channel.balanceInterval">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        L'intervallo con cui il channel manager controlla lo stato di bilanciamento dei canali dml   </td>
+      <td>        The interval with which the channel manager check dml channel balance status      </td>
       <td>360</td>
     </tr>
   </tbody>
@@ -183,13 +182,13 @@ title: ''
     </button></h2><table id="dataCoord.channel.checkInterval">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        L'intervallo in secondi con cui il channel manager avanza gli stati dei canali      </td>
+      <td>        The interval in seconds with which the channel manager advances channel states      </td>
       <td>1</td>
     </tr>
   </tbody>
@@ -212,13 +211,13 @@ title: ''
     </button></h2><table id="dataCoord.channel.notifyChannelOperationTimeout">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Timeout di notifica delle operazioni di canale (in secondi).      </td>
+      <td>        Timeout notifing channel operations (in seconds).      </td>
       <td>5</td>
     </tr>
   </tbody>
@@ -241,13 +240,13 @@ title: ''
     </button></h2><table id="dataCoord.segment.maxSize">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        La dimensione massima di un segmento, unità: MB. datacoord.segment.maxSize e datacoord.segment.sealProportion determinano insieme se un segmento può essere sigillato.      </td>
+      <td>        The maximum size of a segment, unit: MB. datacoord.segment.maxSize and datacoord.segment.sealProportion together determine if a segment can be sealed.      </td>
       <td>1024</td>
     </tr>
   </tbody>
@@ -270,13 +269,13 @@ title: ''
     </button></h2><table id="dataCoord.segment.diskSegmentMaxSize">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Dimensione massima di un segmento in MB per la raccolta che ha un indice disco     </td>
+      <td>        Maximun size of a segment in MB for collection which has Disk index      </td>
       <td>2048</td>
     </tr>
   </tbody>
@@ -299,13 +298,13 @@ title: ''
     </button></h2><table id="dataCoord.segment.sealProportion">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        La proporzione minima rispetto a datacoord.segment.maxSize per sigillare un segmento. datacoord.segment.maxSize e datacoord.segment.sealProportion determinano insieme se un segmento può essere sigillato.      </td>
+      <td>        The minimum proportion to datacoord.segment.maxSize to seal a segment. datacoord.segment.maxSize and datacoord.segment.sealProportion together determine if a segment can be sealed.      </td>
       <td>0.12</td>
     </tr>
   </tbody>
@@ -328,13 +327,13 @@ title: ''
     </button></h2><table id="dataCoord.segment.assignmentExpiration">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Tempo di scadenza dell'assegnazione del segmento, unità: ms  </td>
+      <td>        Expiration time of the segment assignment, unit: ms      </td>
       <td>2000</td>
     </tr>
   </tbody>
@@ -357,13 +356,13 @@ title: ''
     </button></h2><table id="dataCoord.segment.allocLatestExpireAttempt">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Tempo di tentativo di assegnazione dell'ultimoExpire da rootCoord dopo il riavvio      </td>
+      <td>        The time attempting to alloc latest lastExpire from rootCoord after restart      </td>
       <td>200</td>
     </tr>
   </tbody>
@@ -386,13 +385,13 @@ title: ''
     </button></h2><table id="dataCoord.segment.maxLife">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Durata massima del segmento in secondi, 24*60*60      </td>
+      <td>        The max lifetime of segment in seconds, 24*60*60      </td>
       <td>86400</td>
     </tr>
   </tbody>
@@ -415,16 +414,16 @@ title: ''
     </button></h2><table id="dataCoord.segment.maxIdleTime">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>Se un segmento non ha accettato record dml in maxIdleTime e la dimensione del segmento è maggiore di</li>      
-        <li>minSizeFromIdleToSealed, Milvus lo sigillerà automaticamente.</li>      
-        <li>Il tempo massimo di inattività del segmento in secondi, 10*60.</li>      </td>
+        <li>If a segment didn't accept dml records in maxIdleTime and the size of segment is greater than</li>      
+        <li>minSizeFromIdleToSealed, Milvus will automatically seal it.</li>      
+        <li>The max idle time of segment in seconds, 10*60.</li>      </td>
       <td>600</td>
     </tr>
   </tbody>
@@ -447,13 +446,13 @@ title: ''
     </button></h2><table id="dataCoord.segment.minSizeFromIdleToSealed">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Dimensione minima in MB del segmento che può essere inattivo da sigillato.      </td>
+      <td>        The min size in MB of segment which can be idle from sealed.      </td>
       <td>16</td>
     </tr>
   </tbody>
@@ -476,15 +475,15 @@ title: ''
     </button></h2><table id="dataCoord.segment.maxBinlogFileNumber">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>Il numero massimo di file binlog per un segmento; il segmento viene chiuso se il numero di file binlog raggiunge il valore massimo.</li>      
-        <li>il numero di file binlog raggiunge il valore massimo.</li>      </td>
+        <li>The max number of binlog file for one segment, the segment will be sealed if</li>      
+        <li>the number of binlog file reaches to max value.</li>      </td>
       <td>32</td>
     </tr>
   </tbody>
@@ -507,13 +506,13 @@ title: ''
     </button></h2><table id="dataCoord.segment.smallProportion">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Il segmento è considerato "segmento piccolo" quando il suo numero di righe è inferiore a </td>
+      <td>        The segment is considered as "small segment" when its # of rows is smaller than      </td>
       <td>0.5</td>
     </tr>
   </tbody>
@@ -536,15 +535,15 @@ title: ''
     </button></h2><table id="dataCoord.segment.compactableProportion">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>(smallProportion * segmento max # di righe).</li>      
-        <li>Una compattazione avverrà su segmenti piccoli se il segmento dopo la compattazione avrà</li>      </td>
+        <li>(smallProportion * segment max # of rows).</li>      
+        <li>A compaction will happen on small segments if the segment after compaction will have</li>      </td>
       <td>0.85</td>
     </tr>
   </tbody>
@@ -567,16 +566,16 @@ title: ''
     </button></h2><table id="dataCoord.segment.expansionRate">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>oltre (proporzione compattabile * segmento max # di righe) righe.</li>      
-        <li>DEVE ESSERE MAGGIORE O UGUALE A <smallProportion>!!!</li>      
-        <li>Durante la compattazione, la dimensione del segmento # di righe può superare il segmento max # di righe di (expansionRate-1) * 100%. </li>      </td>
+        <li>over (compactableProportion * segment max # of rows) rows.</li>      
+        <li>MUST BE GREATER THAN OR EQUAL TO <smallProportion>!!!</li>      
+        <li>During compaction, the size of segment # of rows is able to exceed segment max # of rows by (expansionRate-1) * 100%. </li>      </td>
       <td>1.25</td>
     </tr>
   </tbody>
@@ -599,15 +598,15 @@ title: ''
     </button></h2><table id="dataCoord.sealPolicy.channel.growingSegmentsMemSize">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>La soglia di dimensione in MB, se la dimensione totale dei segmenti in crescita di ogni shard </li>      
-        <li>supera questa soglia, il segmento in crescita più grande verrà sigillato.</li>      </td>
+        <li>The size threshold in MB, if the total size of growing segments of each shard </li>      
+        <li>exceeds this threshold, the largest growing segment will be sealed.</li>      </td>
       <td>4096</td>
     </tr>
   </tbody>
@@ -630,14 +629,14 @@ title: ''
     </button></h2><table id="dataCoord.autoUpgradeSegmentIndex">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        se aggiornare automaticamente l'indice del segmento alla versione del motore di indicizzazione      </td>
-      <td>falso</td>
+      <td>        whether auto upgrade segment index to index engine's version      </td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
@@ -659,13 +658,13 @@ title: ''
     </button></h2><table id="dataCoord.segmentFlushInterval">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        la durata minima dell'intervallo (unità: secondi) tra le operazioni di flusing sullo stesso segmento      </td>
+      <td>        the minimal interval duration(unit: Seconds) between flusing operation on same segment      </td>
       <td>2</td>
     </tr>
   </tbody>
@@ -688,16 +687,16 @@ title: ''
     </button></h2><table id="dataCoord.enableCompaction">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>Valore dell'interruttore per controllare se abilitare la compattazione dei segmenti. </li>      
-        <li>La compattazione unisce segmenti di piccole dimensioni in un segmento grande e cancella le entità cancellate oltre la durata di permanenza di Viaggio nel tempo.</li>      </td>
-      <td>vero</td>
+        <li>Switch value to control if to enable segment compaction. </li>      
+        <li>Compaction merges small-size segments into a large segment, and clears the entities deleted beyond the rentention duration of Time Travel.</li>      </td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
@@ -719,16 +718,16 @@ title: ''
     </button></h2><table id="dataCoord.compaction.enableAutoCompaction">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>Valore dell'interruttore per controllare se abilitare la compattazione automatica dei segmenti, durante la quale dataCoord individua e unisce i segmenti compattabili in background.</li>      
-        <li>Questa configurazione ha effetto solo quando dataCoord.enableCompaction è impostato come true.</li>      </td>
-      <td>vero</td>
+        <li>Switch value to control if to enable automatic segment compaction during which data coord locates and merges compactable segments in the background.</li>      
+        <li>This configuration takes effect only when dataCoord.enableCompaction is set as true.</li>      </td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
@@ -750,14 +749,14 @@ title: ''
     </button></h2><table id="dataCoord.compaction.clustering.enable">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Abilita la compattazione del cluster      </td>
-      <td>vero</td>
+      <td>        Enable clustering compaction      </td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
@@ -779,14 +778,14 @@ title: ''
     </button></h2><table id="dataCoord.compaction.clustering.autoEnable">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Abilita la compattazione del clustering automatico      </td>
-      <td>falso</td>
+      <td>        Enable auto clustering compaction      </td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
@@ -808,13 +807,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.clustering.triggerInterval">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Intervallo di attivazione della compattazione del clustering in secondi      </td>
+      <td>        clustering compaction trigger interval in seconds      </td>
       <td>600</td>
     </tr>
   </tbody>
@@ -837,13 +836,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.clustering.minInterval">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        L'intervallo minimo tra le esecuzioni di compattazione del clustering di una raccolta, per evitare compattazioni ridondanti.      </td>
+      <td>        The minimum interval between clustering compaction executions of one collection, to avoid redundant compaction      </td>
       <td>3600</td>
     </tr>
   </tbody>
@@ -866,13 +865,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.clustering.maxInterval">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Se una raccolta non è stata compattata in clustering per un periodo superiore a maxInterval, forzare la compattazione      </td>
+      <td>        If a collection haven't been clustering compacted for longer than maxInterval, force compact      </td>
       <td>259200</td>
     </tr>
   </tbody>
@@ -895,13 +894,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.clustering.newDataSizeThreshold">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Se la dimensione dei nuovi dati è superiore a newDataSizeThreshold, eseguire la compattazione con clustering      </td>
+      <td>        If new data size is large than newDataSizeThreshold, execute clustering compaction      </td>
       <td>512m</td>
     </tr>
   </tbody>
@@ -924,13 +923,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.clustering.maxTrainSizeRatio">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        rapporto massimo di dimensione dei dati nell'addestramento Kmeans, se maggiore di esso, verrà ridotto il campionamento per soddisfare questo limite      </td>
+      <td>        max data size ratio in Kmeans train, if larger than it, will down sampling to meet this limit      </td>
       <td>0.8</td>
     </tr>
   </tbody>
@@ -953,13 +952,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.clustering.maxCentroidsNum">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        numero massimo di centroidi nel treno Kmeans      </td>
+      <td>        maximum centroids number in Kmeans train      </td>
       <td>10240</td>
     </tr>
   </tbody>
@@ -982,13 +981,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.clustering.minCentroidsNum">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        numero minimo di centroidi nel treno Kmeans      </td>
+      <td>        minimum centroids number in Kmeans train      </td>
       <td>16</td>
     </tr>
   </tbody>
@@ -1011,13 +1010,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.clustering.minClusterSizeRatio">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        dimensione minima del cluster / dimensione media nel treno Kmeans      </td>
+      <td>        minimum cluster size / avg size in Kmeans train      </td>
       <td>0.01</td>
     </tr>
   </tbody>
@@ -1040,13 +1039,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.clustering.maxClusterSizeRatio">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        dimensione massima del cluster / dimensione media nel treno Kmeans      </td>
+      <td>        maximum cluster size / avg size in Kmeans train      </td>
       <td>10</td>
     </tr>
   </tbody>
@@ -1069,13 +1068,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.clustering.maxClusterSize">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        dimensione massima del cluster nel treno Kmeans      </td>
+      <td>        maximum cluster size in Kmeans train      </td>
       <td>5g</td>
     </tr>
   </tbody>
@@ -1098,13 +1097,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.levelzero.forceTrigger.minSize">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Dimensione minima in byte per forzare l'attivazione di una compattazione di livello zero, valore predefinito: 8 MB.   </td>
+      <td>        The minmum size in bytes to force trigger a LevelZero Compaction, default as 8MB      </td>
       <td>8388608</td>
     </tr>
   </tbody>
@@ -1127,13 +1126,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.levelzero.forceTrigger.maxSize">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        La dimensione massima in byte per forzare l'attivazione di una Compattazione LevelZero, predefinita come 64MB    </td>
+      <td>        The maxmum size in bytes to force trigger a LevelZero Compaction, default as 64MB      </td>
       <td>67108864</td>
     </tr>
   </tbody>
@@ -1156,13 +1155,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.levelzero.forceTrigger.deltalogMinNum">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Numero minimo di file deltalogici per forzare l'attivazione della Compattazione LevelZero      </td>
+      <td>        The minimum number of deltalog files to force trigger a LevelZero Compaction      </td>
       <td>10</td>
     </tr>
   </tbody>
@@ -1185,13 +1184,13 @@ title: ''
     </button></h2><table id="dataCoord.compaction.levelzero.forceTrigger.deltalogMaxNum">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Il numero massimo di file deltalogici per forzare l'attivazione di una Compattazione LevelZero, predefinito come 30  </td>
+      <td>        The maxmum number of deltalog files to force trigger a LevelZero Compaction, default as 30      </td>
       <td>30</td>
     </tr>
   </tbody>
@@ -1214,13 +1213,13 @@ title: ''
     </button></h2><table id="dataCoord.syncSegmentsInterval">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Intervallo di tempo per la sincronizzazione regolare dei segmenti      </td>
+      <td>        The time interval for regularly syncing segments      </td>
       <td>300</td>
     </tr>
   </tbody>
@@ -1243,14 +1242,14 @@ title: ''
     </button></h2><table id="dataCoord.enableGarbageCollection">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Valore dell'interruttore per controllare se abilitare la garbage collection per cancellare i dati scartati nel servizio MinIO o S3.      </td>
-      <td>vero</td>
+      <td>        Switch value to control if to enable garbage collection to clear the discarded data in MinIO or S3 service.      </td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
@@ -1272,13 +1271,13 @@ title: ''
     </button></h2><table id="dataCoord.gc.interval">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        L'intervallo di tempo in cui Data Coord esegue la garbage collection, unità: secondo.      </td>
+      <td>        The interval at which data coord performs garbage collection, unit: second.      </td>
       <td>3600</td>
     </tr>
   </tbody>
@@ -1301,13 +1300,13 @@ title: ''
     </button></h2><table id="dataCoord.gc.missingTolerance">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Durata di conservazione dei file di log binari non registrati (binlog). Impostando un valore ragionevolmente grande per questo parametro, si evita di cancellare erroneamente i file binlog appena creati e privi di metadati. Unità: secondo.      </td>
+      <td>        The retention duration of the unrecorded binary log (binlog) files. Setting a reasonably large value for this parameter avoids erroneously deleting the newly created binlog files that lack metadata. Unit: second.      </td>
       <td>86400</td>
     </tr>
   </tbody>
@@ -1330,13 +1329,13 @@ title: ''
     </button></h2><table id="dataCoord.gc.dropTolerance">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        La durata di conservazione dei file binlog dei segmenti eliminati prima che vengano cancellati, unità: secondo.      </td>
+      <td>        The retention duration of the binlog files of the deleted segments before they are cleared, unit: second.      </td>
       <td>10800</td>
     </tr>
   </tbody>
@@ -1359,13 +1358,13 @@ title: ''
     </button></h2><table id="dataCoord.gc.removeConcurrent">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        numero di goroutine contemporanee per la rimozione degli oggetti s3 eliminati      </td>
+      <td>        number of concurrent goroutines to remove dropped s3 objects      </td>
       <td>32</td>
     </tr>
   </tbody>
@@ -1388,13 +1387,13 @@ title: ''
     </button></h2><table id="dataCoord.gc.scanInterval">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        file orfano (file su oss ma non registrato su meta) su object storage intervallo di scansione della garbage collection in ore   </td>
+      <td>        orphan file (file on oss but has not been registered on meta) on object storage garbage collection scanning interval in hours      </td>
       <td>168</td>
     </tr>
   </tbody>
@@ -1417,8 +1416,8 @@ title: ''
     </button></h2><table id="dataCoord.brokerTimeout">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
@@ -1446,14 +1445,14 @@ title: ''
     </button></h2><table id="dataCoord.autoBalance">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Abilita il bilanciamento automatico      </td>
-      <td>vero</td>
+      <td>        Enable auto balance      </td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
@@ -1475,13 +1474,13 @@ title: ''
     </button></h2><table id="dataCoord.checkAutoBalanceConfigInterval">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        l'intervallo di controllo della configurazione del bilanciamento automatico      </td>
+      <td>        the interval of check auto balance config      </td>
       <td>10</td>
     </tr>
   </tbody>
@@ -1504,13 +1503,13 @@ title: ''
     </button></h2><table id="dataCoord.import.filesPerPreImportTask">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Il numero massimo di file consentito per attività di pre-importazione.      </td>
+      <td>        The maximum number of files allowed per pre-import task.      </td>
       <td>2</td>
     </tr>
   </tbody>
@@ -1533,13 +1532,13 @@ title: ''
     </button></h2><table id="dataCoord.import.taskRetention">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Il periodo di conservazione in secondi per le attività nello stato Completato o Fallito.      </td>
+      <td>        The retention period in seconds for tasks in the Completed or Failed state.      </td>
       <td>10800</td>
     </tr>
   </tbody>
@@ -1562,13 +1561,13 @@ title: ''
     </button></h2><table id="dataCoord.import.maxSizeInMBPerImportTask">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Per evitare la generazione di piccoli segmenti, i file importati vengono raggruppati. Questo parametro rappresenta la somma delle dimensioni dei file in ogni gruppo (ogni ImportTask).      </td>
+      <td>        To prevent generating of small segments, we will re-group imported files. This parameter represents the sum of file sizes in each group (each ImportTask).      </td>
       <td>6144</td>
     </tr>
   </tbody>
@@ -1591,13 +1590,13 @@ title: ''
     </button></h2><table id="dataCoord.import.scheduleInterval">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        L'intervallo per la pianificazione dell'importazione, misurato in secondi.      </td>
+      <td>        The interval for scheduling import, measured in seconds.      </td>
       <td>2</td>
     </tr>
   </tbody>
@@ -1620,13 +1619,13 @@ title: ''
     </button></h2><table id="dataCoord.import.checkIntervalHigh">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        L'intervallo per il controllo dell'importazione, misurato in secondi, è impostato su una frequenza elevata per il controllore dell'importazione.      </td>
+      <td>        The interval for checking import, measured in seconds, is set to a high frequency for the import checker.      </td>
       <td>2</td>
     </tr>
   </tbody>
@@ -1649,13 +1648,13 @@ title: ''
     </button></h2><table id="dataCoord.import.checkIntervalLow">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        L'intervallo di controllo dell'importazione, misurato in secondi, è impostato su una frequenza bassa per il verificatore di importazione.      </td>
+      <td>        The interval for checking import, measured in seconds, is set to a low frequency for the import checker.      </td>
       <td>120</td>
     </tr>
   </tbody>
@@ -1678,13 +1677,13 @@ title: ''
     </button></h2><table id="dataCoord.import.maxImportFileNumPerReq">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Il numero massimo di file consentito per ogni singola richiesta di importazione.      </td>
+      <td>        The maximum number of files allowed per single import request.      </td>
       <td>1024</td>
     </tr>
   </tbody>
@@ -1707,14 +1706,14 @@ title: ''
     </button></h2><table id="dataCoord.import.waitForIndex">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Indica se l'operazione di importazione attende il completamento della creazione dell'indice.      </td>
-      <td>vero</td>
+      <td>        Indicates whether the import operation waits for the completion of index building.      </td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
@@ -1736,13 +1735,13 @@ title: ''
     </button></h2><table id="dataCoord.gracefulStopTimeout">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        secondi. forzare l'arresto del nodo senza l'arresto graduale      </td>
+      <td>        seconds. force stop node without graceful stop      </td>
       <td>5</td>
     </tr>
   </tbody>
@@ -1765,13 +1764,13 @@ title: ''
     </button></h2><table id="dataCoord.slot.clusteringCompactionUsage">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        utilizzo dello slot del lavoro di compattazione del clustering.      </td>
+      <td>        slot usage of clustering compaction job.      </td>
       <td>16</td>
     </tr>
   </tbody>
@@ -1794,13 +1793,13 @@ title: ''
     </button></h2><table id="dataCoord.slot.mixCompactionUsage">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        utilizzo dello slot del lavoro di compattazione della miscela.      </td>
+      <td>        slot usage of mix compaction job.      </td>
       <td>8</td>
     </tr>
   </tbody>
@@ -1823,13 +1822,13 @@ title: ''
     </button></h2><table id="dataCoord.slot.l0DeleteCompactionUsage">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        utilizzo dello slot del lavoro di compattazione l0.      </td>
+      <td>        slot usage of l0 compaction job.      </td>
       <td>8</td>
     </tr>
   </tbody>
@@ -1852,13 +1851,13 @@ title: ''
     </button></h2><table id="dataCoord.ip">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Indirizzo TCP/IP di dataCoord. Se non viene specificato, viene utilizzato il primo indirizzo non ciclabile.      </td>
+      <td>        TCP/IP address of dataCoord. If not specified, use the first unicastable address      </td>
       <td></td>
     </tr>
   </tbody>
@@ -1881,13 +1880,13 @@ title: ''
     </button></h2><table id="dataCoord.port">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Porta TCP di dataCoord      </td>
+      <td>        TCP port of dataCoord      </td>
       <td>13333</td>
     </tr>
   </tbody>
@@ -1910,13 +1909,13 @@ title: ''
     </button></h2><table id="dataCoord.grpc.serverMaxSendSize">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        Dimensione massima di ciascuna richiesta RPC che il dataCoord può inviare, unità: byte    </td>
+      <td>        The maximum size of each RPC request that the dataCoord can send, unit: byte      </td>
       <td>536870912</td>
     </tr>
   </tbody>
@@ -1939,13 +1938,13 @@ title: ''
     </button></h2><table id="dataCoord.grpc.serverMaxRecvSize">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        La dimensione massima di ogni richiesta RPC che il dataCoord può ricevere, unità: byte    </td>
+      <td>        The maximum size of each RPC request that the dataCoord can receive, unit: byte      </td>
       <td>268435456</td>
     </tr>
   </tbody>
@@ -1968,13 +1967,13 @@ title: ''
     </button></h2><table id="dataCoord.grpc.clientMaxSendSize">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        La dimensione massima di ogni richiesta RPC che i client su dataCoord possono inviare, unità: byte    </td>
+      <td>        The maximum size of each RPC request that the clients on dataCoord can send, unit: byte      </td>
       <td>268435456</td>
     </tr>
   </tbody>
@@ -1997,13 +1996,13 @@ title: ''
     </button></h2><table id="dataCoord.grpc.clientMaxRecvSize">
   <thead>
     <tr>
-      <th class="width80">Descrizione</th>
-      <th class="width20">Valore predefinito</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        La dimensione massima di ogni richiesta RPC che i client su dataCoord possono ricevere, unità: byte    </td>
+      <td>        The maximum size of each RPC request that the clients on dataCoord can receive, unit: byte      </td>
       <td>536870912</td>
     </tr>
   </tbody>

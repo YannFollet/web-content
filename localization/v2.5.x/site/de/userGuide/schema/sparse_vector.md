@@ -1,15 +1,14 @@
 ---
 id: sparse_vector.md
-title: Spärlicher Vektor
+title: Sparse Vector
 summary: >-
-  Dünne Vektoren sind eine wichtige Methode der Datendarstellung bei der
-  Informationsgewinnung und der Verarbeitung natürlicher Sprache. Während dichte
-  Vektoren wegen ihrer ausgezeichneten semantischen Verständnisfähigkeiten
-  beliebt sind, liefern spärliche Vektoren oft genauere Ergebnisse, wenn es um
-  Anwendungen geht, die einen präzisen Abgleich von Schlüsselwörtern oder
-  Phrasen erfordern.
+  Sparse vectors are an important method of data representation in information
+  retrieval and natural language processing. While dense vectors are popular for
+  their excellent semantic understanding capabilities, sparse vectors often
+  provide more accurate results when it comes to applications that require
+  precise matching of keywords or phrases.​
 ---
-<h1 id="Sparse-Vector​" class="common-anchor-header">Sparsamer Vektor<button data-href="#Sparse-Vector​" class="anchor-icon" translate="no">
+<h1 id="Sparse-Vector​" class="common-anchor-header">Sparse Vector​<button data-href="#Sparse-Vector​" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -24,8 +23,8 @@ summary: >-
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>Sparse Vectors sind eine wichtige Methode der Datendarstellung im Information Retrieval und der Verarbeitung natürlicher Sprache. Während dichte Vektoren wegen ihrer ausgezeichneten semantischen Verständnisfähigkeiten beliebt sind, liefern spärliche Vektoren oft genauere Ergebnisse, wenn es um Anwendungen geht, die eine präzise Übereinstimmung von Schlüsselwörtern oder Phrasen erfordern.</p>
-<h2 id="Overview​" class="common-anchor-header">Überblick<button data-href="#Overview​" class="anchor-icon" translate="no">
+    </button></h1><p>Sparse vectors are an important method of data representation in information retrieval and natural language processing. While dense vectors are popular for their excellent semantic understanding capabilities, sparse vectors often provide more accurate results when it comes to applications that require precise matching of keywords or phrases.​</p>
+<h2 id="Overview​" class="common-anchor-header">Overview​<button data-href="#Overview​" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -40,28 +39,32 @@ summary: >-
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Ein spärlicher Vektor ist eine spezielle Darstellung hochdimensionaler Vektoren, bei der die meisten Elemente Null sind und nur einige wenige Dimensionen Werte ungleich Null haben. Diese Eigenschaft macht Sparse-Vektoren besonders effektiv bei der Verarbeitung großer, hochdimensionaler, aber spärlicher Daten. Zu den üblichen Anwendungen gehören.</p>
+    </button></h2><p>A sparse vector is a special representation of high-dimensional vectors where most elements are zero, and only a few dimensions have non-zero values. This characteristic makes sparse vectors particularly effective in handling large-scale, high-dimensional, but sparse data. Common applications include:​</p>
 <ul>
-<li><p><strong>Textanalyse:</strong> Darstellung von Dokumenten als Bag-of-Words-Vektoren, bei denen jede Dimension einem Wort entspricht und nur Wörter, die in dem Dokument vorkommen, Werte ungleich Null haben.</p></li>
-<li><p><strong>Empfehlungssysteme:</strong> Benutzer-Element-Interaktionsmatrizen, bei denen jede Dimension die Bewertung eines Benutzers für ein bestimmtes Element darstellt, wobei die meisten Benutzer nur mit einigen wenigen Elementen interagieren.</p></li>
-<li><p><strong>Bildverarbeitung:</strong> Lokale Merkmalsdarstellung, die sich nur auf Schlüsselpunkte im Bild konzentriert, was zu hochdimensionalen spärlichen Vektoren führt.</p></li>
+<li><p><strong>Text Analysis:</strong> Representing documents as bag-of-words vectors, where each dimension corresponds to a word, and only words that appear in the document have non-zero values.​</p></li>
+<li><p><strong>Recommendation Systems:</strong> User-item interaction matrices, where each dimension represents a user’s rating for a particular item, with most users interacting with only a few items.​</p></li>
+<li><p><strong>Image Processing:</strong> Local feature representation, focusing only on key points in the image, resulting in high-dimensional sparse vectors.​</p></li>
 </ul>
-<p>Wie im folgenden Diagramm dargestellt, werden dichte Vektoren in der Regel als kontinuierliche Arrays dargestellt, bei denen jede Position einen Wert hat (z. B. <code translate="no">[0.3, 0.8, 0.2, 0.3, 0.1]</code>). Im Gegensatz dazu werden in spärlichen Vektoren nur Nicht-Null-Elemente und ihre Indizes gespeichert, die oft als Schlüssel-Wert-Paare dargestellt werden (z. B. <code translate="no">[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]</code>). Diese Darstellung reduziert den Speicherplatz erheblich und erhöht die Recheneffizienz, insbesondere bei extrem hochdimensionalen Daten (z. B. 10.000 Dimensionen).</p>
+<p>As shown in the diagram below, dense vectors are typically represented as continuous arrays where each position has a value (e.g., <code translate="no">[0.3, 0.8, 0.2, 0.3, 0.1]</code>). In contrast, sparse vectors store only non-zero elements and their indices, often represented as key-value pairs (e.g., <code translate="no">[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]</code>). This representation significantly reduces storage space and increases computational efficiency, especially when dealing with extremely high-dimensional data (e.g., 10,000 dimensions).​</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.5.x/assets/sparse-vector.png" alt="Spare vector representation" class="doc-image" id="spare-vector-representation" />
-   </span> <span class="img-wrapper"> <span>Ersatzvektor-Darstellung</span> </span></p>
-<p>Sparse Vektoren können mit verschiedenen Methoden erzeugt werden, wie z.B. <a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">TF-IDF</a> (Term Frequency-Inverse Document Frequency) und <a href="https://en.wikipedia.org/wiki/Okapi_BM25">BM25</a> in der Textverarbeitung. Darüber hinaus bietet Milvus komfortable Methoden, um spärliche Vektoren zu erzeugen und zu verarbeiten. Details hierzu finden Sie unter <a href="/docs/de/embeddings.md">Einbettungen</a>.</p>
-<p>Für Textdaten bietet Milvus auch Volltextsuchfunktionen, die es Ihnen ermöglichen, Vektorsuchen direkt auf rohen Textdaten durchzuführen, ohne externe Einbettungsmodelle zur Erzeugung von Sparse-Vektoren zu verwenden. Weitere Informationen finden Sie unter <a href="/docs/de/full-text-search.md">Volltextsuche</a>.</p>
-<p>Nach der Vektorisierung können die Daten in Milvus zur Verwaltung und zum Abruf der Vektoren gespeichert werden. Das folgende Diagramm veranschaulicht den grundlegenden Prozess.</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.5.x/assets/sparse-vector.png" alt="Spare vector representation" class="doc-image" id="spare-vector-representation" />
+    <span>Spare vector representation</span>
+  </span>
+</p>
+<p>Sparse vectors can be generated using various methods, such as <a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">TF-IDF</a> (Term Frequency-Inverse Document Frequency) and <a href="https://en.wikipedia.org/wiki/Okapi_BM25">BM25</a> in text processing. Additionally, Milvus offers convenient methods to help generate and process sparse vectors. For details, refer to <a href="/docs/de/embeddings.md">Embeddings</a>.​</p>
+<p>For text data, Milvus also provides full-text search capabilities, allowing you to perform vector searches directly on raw text data without using external embedding models to generate sparse vectors. For more information, refer to <a href="/docs/de/full-text-search.md">​Full Text Search</a>.​</p>
+<p>After vectorization, the data can be stored in Milvus for management and vector retrieval. The diagram below illustrates the basic process.​</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.5.x/assets/use-sparse-vector.png" alt="Use sparse vector in Milvus" class="doc-image" id="use-sparse-vector-in-milvus" />
-   </span> <span class="img-wrapper"> <span>Verwendung von Sparse-Vektoren in Milvus</span> </span></p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.5.x/assets/use-sparse-vector.png" alt="Use sparse vector in Milvus" class="doc-image" id="use-sparse-vector-in-milvus" />
+    <span>Use sparse vector in Milvus</span>
+  </span>
+</p>
 <div class="alert note">
-<p>Neben spärlichen Vektoren unterstützt Milvus auch dichte Vektoren und binäre Vektoren. Dichte Vektoren sind ideal für die Erfassung tiefer semantischer Beziehungen, während binäre Vektoren sich in Szenarien wie schnellen Ähnlichkeitsvergleichen und der Deduplizierung von Inhalten auszeichnen. Weitere Informationen finden Sie unter <a href="/docs/de/dense-vector.md">Dense-Vektoren</a> und <a href="/docs/de/binary-vector.md">binäre Vektoren</a>.</p>
+<p>In addition to sparse vectors, Milvus also supports dense vectors and binary vectors. Dense vectors are ideal for capturing deep semantic relationships, while binary vectors excel in scenarios like quick similarity comparisons and content deduplication. For more information, refer to <a href="/docs/de/dense-vector.md">​Dense Vector</a> and <a href="/docs/de/binary-vector.md">​Binary Vector</a>.​</p>
 </div>
-<h2 id="Use-sparse-vectors-in-Milvus​" class="common-anchor-header">Spärliche Vektoren in Milvus verwenden<button data-href="#Use-sparse-vectors-in-Milvus​" class="anchor-icon" translate="no">
+<h2 id="Use-sparse-vectors-in-Milvus​" class="common-anchor-header">Use sparse vectors in Milvus​<button data-href="#Use-sparse-vectors-in-Milvus​" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -76,11 +79,15 @@ summary: >-
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Milvus unterstützt die Darstellung spärlicher Vektoren in einem der folgenden Formate.</p>
+    </button></h2><p>Milvus supports representing sparse vectors in any of the following formats:​</p>
 <ul>
-<li><p>Sparse Matrix (unter Verwendung der Klasse <code translate="no">scipy.sparse</code> )</p>
+<li><p>Sparse Matrix (using the <code translate="no">scipy.sparse</code> class)</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a><a href="#curl">cURL</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+<a href="#curl">cURL</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> scipy.sparse <span class="hljs-keyword">import</span> csr_matrix​
 ​
 <span class="hljs-comment"># Create a sparse matrix​</span>
@@ -93,9 +100,13 @@ sparse_matrix = csr_matrix((data, (row, col)), shape=(<span class="hljs-number">
 sparse_vector = sparse_matrix.getrow(<span class="hljs-number">0</span>)​
 
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>Liste von Wörterbüchern (formatiert als <code translate="no">{dimension_index: value, ...}</code>)</p>
+<li><p>List of Dictionaries (formatted as <code translate="no">{dimension_index: value, ...}</code>)</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a><a href="#curl">cURL</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+<a href="#curl">cURL</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Represent sparse vector using a dictionary​</span>
 sparse_vector = [{<span class="hljs-number">1</span>: <span class="hljs-number">0.5</span>, <span class="hljs-number">100</span>: <span class="hljs-number">0.3</span>, <span class="hljs-number">500</span>: <span class="hljs-number">0.8</span>, <span class="hljs-number">1024</span>: <span class="hljs-number">0.2</span>, <span class="hljs-number">5000</span>: <span class="hljs-number">0.6</span>}]​
 
@@ -108,21 +119,29 @@ sparseVector.<span class="hljs-title function_">put</span>(1024L, <span class="h
 sparseVector.<span class="hljs-title function_">put</span>(5000L, <span class="hljs-number">0.</span>6f);​
 
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>Liste von Tupel-Iteratoren (formatiert als <code translate="no">[(dimension_index, value)]</code>)</p>
+<li><p>List of Tuple Iterators (formatted as <code translate="no">[(dimension_index, value)]</code>)</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a><a href="#curl">cURL</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+<a href="#curl">cURL</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Represent sparse vector using a list of tuples​</span>
 sparse_vector = [[(<span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>), (<span class="hljs-number">100</span>, <span class="hljs-number">0.3</span>), (<span class="hljs-number">500</span>, <span class="hljs-number">0.8</span>), (<span class="hljs-number">1024</span>, <span class="hljs-number">0.2</span>), (<span class="hljs-number">5000</span>, <span class="hljs-number">0.6</span>)]]​
 
 <button class="copy-code-btn"></button></code></pre></li>
 </ul>
-<h3 id="Add-vector-field​" class="common-anchor-header">Vektorfeld hinzufügen</h3><p>Um spärliche Vektoren in Milvus zu verwenden, müssen Sie bei der Erstellung einer Sammlung ein Feld für die Speicherung spärlicher Vektoren definieren. Dieser Prozess beinhaltet.</p>
+<h3 id="Add-vector-field​" class="common-anchor-header">Add vector field​</h3><p>To use sparse vectors in Milvus, define a field for storing sparse vectors when creating a collection. This process includes:​</p>
 <ol>
-<li><p>Einstellen von <code translate="no">datatype</code> auf den unterstützten Sparse-Vector-Datentyp, <code translate="no">SPARSE_FLOAT_VECTOR</code>.</p></li>
-<li><p>Die Dimension muss nicht angegeben werden.</p></li>
+<li><p>Setting <code translate="no">datatype</code> to the supported sparse vector data type, <code translate="no">SPARSE_FLOAT_VECTOR</code>.​</p></li>
+<li><p>No need to specify the dimension.​</p></li>
 </ol>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a> <a href="#curl">cURL</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+    <a href="#curl">cURL</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> MilvusClient, DataType​
 ​
 client = MilvusClient(uri=<span class="hljs-string">&quot;http://localhost:19530&quot;</span>)​
@@ -208,10 +227,14 @@ schema.addField(AddFieldReq.builder()​
 }&quot;</span>​
 
 <button class="copy-code-btn"></button></code></pre>
-<p>In diesem Beispiel wird ein Vektorfeld mit dem Namen <code translate="no">sparse_vector</code> zum Speichern von spärlichen Vektoren hinzugefügt. Der Datentyp dieses Feldes ist <code translate="no">SPARSE_FLOAT_VECTOR</code>.</p>
-<h3 id="Set-index-params-for-vector-field​" class="common-anchor-header">Index-Parameter für das Vektorfeld festlegen</h3><p>Der Prozess der Erstellung eines Index für spärliche Vektoren ähnelt dem für <a href="/docs/de/dense-vector.md">dichte Vektoren</a>, jedoch mit Unterschieden im angegebenen Indextyp (<code translate="no">index_type</code>), der Distanzmetrik (<code translate="no">metric_type</code>) und den Indexparametern (<code translate="no">params</code>).</p>
+<p>In this example, a vector field named <code translate="no">sparse_vector</code> is added for storing sparse vectors. The data type of this field is <code translate="no">SPARSE_FLOAT_VECTOR</code>.​</p>
+<h3 id="Set-index-params-for-vector-field​" class="common-anchor-header">Set index params for vector field​</h3><p>The process of creating an index for sparse vectors is similar to that for <a href="/docs/de/dense-vector.md">dense vectors</a>, but with differences in the specified index type (<code translate="no">index_type</code>), distance metric (<code translate="no">metric_type</code>), and index parameters (<code translate="no">params</code>).​</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a> <a href="#curl">cURL</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+    <a href="#curl">cURL</a>
+</div>
 <pre><code translate="no" class="language-python">index_params = client.prepare_index_params()​
 ​
 index_params.add_index(​
@@ -260,15 +283,19 @@ indexes.<span class="hljs-title function_">add</span>(<span class="hljs-title cl
     ]&#x27;</span>​
 
 <button class="copy-code-btn"></button></code></pre>
-<p>Im obigen Beispiel.</p>
+<p>In the example above:​</p>
 <ul>
-<li><p>Für den Sparse-Vektor wird ein Index vom Typ <code translate="no">SPARSE_INVERTED_INDEX</code> erstellt. Für spärliche Vektoren können Sie <code translate="no">SPARSE_INVERTED_INDEX</code> oder <code translate="no">SPARSE_WAND</code> angeben. Details finden Sie unter <a href="https://milvus.io/docs/index.md?tab=sparse">Sparse Vector Indexes</a>.</p></li>
-<li><p>Für spärliche Vektoren unterstützt <code translate="no">metric_type</code> nur <code translate="no">IP</code> (Inneres Produkt), das zur Messung der Ähnlichkeit zwischen zwei spärlichen Vektoren verwendet wird. Weitere Informationen zur Ähnlichkeit finden Sie unter <a href="/docs/de/metric.md">Metrische Typen</a>.</p></li>
-<li><p><code translate="no">drop_ratio_build</code> ist ein optionaler Indexparameter speziell für spärliche Vektoren. Er steuert den Anteil der kleinen Vektorwerte, die bei der Indexerstellung ausgeschlossen werden. Bei <code translate="no">{&quot;drop_ratio_build&quot;: 0.2}</code> werden beispielsweise die kleinsten 20% der Vektorwerte bei der Indexerstellung ausgeschlossen, was den Rechenaufwand bei der Suche verringert.</p></li>
+<li><p>An index of type <code translate="no">SPARSE_INVERTED_INDEX</code> is created for the sparse vector. For sparse vectors, you can specify <code translate="no">SPARSE_INVERTED_INDEX</code> or <code translate="no">SPARSE_WAND</code>. For details, refer to <a href="https://milvus.io/docs/index.md?tab=sparse">​Sparse Vector Indexes</a>.​</p></li>
+<li><p>For sparse vectors, <code translate="no">metric_type</code> only supports <code translate="no">IP</code> (Inner Product), used to measure the similarity between two sparse vectors. For more information on similarity, refer to <a href="/docs/de/metric.md">​Metric Types</a>.​</p></li>
+<li><p><code translate="no">drop_ratio_build</code> is an optional index parameter specifically for sparse vectors. It controls the proportion of small vector values excluded during index building. For example, with <code translate="no">{&quot;drop_ratio_build&quot;: 0.2}</code>, the smallest 20% of vector values will be excluded during index creation, reducing computational effort during searches.​</p></li>
 </ul>
-<h3 id="Create-collection​" class="common-anchor-header">Sammlung erstellen</h3><p>Sobald die Einstellungen für spärliche Vektoren und Indizes abgeschlossen sind, können Sie eine Sammlung erstellen, die spärliche Vektoren enthält. Das folgende Beispiel verwendet die <ins><code translate="no">create_collection</code></ins> Methode, um eine Sammlung mit dem Namen <code translate="no">my_sparse_collection</code> zu erstellen.</p>
+<h3 id="Create-collection​" class="common-anchor-header">Create collection​</h3><p>Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the <ins><code translate="no">create_collection</code></ins> method to create a collection named <code translate="no">my_sparse_collection</code>.​</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a> <a href="#curl">cURL</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+    <a href="#curl">cURL</a>
+</div>
 <pre><code translate="no" class="language-python">client.<span class="hljs-title function_">create_collection</span>(​
     collection_name=<span class="hljs-string">&quot;my_sparse_collection&quot;</span>,​
     schema=schema,​
@@ -315,9 +342,13 @@ client.createCollection(requestCreate);​
 }&quot;</span>​
 
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Insert-data​" class="common-anchor-header">Daten einfügen</h3><p>Fügen Sie nach dem Erstellen der Sammlung Daten ein, die spärliche Vektoren enthalten.</p>
+<h3 id="Insert-data​" class="common-anchor-header">Insert data​</h3><p>After creating the collection, insert data containing sparse vectors.​</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a> <a href="#curl">cURL</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+    <a href="#curl">cURL</a>
+</div>
 <pre><code translate="no" class="language-python">sparse_vectors = [​
     {<span class="hljs-string">&quot;sparse_vector&quot;</span>: {<span class="hljs-number">1</span>: <span class="hljs-number">0.5</span>, <span class="hljs-number">100</span>: <span class="hljs-number">0.3</span>, <span class="hljs-number">500</span>: <span class="hljs-number">0.8</span>}},​
     {<span class="hljs-string">&quot;sparse_vector&quot;</span>: {<span class="hljs-number">10</span>: <span class="hljs-number">0.1</span>, <span class="hljs-number">200</span>: <span class="hljs-number">0.7</span>, <span class="hljs-number">1000</span>: <span class="hljs-number">0.9</span>}},​
@@ -387,9 +418,13 @@ client.<span class="hljs-title function_">insert</span>({​
 <span class="hljs-comment">## {&quot;code&quot;:0,&quot;cost&quot;:0,&quot;data&quot;:{&quot;insertCount&quot;:2,&quot;insertIds&quot;:[&quot;453577185629572534&quot;,&quot;453577185629572535&quot;]}}​</span>
 
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Perform-similarity-search​" class="common-anchor-header">Ähnlichkeitssuche durchführen</h3><p>Um eine Ähnlichkeitssuche mit spärlichen Vektoren durchzuführen, bereiten Sie den Abfragevektor und die Suchparameter vor.</p>
+<h3 id="Perform-similarity-search​" class="common-anchor-header">Perform similarity search​</h3><p>To perform similarity search using sparse vectors, prepare the query vector and search parameters.​</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a> <a href="#curl">cURL</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+    <a href="#curl">cURL</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Prepare search parameters​</span>
 search_params = {​
     <span class="hljs-string">&quot;params&quot;</span>: {<span class="hljs-string">&quot;drop_ratio_search&quot;</span>: <span class="hljs-number">0.2</span>},  <span class="hljs-comment"># Additional optional search parameters​</span>
@@ -399,10 +434,14 @@ search_params = {​
 query_vector = [{<span class="hljs-number">1</span>: <span class="hljs-number">0.2</span>, <span class="hljs-number">50</span>: <span class="hljs-number">0.4</span>, <span class="hljs-number">1000</span>: <span class="hljs-number">0.7</span>}]​
 
 <button class="copy-code-btn"></button></code></pre>
-<p>In diesem Beispiel ist <code translate="no">drop_ratio_search</code> ein optionaler Parameter speziell für spärliche Vektoren, der die Feinabstimmung kleiner Werte im Abfragevektor während der Suche ermöglicht. Mit <code translate="no">{&quot;drop_ratio_search&quot;: 0.2}</code> werden beispielsweise die kleinsten 20% der Werte im Abfragevektor bei der Suche ignoriert.</p>
-<p>Führen Sie dann die Ähnlichkeitssuche mit der Methode <code translate="no">search</code> aus.</p>
+<p>In this example, <code translate="no">drop_ratio_search</code> is an optional parameter specifically for sparse vectors, allowing fine-tuning of small values in the query vector during the search. For example, with <code translate="no">{&quot;drop_ratio_search&quot;: 0.2}</code>, the smallest 20% of values in the query vector will be ignored during the search.​</p>
+<p>Then, execute the similarity search using the <code translate="no">search</code> method:​</p>
 <div class="multipleCode">
- <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a> <a href="#curl">cURL</a></div>
+  <a href="#python">Python </a>
+  <a href="#java">Java</a>
+  <a href="#javascript">Node.js</a>
+  <a href="#curl">cURL</a>
+</div>
 <pre><code translate="no" class="language-python">res = client.search(​
     collection_name=<span class="hljs-string">&quot;my_sparse_collection&quot;</span>,​
     data=query_vector,​
@@ -478,8 +517,8 @@ sparse.<span class="hljs-title function_">put</span>(1000L, <span class="hljs-nu
 <span class="hljs-comment">## {&quot;code&quot;:0,&quot;cost&quot;:0,&quot;data&quot;:[{&quot;distance&quot;:0.63,&quot;id&quot;:&quot;453577185629572535&quot;,&quot;pk&quot;:&quot;453577185629572535&quot;},{&quot;distance&quot;:0.1,&quot;id&quot;:&quot;453577185629572534&quot;,&quot;pk&quot;:&quot;453577185629572534&quot;}]}​</span>
 
 <button class="copy-code-btn"></button></code></pre>
-<p>Weitere Informationen zu den Parametern der Ähnlichkeitssuche finden Sie unter <a href="/docs/de/single-vector-search.md">Grundlegende ANN-Suche</a>.</p>
-<h2 id="Limits" class="common-anchor-header">Begrenzungen<button data-href="#Limits" class="anchor-icon" translate="no">
+<p>For more information on similarity search parameters, refer to <a href="/docs/de/single-vector-search.md">​Basic ANN Search</a>.​</p>
+<h2 id="Limits" class="common-anchor-header">Limits<button data-href="#Limits" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -494,19 +533,19 @@ sparse.<span class="hljs-title function_">put</span>(1000L, <span class="hljs-nu
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Bei der Verwendung von spärlichen Vektoren in Milvus sind die folgenden Grenzen zu beachten:</p>
+    </button></h2><p>When using sparse vectors in Milvus, consider the following limits:</p>
 <ul>
-<li><p>Derzeit wird nur die <strong>IP-Distanzmetrik</strong> für spärliche Vektoren unterstützt. Die hohe Dimensionalität von spärlichen Vektoren macht L2 und Kosinusabstand unpraktisch.</p></li>
-<li><p>Für spärliche Vektorfelder werden nur die Indextypen <strong>SPARSE_INVERTED_INDEX</strong> und <strong>SPARSE_WAND</strong> unterstützt.</p></li>
-<li><p>Die für spärliche Vektoren unterstützten Datentypen:</p>
+<li><p>Currently, only the <strong>IP</strong> distance metric is supported for sparse vectors. The high dimensionality of sparse vectors makes L2 and cosine distance impractical.</p></li>
+<li><p>For sparse vector fields, only the <strong>SPARSE_INVERTED_INDEX</strong> and <strong>SPARSE_WAND</strong> index types are supported.</p></li>
+<li><p>The data types supported for sparse vectors:</p>
 <ul>
-<li>Der Dimensionsteil muss eine 32-Bit-Ganzzahl ohne Vorzeichen sein;</li>
-<li>Der Wertteil kann eine nicht-negative 32-Bit-Gleitkommazahl sein.</li>
+<li>The dimension part must be an unsigned 32-bit integer;</li>
+<li>The value part can be a non-negative 32-bit floating-point number.</li>
 </ul></li>
-<li><p>Sparse Vectors müssen die folgenden Anforderungen für das Einfügen und Suchen erfüllen:</p>
+<li><p>Sparse vectors must meet the following requirements for insertion and search:</p>
 <ul>
-<li>Mindestens ein Wert im Vektor ist ungleich Null;</li>
-<li>Vektorindizes sind nicht-negativ.</li>
+<li>At least one value in the vector is non-zero;</li>
+<li>Vector indices are non-negative.</li>
 </ul></li>
 </ul>
 <h2 id="FAQ" class="common-anchor-header">FAQ<button data-href="#FAQ" class="anchor-icon" translate="no">
@@ -525,14 +564,14 @@ sparse.<span class="hljs-title function_">put</span>(1000L, <span class="hljs-nu
         ></path>
       </svg>
     </button></h2><ul>
-<li><p><strong>Können Sie den Unterschied zwischen SPARSE_INVERTED_INDEX und SPARSE_WAND erklären, und wie wähle ich zwischen ihnen?</strong></p>
-<p><strong>SPARSE_INVERTED_INDEX</strong> ist ein traditioneller invertierter Index, während <strong>SPARSE_WAND</strong> den <a href="https://dl.acm.org/doi/10.1145/956863.956944">Weak-AND-Algorithmus</a> verwendet, um die Anzahl der vollständigen IP-Abstandsauswertungen während der Suche zu reduzieren. <strong>SPARSE_WAND</strong> ist in der Regel schneller, aber seine Leistung kann mit zunehmender Vektordichte abnehmen. Um zwischen den beiden Algorithmen zu wählen, führen Sie Experimente und Benchmarks durch, die auf Ihrem spezifischen Datensatz und Anwendungsfall basieren.</p></li>
-<li><p><strong>Wie sollte ich die Parameter drop_ratio_build und drop_ratio_search wählen?</strong></p>
-<p>Die Wahl von <strong>drop_ratio_build</strong> und <strong>drop_ratio_search</strong> hängt von den Eigenschaften Ihrer Daten und Ihren Anforderungen an Suchlatenz/Durchsatz und Genauigkeit ab.</p></li>
-<li><p><strong>Kann die Dimension einer Sparse-Einbettung ein beliebiger diskreter Wert innerhalb des uint32-Raums sein?</strong></p>
-<p>Ja, mit einer Ausnahme. Die Dimension einer spärlichen Einbettung kann ein beliebiger Wert im Bereich von <code translate="no">[0, maximum of uint32)</code> sein. Das bedeutet, dass Sie nicht den Maximalwert von uint32 verwenden können.</p></li>
-<li><p><strong>Wird die Suche nach wachsenden Segmenten über einen Index oder mit roher Gewalt durchgeführt?</strong></p>
-<p>Die Suche nach wachsenden Segmenten wird über einen Index desselben Typs wie der Index des versiegelten Segments durchgeführt. Für neue wachsende Segmente, bevor der Index aufgebaut ist, wird eine Brute-Force-Suche verwendet.</p></li>
-<li><p><strong>Ist es möglich, sowohl spärliche als auch dichte Vektoren in einer einzigen Sammlung zu haben?</strong></p>
-<p>Ja, mit der Unterstützung für mehrere Vektortypen können Sie Sammlungen mit sowohl spärlichen als auch dichten Vektorspalten erstellen und hybride Suchvorgänge mit ihnen durchführen.</p></li>
+<li><p><strong>Can you explain the difference between SPARSE_INVERTED_INDEX and SPARSE_WAND, and how do I choose between them?</strong></p>
+<p><strong>SPARSE_INVERTED_INDEX</strong> is a traditional inverted index, while <strong>SPARSE_WAND</strong> uses the <a href="https://dl.acm.org/doi/10.1145/956863.956944">Weak-AND</a> algorithm to reduce the number of full IP distance evaluations during search. <strong>SPARSE_WAND</strong> is typically faster, but its performance can decline with increasing vector density. To choose between them, conduct experiments and benchmarks based on your specific dataset and use case.</p></li>
+<li><p><strong>How should I choose the drop_ratio_build and drop_ratio_search parameters?</strong></p>
+<p>The choice of <strong>drop_ratio_build</strong> and <strong>drop_ratio_search</strong> depends on the characteristics of your data and your requirements for search latency/throughput and accuracy.</p></li>
+<li><p><strong>Can the dimension of a sparse embedding be any discrete value within the uint32 space?</strong></p>
+<p>Yes, with one exception. The dimension of a sparse embedding can be any value in the range of <code translate="no">[0, maximum of uint32)</code>. This means you cannot use the maximum value of uint32.</p></li>
+<li><p><strong>Are searches on growing segments conducted through an index or by brute force?</strong></p>
+<p>Searches on growing segments are conducted through an index of the same type as the sealed segment index. For new growing segments before the index is built, a brute force search is used.</p></li>
+<li><p><strong>Is it possible to have both sparse and dense vectors in a single collection?</strong></p>
+<p>Yes, with multiple vector type support, you can create collections with both sparse and dense vector columns and perform hybrid searches on them.</p></li>
 </ul>

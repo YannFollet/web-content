@@ -1,9 +1,11 @@
 ---
 id: timestamp.md
-title: Milvusでのタイムスタンプ
-summary: タイムスタンプの概念と、Milvusベクトルデータベースにおけるタイムスタンプ関連の4つの主要パラメータについて学ぶ。
+title: Timestamp in Milvus
+summary: >-
+  Learn about the concept of timestamp and the four main timestamp-related
+  parameters in the Milvus vector database.
 ---
-<h1 id="Timestamp" class="common-anchor-header">タイムスタンプ<button data-href="#Timestamp" class="anchor-icon" translate="no">
+<h1 id="Timestamp" class="common-anchor-header">Timestamp<button data-href="#Timestamp" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -18,8 +20,8 @@ summary: タイムスタンプの概念と、Milvusベクトルデータベー�
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>このトピックでは、タイムスタンプの概念を説明し、Milvusベクトルデータベースの4つの主要なタイムスタンプ関連パラメータを紹介します。</p>
-<h2 id="Overview" class="common-anchor-header">概要<button data-href="#Overview" class="anchor-icon" translate="no">
+    </button></h1><p>This topic explains the concept of timestamp and introduces the four main timestamp-related parameters in the Milvus vector database.</p>
+<h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -34,8 +36,8 @@ summary: タイムスタンプの概念と、Milvusベクトルデータベー�
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Milvusは非構造化データから変換されたベクトルを検索・照会することができるベクトルデータベースです。Milvusでは、<a href="https://milvus.io/docs/v2.1.x/data_processing.md">データの挿入や削除などの</a>データ操作言語(DML)操作を行う際に、操作に関わるエンティティにタイムスタンプを付与します。したがって、Milvusのすべてのエンティティはタイムスタンプ属性を持っている。また、同じDML操作のエンティティのバッチは同じタイムスタンプ値を共有します。</p>
-<h2 id="Timestamp-parameters" class="common-anchor-header">タイムスタンプパラメータ<button data-href="#Timestamp-parameters" class="anchor-icon" translate="no">
+    </button></h2><p>Milvus is a vector database that can search and query vectors converted from unstructured data. When conducting a data manipulation language (DML) operation, including <a href="https://milvus.io/docs/v2.1.x/data_processing.md">data insertion and deletion</a>, Milvus assigns timestamps to the entities involved in the operation. Therefore, all entities in Milvus has a timestamp attribute. And the batches of entities in the same DML operation share the same timestamp value.</p>
+<h2 id="Timestamp-parameters" class="common-anchor-header">Timestamp parameters<button data-href="#Timestamp-parameters" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -50,44 +52,50 @@ summary: タイムスタンプの概念と、Milvusベクトルデータベー�
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Milvusでベクトル類似検索やクエリを実行する際には、いくつかのタイムスタンプ関連のパラメータが関係します。</p>
+    </button></h2><p>Several timestamp-related parameters are involved when you conduct a vector similarity search or query in Milvus.</p>
 <ul>
 <li><p><code translate="no">Guarantee_timestamp</code></p></li>
 <li><p><code translate="no">Service_timestamp</code></p></li>
 <li><p><code translate="no">Graceful_time</code></p></li>
 <li><p><code translate="no">Travel_timestamp</code></p></li>
 </ul>
-<h3 id="Guaranteetimestamp" class="common-anchor-header"><code translate="no">Guarantee_timestamp</code></h3><p><code translate="no">Guarantee_timestamp</code> はタイムスタンプの一種で、 より前の DML 操作によるすべてのデータ更新がベクトル類似性検索またはクエリの実行時に表示されるようにするために使用されます。例えば、午後3時にデータのバッチを挿入し、午後5時に別のバッチを挿入した場合、ベクトルの類似性検索中に の値が午後6時に設定されます。これは、それぞれ午後3時と午後5時に挿入された2つのデータバッチが検索に関与することを意味する。<code translate="no">Guarantee_timestamp</code> <code translate="no">Guarantee_timestamp</code> </p>
-<p><code translate="no">Guarantee_timestamp</code> が設定されていない場合、Milvus は検索要求がなされた時点を自動的に採用する。従って、検索は検索前のDML操作により全てのデータが更新されたデータビューに対して行われます。</p>
-<p>Milvus内部で<a href="https://github.com/milvus-io/milvus/blob/master/docs/design_docs/20211214-milvus_hybrid_ts.md">TSOを</a>理解する手間を省くため、ユーザーとして<code translate="no">Guarantee_timestamp</code> パラメータを直接設定する必要はありません。<a href="https://milvus.io/docs/v2.1.x/consistency.md">一貫性レベルを</a>選択するだけで、Milvusは自動的に<code translate="no">Guarantee_timestamp</code> パラメータを処理します。各整合性レベルは特定の<code translate="no">Guarantee_timestamp</code> 値に対応しています。</p>
+<h3 id="Guaranteetimestamp" class="common-anchor-header"><code translate="no">Guarantee_timestamp</code></h3><p><code translate="no">Guarantee_timestamp</code> is a type of timestamp used to ensure that all data updates by DML operations before the <code translate="no">Guarantee_timestamp</code> are visible when a vector similarity search or query is conducted. For example, if you inserted a batch of data at 3 pm, another batch at 5 pm, and the value of <code translate="no">Guarantee_timestamp</code> is set as 6pm during a vector similarity search. This means that the two batches of data inserted at 3 pm and 5pm respectively should be involved in the search.</p>
+<p>If the <code translate="no">Guarantee_timestamp</code> is not configured, Milvus automatically takes the point in time when the search request is made. Therefore, the search is conducted on a data view with all data updates by DML operations before the search.</p>
+<p>To save you the trouble of understanding the <a href="https://github.com/milvus-io/milvus/blob/master/docs/design_docs/20211214-milvus_hybrid_ts.md">TSO</a> inside Milvus, as a user, you do not have to directly configure the <code translate="no">Guarantee_timestamp</code> parameter. You only need to choose the <a href="https://milvus.io/docs/v2.1.x/consistency.md">consistency level</a>, and Milvus automatically handles the <code translate="no">Guarantee_timestamp</code> parameter for you. Each consistency level corresponds to a certain <code translate="no">Guarantee_timestamp</code> value.</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.5.x/assets/Guarantee_Timestamp.png" alt="Guarantee_Timestamp" class="doc-image" id="guarantee_timestamp" />
-   </span> <span class="img-wrapper"> <span>Guarantee_Timestamp</span>. </span></p>
-<h4 id="Example" class="common-anchor-header">例</h4><p>上の図のように、<code translate="no">Guarantee_timestamp</code> の値を<code translate="no">2021-08-26T18:15:00</code> と設定します（簡単のため、この例ではタイムスタンプを物理的な時間で表しています）。検索またはクエリを実行すると、2021-08-26T18:15:00 より前のすべてのデータが検索またはクエリされます。</p>
-<h3 id="Servicetimestamp" class="common-anchor-header"><code translate="no">Service_timestamp</code></h3><p><code translate="no">Service_timestamp</code> はmilvusのクエリノードが自動的に生成・管理するタイムスタンプの一種です。どのDML操作がクエリノードによって実行されるかを示すために使用されます。</p>
-<p>クエリノードが管理するデータは2種類に分類されます：</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.5.x/assets/Guarantee_Timestamp.png" alt="Guarantee_Timestamp" class="doc-image" id="guarantee_timestamp" />
+    <span>Guarantee_Timestamp</span>
+  </span>
+.</p>
+<h4 id="Example" class="common-anchor-header">Example</h4><p>As shown in the illustration above, the value of <code translate="no">Guarantee_timestamp</code> is set as <code translate="no">2021-08-26T18:15:00</code> (for simplicity, the timestamp in this example is represented by physical time). When you conduct a search or query, all data before 2021-08-26T18:15:00 are searched or queried.</p>
+<h3 id="Servicetimestamp" class="common-anchor-header"><code translate="no">Service_timestamp</code></h3><p><code translate="no">Service_timestamp</code> is a type of timestamp automatically generated and managed by query nodes in Milvus. It is used to indicate which DML operations are executed by query nodes.</p>
+<p>The data managed by query nodes can be categorized into two types:</p>
 <ul>
-<li><p>履歴データ（バッチデータとも呼ばれる）</p></li>
-<li><p>インクリメンタルデータ（ストリーミングデータとも呼ばれる）。</p></li>
+<li><p>Historical data (or also called batch data)</p></li>
+<li><p>Incremental data (or also called streaming data).</p></li>
 </ul>
-<p>Milvusでは、検索やクエリを実行する前にデータをロードする必要があります。そのため、コレクション内のバッチデータは検索やクエリ要求が行われる前にクエリノードによってロードされます。しかし、ストリーミングデータはその場でMilvusに挿入またはMilvusから削除されるため、クエリノードはDML操作と検索またはクエリ要求のタイムラインを保持する必要があります。その結果、クエリノードは<code translate="no">Service_timestamp</code> を使用してタイムラインを保持します。<code translate="no">Service_timestamp</code> は、クエリノードが<code translate="no">Service_timestamp</code> より前のすべてのDML操作が完了していることを確認できるため、特定のデータが表示される時点とみなすことができます。</p>
-<p>検索またはクエリ要求が来ると、クエリノードは<code translate="no">Service_timestamp</code> と<code translate="no">Guarantee_timestamp</code> の値を比較する。主に2つのシナリオがある。</p>
+<p>In Milvus, you need to load the data before conducting a search or query. Therefore, batch data in a collection are loaded by query node before a search or query request is made. However, streaming data are inserted into or deleted from Milvus on the fly, which requires the query node to keep a timeline of the DML operations and the search or query requests. As a result, query nodes use <code translate="no">Service_timestamp</code> to keep such a timeline.  <code translate="no">Service_timestamp</code> can be seen as the time point when certain data is visible as query nodes can ensure that all DML operations before <code translate="no">Service_timestamp</code> are completed.</p>
+<p>When there is an incoming search or query request, a query node compares the values of <code translate="no">Service_timestamp</code> and <code translate="no">Guarantee_timestamp</code>. There are mainly two scenarios.</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.5.x/assets/Service_Timestamp.png" alt="Service_Timestamp" class="doc-image" id="service_timestamp" />
-   </span> <span class="img-wrapper"> <span>Service_Timestamp</span>. </span></p>
-<h4 id="Scenario-1-Servicetimestamp--Guaranteetimestamp" class="common-anchor-header">シナリオ1：<code translate="no">Service_timestamp</code> &gt;=<code translate="no">Guarantee_timestamp</code></h4><p>図1に示すように、<code translate="no">Guarantee_timestamp</code> の値は<code translate="no">2021-08-26T18:15:00</code> として設定される。<code translate="no">Service_timestamp</code> の値が<code translate="no">2021-08-26T18:15:01</code> に成長すると、<code translate="no">Guarantee_timestamp</code> で示される時刻より前の DML 操作を含め、この時点より前のすべての DML 操作がクエリ・ノードによって実行され、完了することを意味します。その結果、検索またはクエリ要求は即座に実行できる。</p>
-<h4 id="Scenario-2-Servicetimestamp--Guaranteetimestamp" class="common-anchor-header">シナリオ2:<code translate="no">Service_timestamp</code> &lt;<code translate="no">Guarantee_timestamp</code></h4><p>図2に示すように、<code translate="no">Guarantee_timestamp</code> の値は<code translate="no">2021-08-26T18:15:00</code> に設定され、<code translate="no">Service_timestamp</code> の現在の値は<code translate="no">2021-08-26T18:14:55</code> のみである。これは、<code translate="no">2021-08-26T18:14:55</code> より前の DML オペレーションのみが実行され完了することを意味し、この時点より後、<code translate="no">Guarantee_timestamp</code> より前の DML オペレーションの一部は未完了のままである。この時点で検索やクエリを実行すると、必要なデータの一部が不可視でまだ利用できないため、検索やクエリの結果の精度に深刻な影響を与える。そのため、クエリ・ノードは<code translate="no">guarantee_timestamp</code> の前のDML操作が完了するまで（つまり、<code translate="no">Service_timestamp</code> &gt;=<code translate="no">Guarantee_timestamp</code> ）、検索やクエリのリクエストを延期する必要があります。</p>
-<h3 id="Gracefultime" class="common-anchor-header"><code translate="no">Graceful_time</code></h3><p>技術的に言えば、<code translate="no">Graceful_time</code> はタイムスタンプではなく、期間（例えば100ms）である。しかしながら、<code translate="no">Graceful_time</code> は、<code translate="no">Guarantee_timestamp</code> と<code translate="no">Service_timestamp</code> に強く関連しているため、言及する価値がある。<code translate="no">Graceful_time</code> は、Milvusの設定ファイルで設定可能なパラメータである。これは特定のデータが表示されるまでに許容できる時間を示すために使用されます。つまり、<code translate="no">Graceful_time</code> 中の未完了の DML 操作は許容されます。</p>
-<p>検索またはクエリ要求があった場合、2つのシナリオが考えられます。</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.5.x/assets/Service_Timestamp.png" alt="Service_Timestamp" class="doc-image" id="service_timestamp" />
+    <span>Service_Timestamp</span>
+  </span>
+.</p>
+<h4 id="Scenario-1-Servicetimestamp--Guaranteetimestamp" class="common-anchor-header">Scenario 1: <code translate="no">Service_timestamp</code> &gt;= <code translate="no">Guarantee_timestamp</code></h4><p>As shown in the figure 1, the value of <code translate="no">Guarantee_timestamp</code> is set as <code translate="no">2021-08-26T18:15:00</code>. When the value of <code translate="no">Service_timestamp</code> is grown to <code translate="no">2021-08-26T18:15:01</code>, this means that all DML operations before this point in time are executed and completed by the query node, including those DML operations before the time indicated by <code translate="no">Guarantee_timestamp</code>. As a result, the search or query request can be executed immediately.</p>
+<h4 id="Scenario-2-Servicetimestamp--Guaranteetimestamp" class="common-anchor-header">Scenario 2: <code translate="no">Service_timestamp</code> &lt; <code translate="no">Guarantee_timestamp</code></h4><p>As shown in the figure 2, the value of <code translate="no">Guarantee_timestamp</code> is set as <code translate="no">2021-08-26T18:15:00</code>, and the current value of <code translate="no">Service_timestamp</code> is only <code translate="no">2021-08-26T18:14:55</code>. This means that only DML operations before <code translate="no">2021-08-26T18:14:55</code> are executed and completed, leaving part of the DML operations after this time point but before the <code translate="no">Guarantee_timestamp</code> unfinished. If the search or query is executed at this point, some of the data required are invisible and unavailable yet, seriously affecting the accuracy of the search or query results. Therefore, the query node needs to put off the search or query request until the DML operations before <code translate="no">guarantee_timestamp</code> are completed (i.e. when <code translate="no">Service_timestamp</code> &gt;= <code translate="no">Guarantee_timestamp</code>).</p>
+<h3 id="Gracefultime" class="common-anchor-header"><code translate="no">Graceful_time</code></h3><p>Technically speaking, <code translate="no">Graceful_time</code> is not a timestamp, but rather a time period (e.g. 100ms). However, <code translate="no">Graceful_time</code> is worth mentioning because it is strongly related to <code translate="no">Guarantee_timestamp</code> and <code translate="no">Service_timestamp</code>. <code translate="no">Graceful_time</code> is a configurable parameter in the Milvus configuration file. It is used to indicate the period of time that can be tolerated before certain data become visible. In short, uncompleted DML operations during <code translate="no">Graceful_time</code> can be tolerated.</p>
+<p>When there is an incoming search or query request,  there can be two scenarios.</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.5.x/assets/Graceful_Time.png" alt="Graceful_Time" class="doc-image" id="graceful_time" />
-   </span> <span class="img-wrapper"> <span>Graceful_Time</span>. </span></p>
-<h4 id="Scenario-1-Servicetimestamp--+--Gracefultime--Guaranteetimestamp" class="common-anchor-header">シナリオ1：<code translate="no">Service_timestamp</code> +<code translate="no">Graceful_time</code> &gt;=<code translate="no">Guarantee_timestamp</code></h4><p>図1に示すように、<code translate="no">Guarantee_timestamp</code> の値を<code translate="no">2021-08-26T18:15:01</code> とし、<code translate="no">Graceful_time</code> の値を<code translate="no">2s</code> とする。<code translate="no">Service_timestamp</code> <code translate="no">2021-08-26T18:15:00</code> <code translate="no">Service_timestamp</code> の値は の値よりまだ小さく、 より前のすべての DML 操作が完了したわけではありませんが、 の値で示されるように、2 秒間のデータ不可視期間が許容されます。したがって、入力された検索またはクエリ要求は直ちに実行することができます。<code translate="no">Guarantee_timestamp</code> <code translate="no">2021-08-26T18:15:01</code> <code translate="no">Graceful_time</code></p>
-<h4 id="Scenario-2-Servicetimestamp--+--Gracefultime--Guaranteetimestamp" class="common-anchor-header">シナリオ2:<code translate="no">Service_timestamp</code> +<code translate="no">Graceful_time</code> &lt;<code translate="no">Guarantee_timestamp</code></h4><p>図2に示すように、<code translate="no">Guarantee_timestamp</code> の値は<code translate="no">2021-08-26T18:15:01</code> として設定され、<code translate="no">Graceful_time</code> は<code translate="no">2s</code> として設定される。<code translate="no">Service_timestamp</code> <code translate="no">2021-08-26T18:14:54</code>これは、期待されるDML操作がまだ完了していないことを意味し、2秒の猶予時間を考慮しても、データの不可視化はまだ耐えられない。したがって、クエリノードは特定のDML要求が完了するまで（すなわち、<code translate="no">Service_timestamp</code> +<code translate="no">Graceful_time</code> &gt;=<code translate="no">Guarantee_timestamp</code> ）、検索またはクエリ要求を延期する必要があります。</p>
-<h2 id="Whats-next" class="common-anchor-header">次のページ<button data-href="#Whats-next" class="anchor-icon" translate="no">
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.5.x/assets/Graceful_Time.png" alt="Graceful_Time" class="doc-image" id="graceful_time" />
+    <span>Graceful_Time</span>
+  </span>
+.</p>
+<h4 id="Scenario-1-Servicetimestamp--+--Gracefultime--Guaranteetimestamp" class="common-anchor-header">Scenario 1: <code translate="no">Service_timestamp</code>  +  <code translate="no">Graceful_time</code> &gt;= <code translate="no">Guarantee_timestamp</code></h4><p>As shown in the figure 1, the value of <code translate="no">Guarantee_timestamp</code> is set as <code translate="no">2021-08-26T18:15:01</code>, and <code translate="no">Graceful_time</code> as <code translate="no">2s</code>. The value of <code translate="no">Service_timestamp</code> is grown to <code translate="no">2021-08-26T18:15:00</code>. Though the value of <code translate="no">Service_timestamp</code> is still smaller than that of <code translate="no">Guarantee_timestamp</code> and not all DML operations before <code translate="no">2021-08-26T18:15:01</code> are completed, a period of 2 seconds of data invisibility is tolerated as indicated by the value of <code translate="no">Graceful_time</code>. Therefore, the incoming search or query request can be executed immediately.</p>
+<h4 id="Scenario-2-Servicetimestamp--+--Gracefultime--Guaranteetimestamp" class="common-anchor-header">Scenario 2: <code translate="no">Service_timestamp</code>  +  <code translate="no">Graceful_time</code> &lt; <code translate="no">Guarantee_timestamp</code></h4><p>As shown in the figure 2 , the value of <code translate="no">Guarantee_timestamp</code> is set as <code translate="no">2021-08-26T18:15:01</code>, and <code translate="no">Graceful_time</code> as <code translate="no">2s</code>. The current value of <code translate="no">Service_timestamp</code> is only <code translate="no">2021-08-26T18:14:54</code>.  This means that the expected DML operations are not completed yet and even given the 2 second of graceful time, data invisibility is still intolerable. Therefore, the query node needs to put off the search or query request until certain DML requests are completed (i.e. when <code translate="no">Service_timestamp</code>  +  <code translate="no">Graceful_time</code> &gt;= <code translate="no">Guarantee_timestamp</code>).</p>
+<h2 id="Whats-next" class="common-anchor-header">What’s next<button data-href="#Whats-next" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -103,5 +111,5 @@ summary: タイムスタンプの概念と、Milvusベクトルデータベー�
         ></path>
       </svg>
     </button></h2><ul>
-<li><a href="/docs/ja/consistency.md">ギャランティタイムスタンプがmilvusで</a>どのように<a href="/docs/ja/consistency.md">整合性を調整できるかを</a>学ぶ。</li>
+<li>Learn how <a href="/docs/ja/consistency.md">guarantee timestamp enables tunable consistency in Milvus</a></li>
 </ul>

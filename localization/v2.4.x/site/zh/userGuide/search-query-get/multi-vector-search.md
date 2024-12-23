@@ -1,10 +1,12 @@
 ---
 id: multi-vector-search.md
 order: 2
-summary: 本指南演示如何在 Milvus 中执行混合搜索，并了解结果的重新排序。
-title: 混合搜索
+summary: >-
+  This guide demonstrates how to perform hybrid search in Milvus and understand
+  the reranking of results.
+title: Hybrid Search
 ---
-<h1 id="Hybrid-Search" class="common-anchor-header">混合搜索<button data-href="#Hybrid-Search" class="anchor-icon" translate="no">
+<h1 id="Hybrid-Search" class="common-anchor-header">Hybrid Search<button data-href="#Hybrid-Search" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -19,18 +21,18 @@ title: 混合搜索
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>自 Milvus 2.4 版起，我们引入了多向量支持和混合搜索框架，这意味着用户可以在一个 Collections 中引入多个向量场（最多 10 个）。不同列中的这些向量代表数据的不同方面，源自不同的 Embeddings 模型或经过不同的处理方法。混合搜索的结果使用 Rerankers 策略进行整合，如互易等级融合（RRF）和加权评分。要了解有关 Rerankers 策略的更多信息，请参阅<a href="/docs/zh/reranking.md">Reranking</a>。</p>
-<p>这一功能在综合搜索场景中特别有用，例如根据图片、声音、指纹等各种属性识别向量库中最相似的人。</p>
-<p>在本教程中，您将学习如何</p>
+    </button></h1><p>Since Milvus 2.4, we introduced multi-vector support and a hybrid search framework, which means users can bring in several vector fields (up to 10) into a single collection. These vectors in different columns represent diverse facets of data, originating from different embedding models or undergoing distinct processing methods. The results of hybrid searches are integrated using reranking strategies, such as Reciprocal Rank Fusion (RRF) and Weighted Scoring. To learn more about reranking strategies, refer to <a href="/docs/zh/reranking.md">Reranking</a>.</p>
+<p>This feature is particularly useful in comprehensive search scenarios, such as identifying the most similar person in a vector library based on various attributes like pictures, voice, fingerprints, etc.</p>
+<p>In this tutorial, you will learn how to:</p>
 <ul>
-<li><p>创建多个<code translate="no">AnnSearchRequest</code> 实例，用于不同向量场的相似性搜索；</p></li>
-<li><p>配置重排策略，对来自多个<code translate="no">AnnSearchRequest</code> 实例的搜索结果进行组合和重排；</p></li>
-<li><p>使用 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/hybrid_search.md"><code translate="no">hybrid_search()</code></a>方法执行混合搜索。</p></li>
+<li><p>Create multiple <code translate="no">AnnSearchRequest</code> instances for similarity searches on different vector fields;</p></li>
+<li><p>Configure a reranking strategy to combine and rerank search results from multiple <code translate="no">AnnSearchRequest</code> instances;</p></li>
+<li><p>Use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/hybrid_search.md"><code translate="no">hybrid_search()</code></a> method to perform a hybrid search.</p></li>
 </ul>
 <div class="alert note">
-<p>本页的代码片段使用<a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Connections/connect.md">PyMilvus ORM 模块</a>与 Milvus 进行交互。使用新的<a href="https://milvus.io/api-reference/pymilvus/v2.4.x/About.md">MilvusClient SDK</a>的代码片段即将发布。</p>
+<p>The code snippets on this page use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Connections/connect.md">PyMilvus ORM module</a> to interact with Milvus. Code snippets with the new <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/About.md">MilvusClient SDK</a> will be available soon.</p>
 </div>
-<h2 id="Preparations" class="common-anchor-header">准备工作<button data-href="#Preparations" class="anchor-icon" translate="no">
+<h2 id="Preparations" class="common-anchor-header">Preparations<button data-href="#Preparations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -45,8 +47,8 @@ title: 混合搜索
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>在开始混合搜索之前，请确保您有一个包含多个向量字段的 Collections。目前，Milvus 引入的每个 Collection 默认有四个向量字段，通过修改<a href="https://milvus.io/docs/configure_proxy.md#proxymaxVectorFieldNum">proxy.maxVectorFieldNum</a>配置，最多可扩展到十个。</p>
-<p>下面是一个示例，说明如何创建一个名为<code translate="no">test_collection</code> 的集合，其中包含两个向量字段<code translate="no">filmVector</code> 和<code translate="no">posterVector</code> ，并在其中插入随机实体。</p>
+    </button></h2><p>Before starting a hybrid search, ensure you have a collection with multiple vector fields. Currently, Milvus introduces a default of four vector fields per collection, which can be extended to a maximum of ten by modifying the <a href="https://milvus.io/docs/configure_proxy.md#proxymaxVectorFieldNum">proxy.maxVectorFieldNum</a> configuration.</p>
+<p>Below is an example of creating a collection named <code translate="no">test_collection</code> with two vector fields, <code translate="no">filmVector</code> and <code translate="no">posterVector</code>, and inserting random entities into it.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> connections, Collection, FieldSchema, CollectionSchema, DataType
 <span class="hljs-keyword">import</span> random
 
@@ -98,7 +100,7 @@ entities = []
     
 collection.insert(entities)
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Step-1-Create-Multiple-AnnSearchRequest-Instances" class="common-anchor-header">步骤 1：创建多个 AnnSearchRequest 实例<button data-href="#Step-1-Create-Multiple-AnnSearchRequest-Instances" class="anchor-icon" translate="no">
+<h2 id="Step-1-Create-Multiple-AnnSearchRequest-Instances" class="common-anchor-header">Step 1: Create Multiple AnnSearchRequest Instances<button data-href="#Step-1-Create-Multiple-AnnSearchRequest-Instances" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -113,8 +115,8 @@ collection.insert(entities)
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>混合搜索使用<code translate="no">hybrid_search()</code> API 在一次调用中执行多个 ANN 搜索请求。每个<code translate="no">AnnSearchRequest</code> 代表对特定向量场的单个搜索请求。</p>
-<p>下面的示例创建了两个<code translate="no">AnnSearchRequest</code> 实例，用于对两个向量场执行单独的相似性搜索。</p>
+    </button></h2><p>A hybrid search uses the <code translate="no">hybrid_search()</code> API to perform multiple ANN search requests in a single call. Each <code translate="no">AnnSearchRequest</code> represents a single search request on a specific vector field.</p>
+<p>The following example creates two <code translate="no">AnnSearchRequest</code> instances to perform individual similarity searches on two vector fields.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> AnnSearchRequest
 
 <span class="hljs-comment"># Create ANN search request 1 for filmVector</span>
@@ -147,21 +149,21 @@ request_2 = AnnSearchRequest(**search_param_2)
 <span class="hljs-comment"># Store these two requests as a list in `reqs`</span>
 reqs = [request_1, request_2]
 <button class="copy-code-btn"></button></code></pre>
-<p>参数：</p>
+<p>Parameters:</p>
 <ul>
-<li><p><code translate="no">AnnSearchRequest</code> <em>对象</em></p>
-<p>代表 ANN 搜索请求的类。每次混合搜索可包含 1 到 1,024 个<code translate="no">ANNSearchRequest</code> 对象。</p></li>
-<li><p><code translate="no">data</code> <em>列表</em></p>
-<p>要在单个<code translate="no">AnnSearchRequest</code> 中搜索的查询向量。目前，该参数只接受包含单个查询向量的列表，例如<code translate="no">[[0.5791814851218929, 0.5792985702614121, 0.8480776460143558, 0.16098005945243, 0.2842979317256803]]</code> 。今后，该参数将扩展为接受多个查询向量。</p></li>
-<li><p><code translate="no">anns_field</code> <em>（字符串）</em></p>
-<p>要在单个<code translate="no">AnnSearchRequest</code> 中使用的向量字段名称。</p></li>
-<li><p><code translate="no">param</code> <em>（dict）</em></p>
-<p>单个<code translate="no">AnnSearchRequest</code> 的搜索参数字典。这些搜索参数与单向量搜索参数相同。更多信息，请参阅<a href="https://milvus.io/docs/single-vector-search.md#Search-parameters">搜索参数</a>。</p></li>
-<li><p><code translate="no">limit</code> <em>(int</em>)</p>
-<p>要包含在单个<code translate="no">ANNSearchRequest</code> 中的搜索结果的最大数量。</p>
-<p>该参数只影响单个<code translate="no">ANNSearchRequest</code> 中返回的搜索结果数，并不决定<code translate="no">hybrid_search</code> 调用的最终返回结果。在混合搜索中，最终结果是通过对多个<code translate="no">ANNSearchRequest</code> 实例的结果进行组合和 Rerankers 来决定的。</p></li>
+<li><p><code translate="no">AnnSearchRequest</code> (<em>object</em>)</p>
+<p>A class representing an ANN search request. Each hybrid search can contain 1 to 1,024 <code translate="no">ANNSearchRequest</code> objects at a time.</p></li>
+<li><p><code translate="no">data</code> (<em>list</em>)</p>
+<p>The query vector to search in a single <code translate="no">AnnSearchRequest</code>. Currently, this parameter accepts a list containing only a single query vector, for example, <code translate="no">[[0.5791814851218929, 0.5792985702614121, 0.8480776460143558, 0.16098005945243, 0.2842979317256803]]</code>. In the future, this parameter will be expanded to accept multiple query vectors.</p></li>
+<li><p><code translate="no">anns_field</code> (<em>string</em>)</p>
+<p>The name of the vector field to use in a single <code translate="no">AnnSearchRequest</code>.</p></li>
+<li><p><code translate="no">param</code> (<em>dict</em>)</p>
+<p>A dictionary of search parameters for a single <code translate="no">AnnSearchRequest</code>. These search parameters are identical to those for a single-vector search. For more information, refer to <a href="https://milvus.io/docs/single-vector-search.md#Search-parameters">Search parameters</a>.</p></li>
+<li><p><code translate="no">limit</code> (<em>int</em>)</p>
+<p>The maximum number of search results to include in a single <code translate="no">ANNSearchRequest</code>.</p>
+<p>This parameter only affects the number of search results to return within an individual <code translate="no">ANNSearchRequest</code>, and it does not decide the final results to return for a <code translate="no">hybrid_search</code> call. In a hybrid search, the final results are determined by combining and reranking the results from multiple <code translate="no">ANNSearchRequest</code> instances.</p></li>
 </ul>
-<h2 id="Step-2-Configure-a-Reranking-Strategy" class="common-anchor-header">步骤 2：配置 Rerankers 策略<button data-href="#Step-2-Configure-a-Reranking-Strategy" class="anchor-icon" translate="no">
+<h2 id="Step-2-Configure-a-Reranking-Strategy" class="common-anchor-header">Step 2: Configure a Reranking Strategy<button data-href="#Step-2-Configure-a-Reranking-Strategy" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -176,28 +178,28 @@ reqs = [request_1, request_2]
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>创建<code translate="no">AnnSearchRequest</code> 实例后，配置 Rerankers 策略，对结果进行组合和重排。目前有两个选项：<code translate="no">WeightedRanker</code> 和<code translate="no">RRFRanker</code> 。有关重排策略的更多信息，请参阅<a href="/docs/zh/reranking.md">Rerankers</a>。</p>
+    </button></h2><p>After creating <code translate="no">AnnSearchRequest</code> instances, configure a reranking strategy to combine and rerank the results. Currently, there are two options: <code translate="no">WeightedRanker</code> and <code translate="no">RRFRanker</code>. For more information about reranking strategies, refer to <a href="/docs/zh/reranking.md">Reranking</a>.</p>
 <ul>
-<li><p>使用加权评分</p>
-<p><code translate="no">WeightedRanker</code> 用于以指定权重为每个向量场搜索结果分配重要性。如果您将某些向量场的优先级高于其他向量场，<code translate="no">WeightedRanker(value1, value2, ..., valueN)</code> 可以在合并搜索结果中反映出来。</p>
+<li><p>Use weighted scoring</p>
+<p>The <code translate="no">WeightedRanker</code> is used to assign importance to the results from each vector field search with specified weights. If you prioritize some vector fields over others, <code translate="no">WeightedRanker(value1, value2, ..., valueN)</code> can reflect this in the combined search results.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> WeightedRanker
 <span class="hljs-comment"># Use WeightedRanker to combine results with specified weights</span>
 <span class="hljs-comment"># Assign weights of 0.8 to text search and 0.2 to image search</span>
 rerank = WeightedRanker(<span class="hljs-number">0.8</span>, <span class="hljs-number">0.2</span>)  
 <button class="copy-code-btn"></button></code></pre>
-<p>使用<code translate="no">WeightedRanker</code> 时，请注意</p>
+<p>When using <code translate="no">WeightedRanker</code>, note that:</p>
 <ul>
-<li>每个权重值的范围从 0（最不重要）到 1（最重要），影响最终的综合得分。</li>
-<li><code translate="no">WeightedRanker</code> 中提供的权重值总数应等于您创建的<code translate="no">AnnSearchRequest</code> 实例数。</li>
+<li>Each weight value ranges from 0 (least important) to 1 (most important), influencing the final aggregated score.</li>
+<li>The total number of weight values provided in <code translate="no">WeightedRanker</code> should equal the number of <code translate="no">AnnSearchRequest</code> instances you have created.</li>
 </ul></li>
-<li><p>使用互惠排名融合（RFF）</p>
+<li><p>Use Reciprocal Rank Fusion (RFF)</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Alternatively, use RRFRanker for reciprocal rank fusion reranking</span>
 <span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> RRFRanker
 
 rerank = RRFRanker()
 <button class="copy-code-btn"></button></code></pre></li>
 </ul>
-<h2 id="Step-3-Perform-a-Hybrid-Search" class="common-anchor-header">步骤 3：执行混合搜索<button data-href="#Step-3-Perform-a-Hybrid-Search" class="anchor-icon" translate="no">
+<h2 id="Step-3-Perform-a-Hybrid-Search" class="common-anchor-header">Step 3: Perform a Hybrid Search<button data-href="#Step-3-Perform-a-Hybrid-Search" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -212,7 +214,7 @@ rerank = RRFRanker()
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>设置好<code translate="no">AnnSearchRequest</code> 实例和 Rerankers 策略后，使用<code translate="no">hybrid_search()</code> 方法执行混合搜索。</p>
+    </button></h2><p>With the <code translate="no">AnnSearchRequest</code> instances and reranking strategy set, use the <code translate="no">hybrid_search()</code> method to perform the hybrid search.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Before conducting hybrid search, load the collection into memory.</span>
 collection.load()
 
@@ -224,20 +226,20 @@ res = collection.hybrid_search(
 
 <span class="hljs-built_in">print</span>(res)
 <button class="copy-code-btn"></button></code></pre>
-<p>参数：</p>
+<p>Parameters:</p>
 <ul>
-<li><p><code translate="no">reqs</code> <em>列表</em></p>
-<p>搜索请求列表，其中每个请求都是一个<code translate="no">ANNSearchRequest</code> 对象。每个请求可以对应不同的向量场和不同的搜索参数集。</p></li>
-<li><p><code translate="no">rerank</code> <em>对象</em></p>
-<p>用于混合搜索的 Rerankers 排序策略。可能的值：<code translate="no">WeightedRanker(value1, value2, ..., valueN)</code> 和<code translate="no">RRFRanker()</code> 。</p>
-<p>有关重排策略的更多信息，请参阅<a href="/docs/zh/reranking.md">Rerankers</a>。</p></li>
-<li><p><code translate="no">limit</code> <em>（int）</em></p>
-<p>在混合搜索中返回的最终结果的最大数量。</p></li>
+<li><p><code translate="no">reqs</code> (<em>list</em>)</p>
+<p>A list of search requests, where each request is an <code translate="no">ANNSearchRequest</code> object. Each request can correspond to a different vector field and a different set of search parameters.</p></li>
+<li><p><code translate="no">rerank</code> (<em>object</em>)</p>
+<p>The reranking strategy to use for hybrid search. Possible values: <code translate="no">WeightedRanker(value1, value2, ..., valueN)</code> and <code translate="no">RRFRanker()</code>.</p>
+<p>For more information about reranking strategies, refer to <a href="/docs/zh/reranking.md">Reranking</a>.</p></li>
+<li><p><code translate="no">limit</code> (<em>int</em>)</p>
+<p>The maximum number of final results to return in the hybrid search.</p></li>
 </ul>
-<p>输出类似于下图：</p>
+<p>The output is similar to the following:</p>
 <pre><code translate="no" class="language-python">[<span class="hljs-string">&quot;[&#x27;id: 844, distance: 0.006047376897186041, entity: {}&#x27;, &#x27;id: 876, distance: 0.006422005593776703, entity: {}&#x27;]&quot;</span>]
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Limits" class="common-anchor-header">限制<button data-href="#Limits" class="anchor-icon" translate="no">
+<h2 id="Limits" class="common-anchor-header">Limits<button data-href="#Limits" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -253,11 +255,11 @@ res = collection.hybrid_search(
         ></path>
       </svg>
     </button></h2><ul>
-<li><p>通常情况下，每个 Collections 默认最多允许 4 个向量字段。不过，您可以选择调整<code translate="no">proxy.maxVectorFieldNum</code> 配置，以扩展集合中向量字段的最大数量，每个集合的最大限制为 10 个向量字段。有关更多信息，请参阅 "<a href="https://milvus.io/docs/configure_proxy.md#Proxy-related-Configurations">代理相关配置"</a>。</p></li>
-<li><p>集合中部分索引或加载的向量字段将导致错误。</p></li>
-<li><p>目前，混合搜索中的每个<code translate="no">AnnSearchRequest</code> 只能携带一个查询向量。</p></li>
+<li><p>Typically, each collection has a default allowance of up to 4 vector fields. However, you have the option to adjust the <code translate="no">proxy.maxVectorFieldNum</code> configuration to expand the maximum number of vector fields in a collection, with a maximum limit of 10 vector fields per collection. See <a href="https://milvus.io/docs/configure_proxy.md#Proxy-related-Configurations">Proxy-related Configurations</a> for more.</p></li>
+<li><p>Partially indexed or loaded vector fields in a collection will result in an error.</p></li>
+<li><p>Currently, each <code translate="no">AnnSearchRequest</code> in a hybrid search can carry one query vector only.</p></li>
 </ul>
-<h2 id="FAQ" class="common-anchor-header">常见问题<button data-href="#FAQ" class="anchor-icon" translate="no">
+<h2 id="FAQ" class="common-anchor-header">FAQ<button data-href="#FAQ" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -273,14 +275,14 @@ res = collection.hybrid_search(
         ></path>
       </svg>
     </button></h2><ul>
-<li><p><strong>在哪些情况下推荐使用混合搜索？</strong></p>
-<p>混合搜索非常适合需要高精确度的复杂情况，尤其是当一个实体可以由多个不同向量表示时。这适用于同一数据（如一个句子）通过不同的 Embeddings 模型进行处理的情况，或多模态信息（如个人的图像、指纹和声纹）转换为不同向量格式的情况。通过给这些向量分配权重，它们的综合影响可以极大地丰富召回率，提高搜索结果的有效性。</p></li>
-<li><p><strong>加权排序器如何对不同向量场之间的距离进行归一化处理？</strong></p>
-<p>加权排序器使用为每个向量场分配的权重对向量场之间的距离进行归一化处理。它根据权重计算每个向量场的重要性，优先考虑权重较高的向量场。建议在 ANN 搜索请求中使用相同的度量类型，以确保一致性。这种方法可以确保被认为更重要的向量对整体排名有更大的影响。</p></li>
-<li><p><strong>是否可以使用 Cohere Ranker 或 BGE Ranker 等其他排名器？</strong></p>
-<p>目前只支持所提供的排名器。正在计划在未来的更新中加入其他排名器。</p></li>
-<li><p><strong>是否可以同时进行多个混合搜索操作？</strong></p>
-<p>可以，支持同时执行多个混合搜索操作符。</p></li>
-<li><p><strong>能否在多个 AnnSearchRequest 对象中使用相同的向量字段来执行混合搜索？</strong></p>
-<p>从技术上讲，可以在多个 AnnSearchRequest 对象中使用相同的向量字段进行混合搜索。混合搜索并不需要多个向量字段。</p></li>
+<li><p><strong>In which scenario is hybrid search recommended?</strong></p>
+<p>Hybrid search is ideal for complex situations demanding high accuracy, especially when an entity can be represented by multiple, diverse vectors. This applies to cases where the same data, such as a sentence, is processed through different embedding models or when multimodal information (like images, fingerprints, and voiceprints of an individual) is converted into various vector formats. By assigning weights to these vectors, their combined influence can significantly enrich recall and improve the effectiveness of search results.</p></li>
+<li><p><strong>How does a weighted ranker normalize distances between different vector fields?</strong></p>
+<p>A weighted ranker normalizes the distances between vector fields using assigned weights to each field. It calculates the importance of each vector field according to its weight, prioritizing those with higher weights. It’s advised to use the same metric type across ANN search requests to ensure consistency. This method ensures that vectors deemed more significant have a greater influence on the overall ranking.</p></li>
+<li><p><strong>Is it possible to use alternative rankers like Cohere Ranker or BGE Ranker?</strong></p>
+<p>Currently, only the provided rankers are supported. Plans to include additional rankers are underway for future updates.</p></li>
+<li><p><strong>Is it possible to conduct multiple hybrid search operations at the same time?</strong></p>
+<p>Yes, simultaneous execution of multiple hybrid search operations is supported.</p></li>
+<li><p><strong>Can I use the same vector field in multiple AnnSearchRequest objects to perform hybrid searches?</strong></p>
+<p>Technically, it is possible to use the same vector field in multiple AnnSearchRequest objects for hybrid searches. It is not necessary to have multiple vector fields for a hybrid search.</p></li>
 </ul>

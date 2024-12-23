@@ -2,11 +2,11 @@
 id: get-and-scalar-query.md
 order: 3
 summary: >-
-  Ce guide montre comment obtenir des entités par identifiant et effectuer un
-  filtrage scalaire.
-title: Obtenir et requête scalaire
+  This guide demonstrates how to get entities by ID and conduct scalar
+  filtering.
+title: Get & Scalar Query
 ---
-<h1 id="Get--Scalar-Query" class="common-anchor-header">Obtenir et requête scalaire<button data-href="#Get--Scalar-Query" class="anchor-icon" translate="no">
+<h1 id="Get--Scalar-Query" class="common-anchor-header">Get &amp; Scalar Query<button data-href="#Get--Scalar-Query" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -21,8 +21,8 @@ title: Obtenir et requête scalaire
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>Ce guide montre comment obtenir des entités par ID et effectuer un filtrage scalaire. Un filtrage scalaire permet de récupérer les entités qui correspondent aux conditions de filtrage spécifiées.</p>
-<h2 id="Overview" class="common-anchor-header">Vue d'ensemble<button data-href="#Overview" class="anchor-icon" translate="no">
+    </button></h1><p>This guide demonstrates how to get entities by ID and conduct scalar filtering. A scalar filtering retrieves entities that match the specified filtering conditions.</p>
+<h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -37,9 +37,9 @@ title: Obtenir et requête scalaire
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Une requête scalaire filtre les entités d'une collection en fonction d'une condition définie à l'aide d'expressions booléennes. Le résultat de la requête est un ensemble d'entités qui correspondent à la condition définie. Contrairement à une recherche vectorielle, qui identifie le vecteur le plus proche d'un vecteur donné dans une collection, les requêtes filtrent les entités en fonction de critères spécifiques.</p>
-<p>Dans Milvus, <strong>un filtre est toujours une chaîne composée de noms de champs joints par des opérateurs</strong>. Dans ce guide, vous trouverez plusieurs exemples de filtres. Pour en savoir plus sur les détails des opérateurs, consultez la section <a href="https://milvus.io/docs/get-and-scalar-query.md#Reference-on-scalar-filters">Référence</a>.</p>
-<h2 id="Preparations" class="common-anchor-header">Préparations<button data-href="#Preparations" class="anchor-icon" translate="no">
+    </button></h2><p>A scalar query filters entities in a collection based on a defined condition using boolean expressions. The query result is a set of entities that match the defined condition. Unlike a vector search, which identifies the closest vector to a given vector in a collection, queries filter entities based on specific criteria.</p>
+<p>In Milvus, <strong>a filter is always a string compising field names joined by operators</strong>. In this guide, you will find various filter examples. To learn more about the operator details, go to the <a href="https://milvus.io/docs/get-and-scalar-query.md#Reference-on-scalar-filters">Reference</a> section.</p>
+<h2 id="Preparations" class="common-anchor-header">Preparations<button data-href="#Preparations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -54,18 +54,21 @@ title: Obtenir et requête scalaire
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Les étapes suivantes reprennent le code permettant de se connecter à Milvus, de configurer rapidement une collection et d'insérer plus de 1 000 entités générées de manière aléatoire dans la collection.</p>
-<h3 id="Step-1-Create-a-collection" class="common-anchor-header">Étape 1 : Création d'une collection</h3><div class="language-python">
-<p>Utilisez <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> pour se connecter au serveur Milvus et <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> pour créer une collection.</p>
+    </button></h2><p>The following steps repurpose the code to connect to Milvus, quickly set up a collection, and insert over 1,000 randomly generated entities into the collection.</p>
+<h3 id="Step-1-Create-a-collection" class="common-anchor-header">Step 1: Create a collection</h3><div class="language-python">
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> to create a collection.</p>
 </div>
 <div class="language-java">
-<p>Pour se connecter au serveur Milvus et créer une collection, il suffit d'utiliser <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> pour se connecter au serveur Milvus et <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> pour créer une collection.</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection.</p>
 </div>
 <div class="language-javascript">
-<p>Utiliser <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> pour se connecter au serveur Milvus et <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a> pour créer une collection.</p>
+<p>Use <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> MilvusClient
 
 <span class="hljs-comment"># 1. Set up a Milvus client</span>
@@ -125,17 +128,20 @@ client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">M
     <span class="hljs-attr">dimension</span>: <span class="hljs-number">5</span>,
 }); 
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Step-2-Insert-randomly-generated-entities" class="common-anchor-header">Étape 2 : Insérer des entités générées de manière aléatoire</h3><div class="language-python">
-<p>Utilisez <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> pour insérer des entités dans la collection.</p>
+<h3 id="Step-2-Insert-randomly-generated-entities" class="common-anchor-header">Step 2: Insert randomly generated entities</h3><div class="language-python">
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> to insert entities into the collection.</p>
 </div>
 <div class="language-java">
-<p>Utiliser <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> pour insérer des entités dans la collection.</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> to insert entities into the collection.</p>
 </div>
 <div class="language-javascript">
-<p>Utiliser <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a> pour insérer des entités dans la collection.</p>
+<p>Use <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a> to insert entities into the collection.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 3. Insert randomly generated vectors </span>
 colors = [<span class="hljs-string">&quot;green&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;yellow&quot;</span>, <span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;black&quot;</span>, <span class="hljs-string">&quot;white&quot;</span>, <span class="hljs-string">&quot;purple&quot;</span>, <span class="hljs-string">&quot;pink&quot;</span>, <span class="hljs-string">&quot;orange&quot;</span>, <span class="hljs-string">&quot;brown&quot;</span>, <span class="hljs-string">&quot;grey&quot;</span>]
 data = []
@@ -271,17 +277,20 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// 1000</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Step-3-Create-partitions-and-insert-more-entities" class="common-anchor-header">Étape 3 : Créer des partitions et insérer d'autres entités</h3><div class="language-python">
-<p>Utilisez <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/create_partition.md"><code translate="no">create_partition()</code></a> pour créer des partitions et <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> pour insérer d'autres entités dans la collection.</p>
+<h3 id="Step-3-Create-partitions-and-insert-more-entities" class="common-anchor-header">Step 3: Create partitions and insert more entities</h3><div class="language-python">
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/create_partition.md"><code translate="no">create_partition()</code></a> to create partitions and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> to insert more entities into the collection.</p>
 </div>
 <div class="language-java">
-<p>Utilisez <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/createPartition.md"><code translate="no">createPartition()</code></a> pour créer des partitions et <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> pour insérer d'autres entités dans la collection.</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/createPartition.md"><code translate="no">createPartition()</code></a> to create partitions and <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> to insert more entities into the collection.</p>
 </div>
 <div class="language-javascript">
-<p>Utiliser <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/createPartition.md"><code translate="no">createPartition()</code></a> pour créer des partitions et <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a> pour insérer d'autres entités dans la collection.</p>
+<p>Use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/createPartition.md"><code translate="no">createPartition()</code></a> to create partitions and <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a> to insert more entities into the collection.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 4. Create partitions and insert more entities</span>
 client.create_partition(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -507,7 +516,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// 500</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Get-Entities-by-ID" class="common-anchor-header">Obtenir des entités par ID<button data-href="#Get-Entities-by-ID" class="anchor-icon" translate="no">
+<h2 id="Get-Entities-by-ID" class="common-anchor-header">Get Entities by ID<button data-href="#Get-Entities-by-ID" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -523,16 +532,19 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
         ></path>
       </svg>
     </button></h2><div class="language-python">
-<p>Si vous connaissez les ID des entités qui vous intéressent, vous pouvez utiliser la méthode <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/get.md"><code translate="no">get()</code></a> méthode.</p>
+<p>If you know the IDs of the entities of your interests, you can use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/get.md"><code translate="no">get()</code></a> method.</p>
 </div>
 <div class="language-java">
-<p>Si vous connaissez les identifiants des entités qui vous intéressent, vous pouvez utiliser la méthode <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/get.md"><code translate="no">get()</code></a> méthode.</p>
+<p>If you know the IDs of the entities of your interests, you can use the <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/get.md"><code translate="no">get()</code></a> method.</p>
 </div>
 <div class="language-javascript">
-<p>Si vous connaissez les identifiants des entités qui vous intéressent, vous pouvez utiliser la méthode <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/get.md"><code translate="no">get()</code></a> méthode.</p>
+<p>If you know the IDs of the entities of your interests, you can use the <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/get.md"><code translate="no">get()</code></a> method.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 4. Get entities by ID</span>
 res = client.get(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -648,9 +660,12 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Get-entities-from-partitions" class="common-anchor-header">Obtenir des entités à partir de partitions</h3><p>Vous pouvez également obtenir des entités à partir de partitions spécifiques.</p>
+<h3 id="Get-entities-from-partitions" class="common-anchor-header">Get entities from partitions</h3><p>You can also get entities from specific partitions.</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 5. Get entities from partitions</span>
 res = client.get(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -771,7 +786,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Use-Basic-Operators" class="common-anchor-header">Utiliser les opérateurs de base<button data-href="#Use-Basic-Operators" class="anchor-icon" translate="no">
+<h2 id="Use-Basic-Operators" class="common-anchor-header">Use Basic Operators<button data-href="#Use-Basic-Operators" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -786,20 +801,23 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Dans cette section, vous trouverez des exemples d'utilisation des opérateurs de base pour le filtrage scalaire. Vous pouvez également appliquer ces filtres aux <a href="https://milvus.io/docs/single-vector-search.md#Filtered-search">recherches vectorielles</a> et aux <a href="https://milvus.io/docs/insert-update-delete.md#Delete-entities">suppressions de données</a>.</p>
+    </button></h2><p>In this section, you will find examples of how to use basic operators in scalar filtering. You can apply these filters to <a href="https://milvus.io/docs/single-vector-search.md#Filtered-search">vector searches</a> and <a href="https://milvus.io/docs/insert-update-delete.md#Delete-entities">data deletions</a> too.</p>
 <div class="language-python">
-<p>Pour plus d'informations, reportez-vous à <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/query.md"><code translate="no">query()</code></a> dans la référence SDK.</p>
+<p>For more information, refer to <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/query.md"><code translate="no">query()</code></a> in the SDK reference.</p>
 </div>
 <div class="language-java">
-<p>Pour plus d'informations, reportez-vous à <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/query.md"><code translate="no">query()</code></a> dans la référence du SDK.</p>
+<p>For more information, refer to <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/query.md"><code translate="no">query()</code></a> in the SDK reference.</p>
 </div>
 <div class="language-javascript">
-<p>Pour plus d'informations, voir <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/query.md"><code translate="no">query()</code></a> dans la référence du SDK.</p>
+<p>For more information, refer to <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/query.md"><code translate="no">query()</code></a> in the SDK reference.</p>
 </div>
 <ul>
-<li><p>Filtre les entités dont la valeur des balises est comprise entre 1 000 et 1 500.</p>
+<li><p>Filter entities with their tag values falling between 1,000 to 1,500.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 6. Use basic operators</span>
 
 res = client.query(
@@ -885,9 +903,12 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>Filtrer les entités dont les valeurs de <strong>couleur</strong> sont définies sur <strong>marron</strong>.</p>
+<li><p>Filter entities with their <strong>color</strong> values set to <strong>brown</strong>.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">res = client.query(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     <span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;color == &quot;brown&quot;&#x27;</span>,
@@ -968,9 +989,12 @@ queryResp = client.<span class="hljs-title function_">query</span>(queryReq);
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>Filtrer les entités dont les valeurs de <strong>couleur</strong> ne sont pas définies sur <strong>vert</strong> et <strong>violet</strong>.</p>
+<li><p>Filter entities with their <strong>color</strong> values not set to <strong>green</strong> and <strong>purple</strong>.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">res = client.query(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     <span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;color not in [&quot;green&quot;, &quot;purple&quot;]&#x27;</span>,
@@ -1051,9 +1075,12 @@ queryResp = client.<span class="hljs-title function_">query</span>(queryReq);
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>Filtrer les articles dont les balises de couleur commencent par <strong>rouge</strong>.</p>
+<li><p>Filter articles whose color tags start with <strong>red</strong>.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">res = client.query(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     <span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;color_tag like &quot;red%&quot;&#x27;</span>,
@@ -1134,9 +1161,12 @@ queryResp = client.<span class="hljs-title function_">query</span>(queryReq);
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>Filtrer les entités dont les couleurs sont définies sur rouge et dont les valeurs des balises sont comprises entre 1 000 et 1 500.</p>
+<li><p>Filter entities with their colors set to red and tag values within the range from 1,000 to 1,500.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">res = client.query(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     <span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;(color == &quot;red&quot;) and (1000 &lt; tag &lt; 1500)&#x27;</span>,
@@ -1218,7 +1248,7 @@ queryResp = client.<span class="hljs-title function_">query</span>(queryReq);
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
 </ul>
-<h2 id="Use-Advanced-Operators" class="common-anchor-header">Utiliser des opérateurs avancés<button data-href="#Use-Advanced-Operators" class="anchor-icon" translate="no">
+<h2 id="Use-Advanced-Operators" class="common-anchor-header">Use Advanced Operators<button data-href="#Use-Advanced-Operators" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -1233,11 +1263,14 @@ queryResp = client.<span class="hljs-title function_">query</span>(queryReq);
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Dans cette section, vous trouverez des exemples d'utilisation d'opérateurs avancés pour le filtrage scalaire. Vous pouvez également appliquer ces filtres aux <a href="https://milvus.io/docs/single-vector-search.md#Filtered-search">recherches vectorielles</a> et aux <a href="https://milvus.io/docs/insert-update-delete.md#Delete-entities">suppressions de données</a>.</p>
-<h3 id="Count-entities" class="common-anchor-header">Compter les entités</h3><ul>
-<li><p>Compte le nombre total d'entités dans une collection.</p>
+    </button></h2><p>In this section, you will find examples of how to use advanced operators in scalar filtering. You can apply these filters to <a href="https://milvus.io/docs/single-vector-search.md#Filtered-search">vector searches</a> and <a href="https://milvus.io/docs/insert-update-delete.md#Delete-entities">data deletions</a> too.</p>
+<h3 id="Count-entities" class="common-anchor-header">Count entities</h3><ul>
+<li><p>Counts the total number of entities in a collection.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 7. Use advanced operators</span>
 
 <span class="hljs-comment"># Count the total number of entities in a collection</span>
@@ -1285,9 +1318,12 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// [ { &#x27;count(*)&#x27;: &#x27;2000&#x27; } ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>Compte le nombre total d'entités dans des partitions spécifiques.</p>
+<li><p>Counts the total number of entities in specific partitions.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Count the number of entities in a partition</span>
 res = client.query(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -1334,9 +1370,12 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// [ { &#x27;count(*)&#x27;: &#x27;500&#x27; } ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>Compte le nombre d'entités qui correspondent à une condition de filtrage</p>
+<li><p>Counts the number of entities that match a filtering condition</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Count the number of entities that match a specific filter</span>
 res = client.query(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -1383,7 +1422,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
 </ul>
-<h2 id="Reference-on-scalar-filters" class="common-anchor-header">Référence sur les filtres scalaires<button data-href="#Reference-on-scalar-filters" class="anchor-icon" translate="no">
+<h2 id="Reference-on-scalar-filters" class="common-anchor-header">Reference on scalar filters<button data-href="#Reference-on-scalar-filters" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -1398,30 +1437,30 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><h3 id="Basic-Operators" class="common-anchor-header">Opérateurs de base</h3><p>Une <strong>expression booléenne</strong> est toujours <strong>une chaîne composée de noms de champs reliés par des opérateurs</strong>. Dans cette section, vous en apprendrez plus sur les opérateurs de base.</p>
+    </button></h2><h3 id="Basic-Operators" class="common-anchor-header">Basic Operators</h3><p>A <strong>boolean expression</strong> is always <strong>a string comprising field names joined by operators</strong>. In this section, you will learn more about basic operators.</p>
 <table>
 <thead>
-<tr><th><strong>Opérateur</strong></th><th><strong>Description</strong></th></tr>
+<tr><th><strong>Operator</strong></th><th><strong>Description</strong></th></tr>
 </thead>
 <tbody>
-<tr><td><strong>et (&amp;&amp;)</strong></td><td>Vrai si les deux opérandes sont vrais</td></tr>
-<tr><td><strong>ou (||)</strong></td><td>Vrai si l'un des opérandes est vrai</td></tr>
-<tr><td><strong>+, -, *, /</strong></td><td>Addition, soustraction, multiplication et division</td></tr>
-<tr><td><strong>**</strong></td><td>Exposant</td></tr>
-<tr><td><strong>%</strong></td><td>Module</td></tr>
-<tr><td><strong>&lt;, &gt;</strong></td><td>Inférieur à, supérieur à</td></tr>
-<tr><td><strong>==, !=</strong></td><td>Egal à, non égal à</td></tr>
-<tr><td><strong>&lt;=, &gt;=</strong></td><td>Inférieur ou égal à, supérieur ou égal à</td></tr>
-<tr><td><strong>pas</strong></td><td>Inverse le résultat d'une condition donnée.</td></tr>
-<tr><td><strong>similaire</strong></td><td>Compare une valeur à des valeurs similaires à l'aide d'opérateurs génériques.<br/> Par exemple, like &quot;prefix%&quot; correspond aux chaînes de caractères commençant par &quot;prefix&quot;.</td></tr>
-<tr><td><strong>in</strong></td><td>Teste si une expression correspond à une valeur quelconque d'une liste de valeurs.</td></tr>
+<tr><td><strong>and (&amp;&amp;)</strong></td><td>True if both operands are true</td></tr>
+<tr><td><strong>or (||)</strong></td><td>True if either operand is true</td></tr>
+<tr><td><strong>+, -, *, /</strong></td><td>Addition, subtraction, multiplication, and division</td></tr>
+<tr><td><strong>**</strong></td><td>Exponent</td></tr>
+<tr><td><strong>%</strong></td><td>Modulus</td></tr>
+<tr><td><strong>&lt;, &gt;</strong></td><td>Less than, greater than</td></tr>
+<tr><td><strong>==, !=</strong></td><td>Equal to, not equal to</td></tr>
+<tr><td><strong>&lt;=, &gt;=</strong></td><td>Less than or equal to, greater than or equal to</td></tr>
+<tr><td><strong>not</strong></td><td>Reverses the result of a given condition.</td></tr>
+<tr><td><strong>like</strong></td><td>Compares a value to similar values using wildcard operators.<br/> For example, like “prefix%” matches strings that begin with &quot;prefix&quot;.</td></tr>
+<tr><td><strong>in</strong></td><td>Tests if an expression matches any value in a list of values.</td></tr>
 </tbody>
 </table>
-<h3 id="Advanced-operators" class="common-anchor-header">Opérateurs avancés</h3><ul>
+<h3 id="Advanced-operators" class="common-anchor-header">Advanced operators</h3><ul>
 <li><p><code translate="no">count(*)</code></p>
-<p>Compte le nombre exact d'entités dans la collection. Utilisez ce champ de sortie pour obtenir le nombre exact d'entités dans une collection ou une partition.</p>
+<p>Counts the exact number of entities in the collection. Use this as an output field to get the exact number of entities in a collection or partition.</p>
 <p><div class="admonition note"></p>
 <p><p><b>notes</b></p></p>
-<p><p>Ceci s'applique aux collections chargées. Vous devez l'utiliser comme seul champ de sortie.</p></p>
+<p><p>This applies to loaded collections. You should use it as the only output field.</p></p>
 <p></div></p></li>
 </ul>

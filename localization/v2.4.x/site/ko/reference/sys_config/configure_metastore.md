@@ -2,10 +2,9 @@
 id: configure_metastore.md
 related_key: configure
 group: system_configuration.md
-summary: Milvus용 메타스토어를 구성하는 방법을 알아보세요.
-title: ''
+summary: Learn how to configure metastore for Milvus.
 ---
-<h1 id="metastore-related-Configurations" class="common-anchor-header">메타스토어 관련 구성<button data-href="#metastore-related-Configurations" class="anchor-icon" translate="no">
+<h1 id="metastore-related-Configurations" class="common-anchor-header">metastore-related Configurations<button data-href="#metastore-related-Configurations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -38,13 +37,13 @@ title: ''
     </button></h2><table id="metastore.type">
   <thead>
     <tr>
-      <th class="width80">설명</th>
-      <th class="width20">기본값</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        기본값: etcd, 유효한 값: [etcd, tikv]     </td>
+      <td>        Default value: etcd, Valid values: [etcd, tikv]       </td>
       <td>etcd</td>
     </tr>
   </tbody>

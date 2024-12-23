@@ -1,13 +1,12 @@
 ---
 id: boolean.md
 summary: >-
-  Ein Filterausdruck kann verwendet werden, um ein bestimmtes skalares Feld
-  während einer Suche oder Abfrage zu filtern, um genau übereinstimmende
-  Ergebnisse zu erhalten. In diesem Leitfaden wird die Verwendung von
-  Filterausdrücken in Zilliz anhand eines Beispieldatensatzes vorgestellt. Zu
-  Demonstrationszwecken werden in diesem Leitfaden nur Beispiele für
-  Abfrageoperationen gegeben.
-title: Filterung von Metadaten
+  A filter expression can be used to filter a specific scalar field during a
+  search or query to obtain precisely matched results. This guide will introduce
+  how to use filter expressions in Zilliz through an example dataset. For
+  demonstration purposes, this guide will only provide examples of query
+  operations.​
+title: Metadata Filtering
 ---
 <h1 id="Metadata-Filtering​" class="common-anchor-header">Metadata Filtering​<button data-href="#Metadata-Filtering​" class="anchor-icon" translate="no">
       <svg translate="no"

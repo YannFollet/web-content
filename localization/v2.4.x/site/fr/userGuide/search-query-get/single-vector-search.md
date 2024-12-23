@@ -2,8 +2,8 @@
 id: single-vector-search.md
 order: 1
 summary: >-
-  Cet article décrit comment rechercher des vecteurs dans une collection Milvus
-  à l'aide d'un seul vecteur d'interrogation.
+  This article describes how to search for vectors in a Milvus collection using
+  a single query vector.
 title: Single-Vector Search
 ---
 <h1 id="Single-Vector-Search" class="common-anchor-header">Single-Vector Search<button data-href="#Single-Vector-Search" class="anchor-icon" translate="no">

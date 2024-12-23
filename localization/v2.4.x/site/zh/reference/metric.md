@@ -1,9 +1,11 @@
 ---
 id: metric.md
-summary: Milvus 支持多种相似性度量，包括欧氏距离、内积、Jaccard 等。
-title: 相似度量
+summary: >-
+  Milvus supports a variety of similarity metrics, including Euclidean distance,
+  inner product, Jaccard, etc.
+title: Similarity Metrics
 ---
-<h1 id="Similarity-Metrics" class="common-anchor-header">相似度量<button data-href="#Similarity-Metrics" class="anchor-icon" translate="no">
+<h1 id="Similarity-Metrics" class="common-anchor-header">Similarity Metrics<button data-href="#Similarity-Metrics" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -18,22 +20,25 @@ title: 相似度量
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>在 Milvus 中，相似度量用于衡量向量之间的相似性。选择一个好的距离度量有助于显著提高分类和聚类性能。</p>
-<p>下表显示了这些广泛使用的相似度量如何与各种输入数据形式和 Milvus 索引相匹配。目前，Milvus 支持各种类型的数据，包括浮点嵌入（通常称为浮点向量或密集向量）、二进制嵌入（也称为二进制向量）和稀疏嵌入（也称为稀疏向量）。</p>
+    </button></h1><p>In Milvus, similarity metrics are used to measure similarities among vectors. Choosing a good distance metric helps improve the classification and clustering performance significantly.</p>
+<p>The following table shows how these widely used similarity metrics fit with various input data forms and Milvus indexes. Currently, Milvus supports various types of data, including floating point embeddings (often known as floating point vectors or dense vectors), binary embeddings (also known as binary vectors), and sparse embeddings (also known as sparse vectors).</p>
 <div class="filter">
- <a href="#floating">浮点</a> <a href="#binary">嵌入 二进制嵌入</a> <a href="#sparse">稀疏嵌入</a></div>
+  <a href="#floating">Floating point embeddings</a>
+  <a href="#binary">Binary embeddings</a>
+  <a href="#sparse">Sparse embeddings</a>
+</div>
 <div class="filter-floating table-wrapper" markdown="block">
 <table class="tg">
 <thead>
   <tr>
-    <th class="tg-0pky" style="width: 204px;">度量类型</th>
-    <th class="tg-0pky">索引类型</th>
+    <th class="tg-0pky" style="width: 204px;">Metric Types</th>
+    <th class="tg-0pky">Index Types</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td class="tg-0pky"><ul><li>欧氏距离 (L2)</li><li>内积 (IP)</li><li>余弦相似度 (COSINE)</li></td>
-    <td class="tg-0pky" rowspan="2"><ul><li>平面</li><li>IVF_FLAT</li><li>IVF_SQ8</li><li>IVF_PQ</li><li>GPU_IVF_FLAT</li><li>GPU_IVF_PQ</li><li>HNSW</li><li>DISKANN</li></ul></td>
+    <td class="tg-0pky"><ul><li>Euclidean distance (L2)</li><li>Inner product (IP)</li><li>Cosine similarity (COSINE)</li></td>
+    <td class="tg-0pky" rowspan="2"><ul><li>FLAT</li><li>IVF_FLAT</li><li>IVF_SQ8</li><li>IVF_PQ</li><li>GPU_IVF_FLAT</li><li>GPU_IVF_PQ</li><li>HNSW</li><li>DISKANN</li></ul></td>
   </tr>
 </tbody>
 </table>
@@ -42,13 +47,13 @@ title: 相似度量
 <table class="tg">
 <thead>
   <tr>
-    <th class="tg-0pky" style="width: 204px;">度量类型</th>
-    <th class="tg-0pky">索引类型</th>
+    <th class="tg-0pky" style="width: 204px;">Metric Types</th>
+    <th class="tg-0pky">Index Types</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td class="tg-0pky"><ul><li>雅卡德</li><li>汉明</li></ul></td>
+    <td class="tg-0pky"><ul><li>Jaccard</li><li>Hamming</li></ul></td>
     <td class="tg-0pky"><ul><li>BIN_FLAT</li><li>BIN_IVF_FLAT</li></ul></td>
   </tr>
 </tbody>
@@ -58,93 +63,112 @@ title: 相似度量
 <table class="tg">
 <thead>
   <tr>
-    <th class="tg-0pky" style="width: 204px;">度量类型</th>
-    <th class="tg-0pky">索引类型</th>
+    <th class="tg-0pky" style="width: 204px;">Metric Types</th>
+    <th class="tg-0pky">Index Types</th>
   </tr>
 </thead>
 <tbody>
   <tr>
     <td class="tg-0pky">IP</td>
-    <td class="tg-0pky"><ul><li>稀疏反转索引</li><li>SPARSE_WAND</li></ul></td>
+    <td class="tg-0pky"><ul><li>SPARSE_INVERTED_INDEX</li><li>SPARSE_WAND</li></ul></td>
   </tr>
 </tbody>
 </table>
 </div>
-<h3 id="Euclidean-distance-L2" class="common-anchor-header">欧氏距离（L2）</h3><p>从本质上讲，欧氏距离测量的是连接两点的线段的长度。</p>
-<p>欧氏距离的计算公式如下：</p>
+<h3 id="Euclidean-distance-L2" class="common-anchor-header">Euclidean distance (L2)</h3><p>Essentially, Euclidean distance measures the length of a segment that connects 2 points.</p>
+<p>The formula for Euclidean distance is as follows:</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/euclidean_metric.png" alt="euclidean" class="doc-image" id="euclidean" />
-   </span> <span class="img-wrapper"> <span>欧几里得</span> </span></p>
-<p>其中<strong>a</strong>= (<sub>a0</sub>,<sub>a1</sub>,...,<sub>an-1</sub>) 和<strong>b</strong>= (<sub>b0</sub>,<sub>b0</sub>,...,<sub>bn-1</sub>) 是 n 维欧几里得空间中的两点。</p>
-<p>这是最常用的距离度量，在数据连续时非常有用。</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/euclidean_metric.png" alt="euclidean" class="doc-image" id="euclidean" />
+    <span>euclidean</span>
+  </span>
+</p>
+<p>where <strong>a</strong> = (a<sub>0</sub>, a<sub>1</sub>,…, a<sub>n-1</sub>) and <strong>b</strong> = (b<sub>0</sub>, b<sub>0</sub>,…, b<sub>n-1</sub>) are two points in n-dimensional Euclidean space</p>
+<p>It’s the most commonly used distance metric and is very useful when the data are continuous.</p>
 <div class="alert note">
-当选择欧氏距离作为距离度量时，Milvus 只在应用平方根之前计算数值。</div>
-<h3 id="Inner-product-IP" class="common-anchor-header">内积（IP）</h3><p>两个向量 Embeddings 之间的 IP 距离定义如下：</p>
-<p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/IP_formula.png" alt="ip" class="doc-image" id="ip" />
-   </span><span class="img-wrapper"><span>IP</span> </span></p>
-<p>如果需要比较非标准化数据，或者需要考虑幅度和角度，IP 会更有用。</p>
-<div class="alert note">
-<p>如果将 IP 距离度量应用于归一化嵌入，结果将等同于计算嵌入之间的余弦相似度。</p>
+Milvus only caculates the value before applying square root when Euclidean distance is chosen as the distance metric.
 </div>
-<p>假设 X' 是由嵌入 X 归一化而来：</p>
+<h3 id="Inner-product-IP" class="common-anchor-header">Inner product (IP)</h3><p>The IP distance between two vector embeddings are defined as follows:</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/normalize_formula.png" alt="normalize" class="doc-image" id="normalize" />
-   </span> <span class="img-wrapper"> <span>归一化</span> </span></p>
-<p>两个嵌入式之间的相关性如下：</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/IP_formula.png" alt="ip" class="doc-image" id="ip" />
+    <span>ip</span>
+  </span>
+</p>
+<p>IP is more useful if you need to compare non-normalized data or when you care about magnitude and angle.</p>
+<div class="alert note">
+<p>If you apply the IP distance metric to normalized embeddings, the result will be equivalent to calculating the cosine similarity between the embeddings.</p>
+</div>
+<p>Suppose X’ is normalized from embedding X:</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/normalization_formula.png" alt="normalization" class="doc-image" id="normalization" />
-   </span> <span class="img-wrapper"> <span>归一化</span> </span></p>
-<h3 id="Cosine-Similarity" class="common-anchor-header">余弦相似性</h3><p>余弦相似度使用两组向量之间角度的余弦来衡量它们的相似程度。你可以把两组向量看成是从同一个原点（[0,0,...]）出发但指向不同方向的两条线段。</p>
-<p>要计算两组向量<strong>A = (<sub>a0</sub>,<sub>a1</sub>,...,<sub>an-1</sub>)</strong>和<strong>B = (<sub>b0</sub>,<sub>b1</sub>,...,<sub>bn-1</sub>)</strong> 之间的余弦相似度，请使用下面的公式：</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/normalize_formula.png" alt="normalize" class="doc-image" id="normalize" />
+    <span>normalize</span>
+  </span>
+</p>
+<p>The correlation between the two embeddings is as follows:</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/cosine_similarity.png" alt="cosine_similarity" class="doc-image" id="cosine_similarity" />
-   </span> <span class="img-wrapper"> <span>余弦相似度</span> </span></p>
-<p>余弦相似度始终位于区间<strong>[-1, 1]</strong>。例如，两个正比向量的余弦相似度为<strong>1</strong>，两个正交向量的余弦相似度为<strong>0</strong>，两个相反向量的余弦相似度为<strong>-1</strong>。余弦越大，两个向量之间的夹角越小，说明这两个向量之间的相似度越高。</p>
-<p>用 1 减去它们的余弦相似度，就可以得到两个向量之间的余弦距离。</p>
-<h3 id="Jaccard-distance" class="common-anchor-header">雅卡德距离</h3><p>Jaccard 相似性系数衡量两个样本集之间的相似性，其定义为定义集的交集的卡方除以它们的联合的卡方。它只能应用于有限样本集。</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/normalization_formula.png" alt="normalization" class="doc-image" id="normalization" />
+    <span>normalization</span>
+  </span>
+</p>
+<h3 id="Cosine-Similarity" class="common-anchor-header">Cosine Similarity</h3><p>Cosine similarity uses the cosine of the angle between two sets of vectors to measure how similar they are. You can think of the two sets of vectors as two line segments that start from the same origin ([0,0,…]) but point in different directions.</p>
+<p>To calculate the cosine similarity between two sets of vectors <strong>A = (a<sub>0</sub>, a<sub>1</sub>,…, a<sub>n-1</sub>)</strong> and <strong>B = (b<sub>0</sub>, b<sub>1</sub>,…, b<sub>n-1</sub>)</strong>, use the following formula:</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/jaccard_coeff.png" alt="Jaccard similarity coefficient" class="doc-image" id="jaccard-similarity-coefficient" />
-   </span> <span class="img-wrapper"> <span>杰卡德相似系数</span> </span></p>
-<p>雅卡距离测量数据集之间的不相似性，通过从 1 减去雅卡相似系数得出。对于二元变量，雅卡距离等同于塔尼莫托系数。</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/cosine_similarity.png" alt="cosine_similarity" class="doc-image" id="cosine_similarity" />
+    <span>cosine_similarity</span>
+  </span>
+</p>
+<p>The cosine similarity is always in the interval <strong>[-1, 1]</strong>. For example, two proportional vectors have a cosine similarity of <strong>1</strong>, two orthogonal vectors have a similarity of <strong>0</strong>, and two opposite vectors have a similarity of <strong>-1</strong>. The larger the cosine, the smaller the angle between two vectors, indicating that these two vectors are more similar to each other.</p>
+<p>By subtracting their cosine similarity from 1, you can get the cosine distance between two vectors.</p>
+<h3 id="Jaccard-distance" class="common-anchor-header">Jaccard distance</h3><p>Jaccard similarity coefficient measures the similarity between two sample sets and is defined as the cardinality of the intersection of the defined sets divided by the cardinality of the union of them. It can only be applied to finite sample sets.</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/jaccard_dist.png" alt="Jaccard distance" class="doc-image" id="jaccard-distance" />
-   </span> <span class="img-wrapper"> <span>雅卡距离</span> </span></p>
-<h3 id="Hamming-distance" class="common-anchor-header">汉明距离</h3><p>汉明距离测量二进制数据字符串。两个长度相等的字符串之间的距离是比特不同的比特位置数。</p>
-<p>例如，假设有两个字符串：1101 1001 和 1001 1101。</p>
-<p>11011001 ⊕ 10011101 = 01000100.由于其中包含两个 1，所以汉明距离 d (11011001, 10011101) = 2。</p>
-<h3 id="Structural-Similarity" class="common-anchor-header">结构相似性</h3><p>当一种化学结构作为更大化学结构的一部分出现时，前者称为子结构，后者称为上结构。例如，乙醇是乙酸的子结构，乙酸是乙醇的上结构。</p>
-<p>结构相似性是用来判断两个化学式是否相似，即一个化学式是另一个化学式的上结构或下结构。</p>
-<p>要确定 A 是否是 B 的上结构，请使用下式：</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/jaccard_coeff.png" alt="Jaccard similarity coefficient" class="doc-image" id="jaccard-similarity-coefficient" />
+    <span>Jaccard similarity coefficient</span>
+  </span>
+</p>
+<p>Jaccard distance measures the dissimilarity between data sets and is obtained by subtracting the Jaccard similarity coefficient from 1. For binary variables, Jaccard distance is equivalent to the Tanimoto coefficient.</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/superstructure.png" alt="superstructure" class="doc-image" id="superstructure" />
-   </span> <span class="img-wrapper"> <span>上层建筑</span> </span></p>
-<p>其中</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/jaccard_dist.png" alt="Jaccard distance" class="doc-image" id="jaccard-distance" />
+    <span>Jaccard distance</span>
+  </span>
+</p>
+<h3 id="Hamming-distance" class="common-anchor-header">Hamming distance</h3><p>Hamming distance measures binary data strings. The distance between two strings of equal length is the number of bit positions at which the bits are different.</p>
+<p>For example, suppose there are two strings, 1101 1001 and 1001 1101.</p>
+<p>11011001 ⊕ 10011101 = 01000100. Since, this contains two 1s, the Hamming distance, d (11011001, 10011101) = 2.</p>
+<h3 id="Structural-Similarity" class="common-anchor-header">Structural Similarity</h3><p>When a chemical structure occurs as a part of a larger chemical structure, the former is called a substructure and the latter is called a superstructure. For example, ethanol is a substructure of acetic acid, and acetic acid is a superstructure of ethanol.</p>
+<p>Structural similarity is used to determine whether two chemical formulae are similar to each other in that one is the superstructure or substructure of the other.</p>
+<p>To determine whether A is a superstructure of B, use the following formula:</p>
+<p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/superstructure.png" alt="superstructure" class="doc-image" id="superstructure" />
+    <span>superstructure</span>
+  </span>
+</p>
+<p>Where:</p>
 <ul>
-<li>A 是要检索的化学式的二进制表示形式</li>
-<li>B 是数据库中化学式的二进制表示形式</li>
+<li>A is the binary representation of a chemical formula to be retrieved</li>
+<li>B is the binary representation of a chemical formula in the database</li>
 </ul>
-<p>一旦返回<code translate="no">0</code> ，<strong>A</strong>就不是<strong>B</strong> 的上层结构。否则，结果正好相反。</p>
-<p>要确定 A 是否是 B 的子结构，请使用下面的公式：</p>
+<p>Once it returns <code translate="no">0</code>, <strong>A</strong> is not a superstructure of <strong>B</strong>. Otherwise, the result is the other way around.</p>
+<p>To determine whether A is a substructure of B, use the following formula:</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/substructure.png" alt="substructure" class="doc-image" id="substructure" />
-   </span> <span class="img-wrapper"> <span>子结构</span> </span></p>
-<p>其中</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/substructure.png" alt="substructure" class="doc-image" id="substructure" />
+    <span>substructure</span>
+  </span>
+</p>
+<p>Where:</p>
 <ul>
-<li>A 是要检索的化学式的二进制表示形式</li>
-<li>B 是数据库中化学式的二进制表示形式</li>
+<li>A is the binary representation of a chemical formula to be retrieved</li>
+<li>B is the binary representation of a chemical formula in the database</li>
 </ul>
-<p>一旦返回<code translate="no">0</code> ，则<strong>A</strong>不是<strong>B</strong> 的子结构。否则，结果正好相反。</p>
-<h2 id="FAQ" class="common-anchor-header">常见问题<button data-href="#FAQ" class="anchor-icon" translate="no">
+<p>Once it returns <code translate="no">0</code>, <strong>A</strong> is not a substructure of <strong>B</strong>. Otherwise, the result is the other way around.</p>
+<h2 id="FAQ" class="common-anchor-header">FAQ<button data-href="#FAQ" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -160,16 +184,22 @@ title: 相似度量
         ></path>
       </svg>
     </button></h2><p><details>
-如果<summary><font color="#4fc4f9">度量类型是内积，为什么向量搜索的 top1 结果不是搜索向量本身？</font></summary>如果使用内积作为距离度量时没有对向量进行归一化处理，就会出现这种情况。</details>
-<details>
-<summary><font color="#4fc4f9">什么是归一化？为什么需要归一化？</font></summary></p>
-<p>归一化指的是转换嵌入（向量）使其法向量等于 1 的过程。如果使用内积计算嵌入式相似度，就必须对嵌入式进行归一化处理。归一化后，内积等于余弦相似度。</p>
-<p>
-更多信息，请参阅<a href="https://en.wikipedia.org/wiki/Unit_vector">维基百科</a>。</p>
+<summary><font color="#4fc4f9">Why is the top1 result of a vector search not the search vector itself, if the metric type is inner product?</font></summary>
+This occurs if you have not normalized the vectors when using inner product as the distance metric.
 </details>
 <details>
-<summary><font color="#4fc4f9">为什么使用欧氏距离 (L2) 和内积 (IP) 作为距离度量会得到不同的结果？</font></summary>检查向量是否归一化。如果没有，则需要先对向量进行归一化处理。从理论上讲，如果向量没有归一化，用 L2 计算出的相似度与用 IP 计算出的相似度是不同的。</details>
-<h2 id="Whats-next" class="common-anchor-header">下一步<button data-href="#Whats-next" class="anchor-icon" translate="no">
+<summary><font color="#4fc4f9">What is normalization? Why is normalization needed?</font></summary></p>
+<p>Normalization refers to the process of converting an embedding (vector) so that its norm equals 1. If you use Inner Product to calculate embeddings similarities, you must normalize your embeddings. After normalization, inner product equals cosine similarity.
+</p>
+<p>
+See <a href="https://en.wikipedia.org/wiki/Unit_vector">Wikipedia</a> for more information.
+</p>
+</details>
+<details>
+<summary><font color="#4fc4f9">Why do I get different results using Euclidean distance (L2) and inner product (IP) as the distance metric?</font></summary>
+Check if the vectors are normalized. If not, you need to normalize the vectors first. Theoretically speaking, similarities worked out by L2 are different from similarities worked out by IP, if the vectors are not normalized.
+</details>
+<h2 id="Whats-next" class="common-anchor-header">What’s next<button data-href="#Whats-next" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -185,5 +215,5 @@ title: 相似度量
         ></path>
       </svg>
     </button></h2><ul>
-<li>进一步了解 Milvus 支持的<a href="/docs/zh/index.md">索引类型</a>。</li>
+<li>Learn more about the supported <a href="/docs/zh/index.md">index types</a> in Milvus.</li>
 </ul>

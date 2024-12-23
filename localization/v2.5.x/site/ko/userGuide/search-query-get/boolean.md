@@ -1,9 +1,12 @@
 ---
 id: boolean.md
 summary: >-
-  필터 표현식은 검색 또는 쿼리 중에 특정 스칼라 필드를 필터링하여 정확하게 일치하는 결과를 얻기 위해 사용할 수 있습니다. 이 가이드에서는
-  예제 데이터 세트를 통해 Zilliz에서 필터 표현식을 사용하는 방법을 소개합니다. 이 가이드에서는 데모용으로 쿼리 연산 예제만 제공합니다.
-title: 메타데이터 필터링
+  A filter expression can be used to filter a specific scalar field during a
+  search or query to obtain precisely matched results. This guide will introduce
+  how to use filter expressions in Zilliz through an example dataset. For
+  demonstration purposes, this guide will only provide examples of query
+  operations.​
+title: Metadata Filtering
 ---
 <h1 id="Metadata-Filtering​" class="common-anchor-header">Metadata Filtering​<button data-href="#Metadata-Filtering​" class="anchor-icon" translate="no">
       <svg translate="no"

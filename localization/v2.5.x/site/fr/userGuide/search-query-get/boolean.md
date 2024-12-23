@@ -1,12 +1,12 @@
 ---
 id: boolean.md
 summary: >-
-  Une expression de filtre peut être utilisée pour filtrer un champ scalaire
-  spécifique lors d'une recherche ou d'une requête afin d'obtenir des résultats
-  précis. Ce guide présente l'utilisation des expressions de filtre dans Zilliz
-  à l'aide d'un jeu de données d'exemple. A des fins de démonstration, ce guide
-  ne fournira que des exemples d'opérations de requête.
-title: Filtrage des métadonnées
+  A filter expression can be used to filter a specific scalar field during a
+  search or query to obtain precisely matched results. This guide will introduce
+  how to use filter expressions in Zilliz through an example dataset. For
+  demonstration purposes, this guide will only provide examples of query
+  operations.​
+title: Metadata Filtering
 ---
 <h1 id="Metadata-Filtering​" class="common-anchor-header">Metadata Filtering​<button data-href="#Metadata-Filtering​" class="anchor-icon" translate="no">
       <svg translate="no"

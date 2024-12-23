@@ -2,9 +2,9 @@
 id: configure_trace.md
 related_key: configure
 group: system_configuration.md
-summary: Aprenda a configurar el rastreo para Milvus.
+summary: Learn how to configure trace for Milvus.
 ---
-<h1 id="trace-related-Configurations" class="common-anchor-header">Configuraciones relacionadas con el rastreo<button data-href="#trace-related-Configurations" class="anchor-icon" translate="no">
+<h1 id="trace-related-Configurations" class="common-anchor-header">trace-related Configurations<button data-href="#trace-related-Configurations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -37,15 +37,15 @@ summary: Aprenda a configurar el rastreo para Milvus.
     </button></h2><table id="trace.exporter">
   <thead>
     <tr>
-      <th class="width80">Descripción</th>
-      <th class="width20">Valor por defecto</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>tipo de exportador de trazas, por defecto es stdout,</li>      
-        <li>valores opcionales: ['noop','stdout', 'jaeger', 'otlp']</li>      </td>
+        <li>trace exporter type, default is stdout,</li>      
+        <li>optional values: ['noop','stdout', 'jaeger', 'otlp']</li>      </td>
       <td>noop</td>
     </tr>
   </tbody>
@@ -68,16 +68,16 @@ summary: Aprenda a configurar el rastreo para Milvus.
     </button></h2><table id="trace.sampleFraction">
   <thead>
     <tr>
-      <th class="width80">Descripción</th>
-      <th class="width20">Valor por defecto</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>fracción del muestreador basado en traceID,</li>      
-        <li>valores opcionales: [0, 1]</li>      
-        <li>Las fracciones &gt;= 1 siempre muestrearán. Las fracciones &lt; 0 se tratan como cero.</li>      </td>
+        <li>fraction of traceID based sampler,</li>      
+        <li>optional values: [0, 1]</li>      
+        <li>Fractions >= 1 will always sample. Fractions < 0 are treated as zero.</li>      </td>
       <td>0</td>
     </tr>
   </tbody>
@@ -100,13 +100,13 @@ summary: Aprenda a configurar el rastreo para Milvus.
     </button></h2><table id="trace.jaeger.url">
   <thead>
     <tr>
-      <th class="width80">Descripción</th>
-      <th class="width20">Valor por defecto</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        cuando el exportador es jaeger debe establecer la URL de jaeger      </td>
+      <td>        when exporter is jaeger should set the jaeger's URL      </td>
       <td></td>
     </tr>
   </tbody>
@@ -129,13 +129,13 @@ summary: Aprenda a configurar el rastreo para Milvus.
     </button></h2><table id="trace.otlp.endpoint">
   <thead>
     <tr>
-      <th class="width80">Descripción</th>
-      <th class="width20">Valor por defecto</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        ejemplo: "127.0.0.1:4317" para grpc, "127.0.0.1:4318" para http    </td>
+      <td>        example: "127.0.0.1:4317" for grpc, "127.0.0.1:4318" for http      </td>
       <td></td>
     </tr>
   </tbody>
@@ -158,13 +158,13 @@ summary: Aprenda a configurar el rastreo para Milvus.
     </button></h2><table id="trace.otlp.method">
   <thead>
     <tr>
-      <th class="width80">Descripción</th>
-      <th class="width20">Valor por defecto</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        método de exportación otlp, valores aceptables: ["grpc", "http"], usando "grpc" por defecto      </td>
+      <td>        otlp export method, acceptable values: ["grpc", "http"],  using "grpc" by default      </td>
       <td></td>
     </tr>
   </tbody>
@@ -187,13 +187,13 @@ summary: Aprenda a configurar el rastreo para Milvus.
     </button></h2><table id="trace.initTimeoutSeconds">
   <thead>
     <tr>
-      <th class="width80">Descripción</th>
-      <th class="width20">Valor por defecto</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        tiempo de espera de inicialización de segcore en segundos, para evitar que otlp grpc se cuelgue para siempre      </td>
+      <td>        segcore initialization timeout in seconds, preventing otlp grpc hangs forever      </td>
       <td>10</td>
     </tr>
   </tbody>

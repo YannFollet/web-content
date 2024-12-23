@@ -1,10 +1,12 @@
 ---
 id: multi-vector-search.md
 order: 2
-summary: このガイドでは、Milvusでハイブリッド検索を実行し、結果の再順位を理解する方法を示します。
-title: ハイブリッド検索
+summary: >-
+  This guide demonstrates how to perform hybrid search in Milvus and understand
+  the reranking of results.
+title: Hybrid Search
 ---
-<h1 id="Hybrid-Search" class="common-anchor-header">ハイブリッド検索<button data-href="#Hybrid-Search" class="anchor-icon" translate="no">
+<h1 id="Hybrid-Search" class="common-anchor-header">Hybrid Search<button data-href="#Hybrid-Search" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -19,18 +21,18 @@ title: ハイブリッド検索
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>Milvus2.4からマルチベクターサポートとハイブリッド検索フレームワークが導入された。異なる列のこれらのベクトルは、異なる埋め込みモデルに由来する、あるいは異なる処理方法を経た、データの多様な側面を表しています。ハイブリッド検索の結果は、RRF（Reciprocal Rank Fusion）やWeighted Scoringなどのリランキング戦略を使って統合されます。再ランク付け戦略の詳細については、<a href="/docs/ja/reranking.md">再ランク付けを</a>参照してください。</p>
-<p>この機能は、写真、音声、指紋などの様々な属性に基づいて、ベクトル・ライブラリ内で最も類似した人物を特定するような、包括的な検索シナリオで特に役立ちます。</p>
-<p>このチュートリアルでは、以下の方法を学びます：</p>
+    </button></h1><p>Since Milvus 2.4, we introduced multi-vector support and a hybrid search framework, which means users can bring in several vector fields (up to 10) into a single collection. These vectors in different columns represent diverse facets of data, originating from different embedding models or undergoing distinct processing methods. The results of hybrid searches are integrated using reranking strategies, such as Reciprocal Rank Fusion (RRF) and Weighted Scoring. To learn more about reranking strategies, refer to <a href="/docs/ja/reranking.md">Reranking</a>.</p>
+<p>This feature is particularly useful in comprehensive search scenarios, such as identifying the most similar person in a vector library based on various attributes like pictures, voice, fingerprints, etc.</p>
+<p>In this tutorial, you will learn how to:</p>
 <ul>
-<li><p>異なるベクトルフィールドの類似検索用に複数の<code translate="no">AnnSearchRequest</code> インスタンスを作成する；</p></li>
-<li><p>複数の<code translate="no">AnnSearchRequest</code> インスタンスからの検索結果を結合し、再ランク付けするための再ランク付け戦略の設定；</p></li>
-<li><p>ハイブリッド検索を実行する <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/hybrid_search.md"><code translate="no">hybrid_search()</code></a>メソッドを使用してハイブリッド検索を実行する。</p></li>
+<li><p>Create multiple <code translate="no">AnnSearchRequest</code> instances for similarity searches on different vector fields;</p></li>
+<li><p>Configure a reranking strategy to combine and rerank search results from multiple <code translate="no">AnnSearchRequest</code> instances;</p></li>
+<li><p>Use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/hybrid_search.md"><code translate="no">hybrid_search()</code></a> method to perform a hybrid search.</p></li>
 </ul>
 <div class="alert note">
-<p>このページのコードスニペットは<a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Connections/connect.md">PyMilvus ORMモジュールを使って</a>Milvusとやりとりします。新しい<a href="https://milvus.io/api-reference/pymilvus/v2.4.x/About.md">MilvusClient SDKを</a>使ったコードスニペットは近日公開予定です。</p>
+<p>The code snippets on this page use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Connections/connect.md">PyMilvus ORM module</a> to interact with Milvus. Code snippets with the new <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/About.md">MilvusClient SDK</a> will be available soon.</p>
 </div>
-<h2 id="Preparations" class="common-anchor-header">準備<button data-href="#Preparations" class="anchor-icon" translate="no">
+<h2 id="Preparations" class="common-anchor-header">Preparations<button data-href="#Preparations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -45,8 +47,8 @@ title: ハイブリッド検索
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>ハイブリッド検索を開始する前に、複数のベクトルフィールドを持つコレクションを持っていることを確認してください。現在、Milvusではコレクションあたりデフォルトで4つのベクターフィールドを導入していますが、<a href="https://milvus.io/docs/configure_proxy.md#proxymaxVectorFieldNum">proxy.maxVectorFieldNumの</a>設定を変更することで最大10まで拡張することができます。</p>
-<p>以下は、<code translate="no">filmVector</code> と<code translate="no">posterVector</code> の2つのベクトルフィールドを持つ<code translate="no">test_collection</code> という名前のコレクションを作成し、ランダムエンティティを挿入する例です。</p>
+    </button></h2><p>Before starting a hybrid search, ensure you have a collection with multiple vector fields. Currently, Milvus introduces a default of four vector fields per collection, which can be extended to a maximum of ten by modifying the <a href="https://milvus.io/docs/configure_proxy.md#proxymaxVectorFieldNum">proxy.maxVectorFieldNum</a> configuration.</p>
+<p>Below is an example of creating a collection named <code translate="no">test_collection</code> with two vector fields, <code translate="no">filmVector</code> and <code translate="no">posterVector</code>, and inserting random entities into it.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> connections, Collection, FieldSchema, CollectionSchema, DataType
 <span class="hljs-keyword">import</span> random
 
@@ -98,7 +100,7 @@ entities = []
     
 collection.insert(entities)
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Step-1-Create-Multiple-AnnSearchRequest-Instances" class="common-anchor-header">ステップ 1: 複数の AnnSearchRequest インスタンスの作成<button data-href="#Step-1-Create-Multiple-AnnSearchRequest-Instances" class="anchor-icon" translate="no">
+<h2 id="Step-1-Create-Multiple-AnnSearchRequest-Instances" class="common-anchor-header">Step 1: Create Multiple AnnSearchRequest Instances<button data-href="#Step-1-Create-Multiple-AnnSearchRequest-Instances" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -113,8 +115,8 @@ collection.insert(entities)
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>ハイブリッド検索では、<code translate="no">hybrid_search()</code> API を使用して、1 回の呼び出しで複数の ANN 検索要求を実行する。各<code translate="no">AnnSearchRequest</code> は、特定のベクトル・フィールドに対する単一の検索要求を表す。</p>
-<p>以下の例では、<code translate="no">AnnSearchRequest</code> インスタンスを 2 つ作成し、2 つのベクトルフィールドに対して個別の類似性検索を実行します。</p>
+    </button></h2><p>A hybrid search uses the <code translate="no">hybrid_search()</code> API to perform multiple ANN search requests in a single call. Each <code translate="no">AnnSearchRequest</code> represents a single search request on a specific vector field.</p>
+<p>The following example creates two <code translate="no">AnnSearchRequest</code> instances to perform individual similarity searches on two vector fields.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> AnnSearchRequest
 
 <span class="hljs-comment"># Create ANN search request 1 for filmVector</span>
@@ -147,21 +149,21 @@ request_2 = AnnSearchRequest(**search_param_2)
 <span class="hljs-comment"># Store these two requests as a list in `reqs`</span>
 reqs = [request_1, request_2]
 <button class="copy-code-btn"></button></code></pre>
-<p>パラメータ</p>
+<p>Parameters:</p>
 <ul>
-<li><p><code translate="no">AnnSearchRequest</code> <em>(オブジェクト</em>)</p>
-<p>ANN 検索要求を表すクラス。各ハイブリッド検索は、一度に 1 から 1,024<code translate="no">ANNSearchRequest</code> オブジェクトを含むことができます。</p></li>
-<li><p><code translate="no">data</code> <em>(list</em>)</p>
-<p>単一の<code translate="no">AnnSearchRequest</code> で検索するクエリーベクター。現在のところ、このパラメータは単一のクエリ・ベクタのみを含むリスト、例えば<code translate="no">[[0.5791814851218929, 0.5792985702614121, 0.8480776460143558, 0.16098005945243, 0.2842979317256803]]</code> を受け付ける。 将来的には、このパラメータは複数のクエリ・ベクタを受け付けるように拡張される予定である。</p></li>
-<li><p><code translate="no">anns_field</code> <em>(文字列</em>)</p>
-<p>単一の<code translate="no">AnnSearchRequest</code> で使用するベクトルフィールドの名前。</p></li>
-<li><p><code translate="no">param</code> <em>(dict</em>)</p>
-<p>単一の<code translate="no">AnnSearchRequest</code> に対する検索パラメータの辞書。これらの検索パラメータは、単一ベクトル検索のパラメータと同じです。詳細については、<a href="https://milvus.io/docs/single-vector-search.md#Search-parameters">検索パラメータ</a> を参照してください。</p></li>
-<li><p><code translate="no">limit</code> <em>(int</em>)</p>
-<p>一つの<code translate="no">ANNSearchRequest</code> に含める検索結果の最大数。</p>
-<p>このパラメータは、個々の<code translate="no">ANNSearchRequest</code> 内で返す検索結果の数にのみ影響し、<code translate="no">hybrid_search</code> 呼び出しに対して返す最終結果を決定するものではない。ハイブリッド検索では、最終結果は、複数の<code translate="no">ANNSearchRequest</code> インスタンスからの結果を組み合わせ、再ランク付けすることによって決定される。</p></li>
+<li><p><code translate="no">AnnSearchRequest</code> (<em>object</em>)</p>
+<p>A class representing an ANN search request. Each hybrid search can contain 1 to 1,024 <code translate="no">ANNSearchRequest</code> objects at a time.</p></li>
+<li><p><code translate="no">data</code> (<em>list</em>)</p>
+<p>The query vector to search in a single <code translate="no">AnnSearchRequest</code>. Currently, this parameter accepts a list containing only a single query vector, for example, <code translate="no">[[0.5791814851218929, 0.5792985702614121, 0.8480776460143558, 0.16098005945243, 0.2842979317256803]]</code>. In the future, this parameter will be expanded to accept multiple query vectors.</p></li>
+<li><p><code translate="no">anns_field</code> (<em>string</em>)</p>
+<p>The name of the vector field to use in a single <code translate="no">AnnSearchRequest</code>.</p></li>
+<li><p><code translate="no">param</code> (<em>dict</em>)</p>
+<p>A dictionary of search parameters for a single <code translate="no">AnnSearchRequest</code>. These search parameters are identical to those for a single-vector search. For more information, refer to <a href="https://milvus.io/docs/single-vector-search.md#Search-parameters">Search parameters</a>.</p></li>
+<li><p><code translate="no">limit</code> (<em>int</em>)</p>
+<p>The maximum number of search results to include in a single <code translate="no">ANNSearchRequest</code>.</p>
+<p>This parameter only affects the number of search results to return within an individual <code translate="no">ANNSearchRequest</code>, and it does not decide the final results to return for a <code translate="no">hybrid_search</code> call. In a hybrid search, the final results are determined by combining and reranking the results from multiple <code translate="no">ANNSearchRequest</code> instances.</p></li>
 </ul>
-<h2 id="Step-2-Configure-a-Reranking-Strategy" class="common-anchor-header">ステップ2：再ランク付け戦略の設定<button data-href="#Step-2-Configure-a-Reranking-Strategy" class="anchor-icon" translate="no">
+<h2 id="Step-2-Configure-a-Reranking-Strategy" class="common-anchor-header">Step 2: Configure a Reranking Strategy<button data-href="#Step-2-Configure-a-Reranking-Strategy" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -176,28 +178,28 @@ reqs = [request_1, request_2]
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p><code translate="no">AnnSearchRequest</code> 。インスタンスを作成したら、結果を結合して再ランク付けするための再ランク付け戦略を設定する。現在、<code translate="no">WeightedRanker</code> と<code translate="no">RRFRanker</code> の2つのオプションがある。再ランク付け戦略の詳細については、<a href="/docs/ja/reranking.md">再ランク付けを</a>参照のこと。</p>
+    </button></h2><p>After creating <code translate="no">AnnSearchRequest</code> instances, configure a reranking strategy to combine and rerank the results. Currently, there are two options: <code translate="no">WeightedRanker</code> and <code translate="no">RRFRanker</code>. For more information about reranking strategies, refer to <a href="/docs/ja/reranking.md">Reranking</a>.</p>
 <ul>
-<li><p>重み付きスコアリングを使用する</p>
-<p><code translate="no">WeightedRanker</code> を使用して、各ベクトルフィールドの検索結果に指定した重みで重要度を割り当てます。あるベクター・フィールドを他のベクター・フィールドより優先させる場合、<code translate="no">WeightedRanker(value1, value2, ..., valueN)</code> を使用することで、検索結果の組み合わせにこれを反映させることができます。</p>
+<li><p>Use weighted scoring</p>
+<p>The <code translate="no">WeightedRanker</code> is used to assign importance to the results from each vector field search with specified weights. If you prioritize some vector fields over others, <code translate="no">WeightedRanker(value1, value2, ..., valueN)</code> can reflect this in the combined search results.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> WeightedRanker
 <span class="hljs-comment"># Use WeightedRanker to combine results with specified weights</span>
 <span class="hljs-comment"># Assign weights of 0.8 to text search and 0.2 to image search</span>
 rerank = WeightedRanker(<span class="hljs-number">0.8</span>, <span class="hljs-number">0.2</span>)  
 <button class="copy-code-btn"></button></code></pre>
-<p><code translate="no">WeightedRanker</code> を使用する場合は、次の点に注意してください：</p>
+<p>When using <code translate="no">WeightedRanker</code>, note that:</p>
 <ul>
-<li>各重み値は 0（最も重要でない）から 1（最も重要）まであり、最終的な集計スコアに影響します。</li>
-<li><code translate="no">WeightedRanker</code> で提供されるウェイト値の総数は、作成した<code translate="no">AnnSearchRequest</code> インスタンスの数と同じでなければなりません。</li>
+<li>Each weight value ranges from 0 (least important) to 1 (most important), influencing the final aggregated score.</li>
+<li>The total number of weight values provided in <code translate="no">WeightedRanker</code> should equal the number of <code translate="no">AnnSearchRequest</code> instances you have created.</li>
 </ul></li>
-<li><p>相互ランク融合（RFF）を使用する</p>
+<li><p>Use Reciprocal Rank Fusion (RFF)</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Alternatively, use RRFRanker for reciprocal rank fusion reranking</span>
 <span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> RRFRanker
 
 rerank = RRFRanker()
 <button class="copy-code-btn"></button></code></pre></li>
 </ul>
-<h2 id="Step-3-Perform-a-Hybrid-Search" class="common-anchor-header">ステップ3：ハイブリッド検索を実行する<button data-href="#Step-3-Perform-a-Hybrid-Search" class="anchor-icon" translate="no">
+<h2 id="Step-3-Perform-a-Hybrid-Search" class="common-anchor-header">Step 3: Perform a Hybrid Search<button data-href="#Step-3-Perform-a-Hybrid-Search" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -212,7 +214,7 @@ rerank = RRFRanker()
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p><code translate="no">AnnSearchRequest</code> インスタンスとリランキング戦略を設定したら、<code translate="no">hybrid_search()</code> メソッドを使用してハイブリッド検索を実行します。</p>
+    </button></h2><p>With the <code translate="no">AnnSearchRequest</code> instances and reranking strategy set, use the <code translate="no">hybrid_search()</code> method to perform the hybrid search.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Before conducting hybrid search, load the collection into memory.</span>
 collection.load()
 
@@ -224,20 +226,20 @@ res = collection.hybrid_search(
 
 <span class="hljs-built_in">print</span>(res)
 <button class="copy-code-btn"></button></code></pre>
-<p>パラメータ</p>
+<p>Parameters:</p>
 <ul>
-<li><p><code translate="no">reqs</code> <em>(リスト）</em></p>
-<p>検索リクエストのリスト。各リクエストは<code translate="no">ANNSearchRequest</code> オブジェクトである。各リクエストは異なるベクトルフィールドと異なる検索パラメータのセットに対応することができる。</p></li>
-<li><p><code translate="no">rerank</code> <em>(オブジェクト</em>)</p>
-<p>ハイブリッド検索に使用するリランキング戦略。取り得る値：<code translate="no">WeightedRanker(value1, value2, ..., valueN)</code> と<code translate="no">RRFRanker()</code> 。</p>
-<p>リランキング戦略の詳細については、<a href="/docs/ja/reranking.md">リランキングを</a>参照のこと。</p></li>
-<li><p><code translate="no">limit</code> <em>(int</em>)</p>
-<p>ハイブリッド検索で返す最終結果の最大数。</p></li>
+<li><p><code translate="no">reqs</code> (<em>list</em>)</p>
+<p>A list of search requests, where each request is an <code translate="no">ANNSearchRequest</code> object. Each request can correspond to a different vector field and a different set of search parameters.</p></li>
+<li><p><code translate="no">rerank</code> (<em>object</em>)</p>
+<p>The reranking strategy to use for hybrid search. Possible values: <code translate="no">WeightedRanker(value1, value2, ..., valueN)</code> and <code translate="no">RRFRanker()</code>.</p>
+<p>For more information about reranking strategies, refer to <a href="/docs/ja/reranking.md">Reranking</a>.</p></li>
+<li><p><code translate="no">limit</code> (<em>int</em>)</p>
+<p>The maximum number of final results to return in the hybrid search.</p></li>
 </ul>
-<p>出力は以下のようになります：</p>
+<p>The output is similar to the following:</p>
 <pre><code translate="no" class="language-python">[<span class="hljs-string">&quot;[&#x27;id: 844, distance: 0.006047376897186041, entity: {}&#x27;, &#x27;id: 876, distance: 0.006422005593776703, entity: {}&#x27;]&quot;</span>]
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Limits" class="common-anchor-header">制限<button data-href="#Limits" class="anchor-icon" translate="no">
+<h2 id="Limits" class="common-anchor-header">Limits<button data-href="#Limits" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -253,11 +255,11 @@ res = collection.hybrid_search(
         ></path>
       </svg>
     </button></h2><ul>
-<li><p>通常、各コレクションには最大4つのベクトル・フィールドがデフォルトで許容されます。しかし、<code translate="no">proxy.maxVectorFieldNum</code> の設定を調整して、コレクション内のベクターフィールドの最大数を拡張するオプションがあり、コレクションごとに最大10個のベクターフィールドが制限されます。詳細は<a href="https://milvus.io/docs/configure_proxy.md#Proxy-related-Configurations">プロキシ関連の設定を</a>参照。</p></li>
-<li><p>コレクション内のベクトルフィールドに部分的にインデックスが付けられたり、ロードされたりすると、エラーになります。</p></li>
-<li><p>現在のところ、ハイブリッド検索では、<code translate="no">AnnSearchRequest</code> 、1つのクエリ・ベクタのみを運ぶことができます。</p></li>
+<li><p>Typically, each collection has a default allowance of up to 4 vector fields. However, you have the option to adjust the <code translate="no">proxy.maxVectorFieldNum</code> configuration to expand the maximum number of vector fields in a collection, with a maximum limit of 10 vector fields per collection. See <a href="https://milvus.io/docs/configure_proxy.md#Proxy-related-Configurations">Proxy-related Configurations</a> for more.</p></li>
+<li><p>Partially indexed or loaded vector fields in a collection will result in an error.</p></li>
+<li><p>Currently, each <code translate="no">AnnSearchRequest</code> in a hybrid search can carry one query vector only.</p></li>
 </ul>
-<h2 id="FAQ" class="common-anchor-header">よくある質問<button data-href="#FAQ" class="anchor-icon" translate="no">
+<h2 id="FAQ" class="common-anchor-header">FAQ<button data-href="#FAQ" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -273,14 +275,14 @@ res = collection.hybrid_search(
         ></path>
       </svg>
     </button></h2><ul>
-<li><p><strong>ハイブリッド検索はどのような場合に推奨されますか？</strong></p>
-<p>ハイブリッド検索は、高い精度が要求される複雑な状況、特にエンティティが複数の多様なベクトルで表現できる場合に最適です。これは、文章などの同じデータが異なる埋め込みモデルで処理される場合や、マルチモーダル情報（個人の画像、指紋、声紋など）が様々なベクトル形式に変換される場合に当てはまります。これらのベクトルに重みを割り当てることで、それらの複合的な影響力により、検索結果の再現性を大幅に高め、有効性を向上させることができる。</p></li>
-<li><p><strong>重み付きランカーはどのように異なるベクトルフィールド間の距離を正規化するのですか？</strong></p>
-<p>重み付きランカーは、各フィールドに割り当てられた重みを使用して、ベクトルフィールド間の距離を正規化します。重みに従って各ベクトルフィールドの重要度を計算し、重みの大きいものを優先します。一貫性を確保するために、ANN検索リクエスト全体で同じメトリックタイプを使用することをお勧めします。この方法により、より重要であると判断されたベクトルが、全体的なランキングにより大きな影響を与えるようになります。</p></li>
-<li><p><strong>Cohere Ranker や BGE Ranker のような代替ランカーを使用することはできますか？</strong></p>
-<p>現在のところ、提供されているランカーのみがサポートされています。将来のアップデートに向けて、追加のランカーを含める計画が進行中です。</p></li>
-<li><p><strong>複数のハイブリッド検索を同時に実行することは可能ですか？</strong></p>
-<p>はい、複数のハイブリッド検索操作の同時実行はサポートされています。</p></li>
-<li><p><strong>複数のAnnSearchRequestオブジェクトで同じベクトルフィールドを使用してハイブリッド検索を実行できますか？</strong></p>
-<p>技術的には、ハイブリッド検索に複数のAnnSearchRequestオブジェクトで同じベクターフィールドを使用することは可能です。ハイブリッド検索のために複数のベクターフィールドを持つ必要はありません。</p></li>
+<li><p><strong>In which scenario is hybrid search recommended?</strong></p>
+<p>Hybrid search is ideal for complex situations demanding high accuracy, especially when an entity can be represented by multiple, diverse vectors. This applies to cases where the same data, such as a sentence, is processed through different embedding models or when multimodal information (like images, fingerprints, and voiceprints of an individual) is converted into various vector formats. By assigning weights to these vectors, their combined influence can significantly enrich recall and improve the effectiveness of search results.</p></li>
+<li><p><strong>How does a weighted ranker normalize distances between different vector fields?</strong></p>
+<p>A weighted ranker normalizes the distances between vector fields using assigned weights to each field. It calculates the importance of each vector field according to its weight, prioritizing those with higher weights. It’s advised to use the same metric type across ANN search requests to ensure consistency. This method ensures that vectors deemed more significant have a greater influence on the overall ranking.</p></li>
+<li><p><strong>Is it possible to use alternative rankers like Cohere Ranker or BGE Ranker?</strong></p>
+<p>Currently, only the provided rankers are supported. Plans to include additional rankers are underway for future updates.</p></li>
+<li><p><strong>Is it possible to conduct multiple hybrid search operations at the same time?</strong></p>
+<p>Yes, simultaneous execution of multiple hybrid search operations is supported.</p></li>
+<li><p><strong>Can I use the same vector field in multiple AnnSearchRequest objects to perform hybrid searches?</strong></p>
+<p>Technically, it is possible to use the same vector field in multiple AnnSearchRequest objects for hybrid searches. It is not necessary to have multiple vector fields for a hybrid search.</p></li>
 </ul>

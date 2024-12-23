@@ -1,7 +1,9 @@
 ---
 id: single-vector-search.md
 order: 1
-summary: 이 문서에서는 단일 쿼리 벡터를 사용하여 Milvus 컬렉션에서 벡터를 검색하는 방법에 대해 설명합니다.
+summary: >-
+  This article describes how to search for vectors in a Milvus collection using
+  a single query vector.
 title: Single-Vector Search
 ---
 <h1 id="Single-Vector-Search" class="common-anchor-header">Single-Vector Search<button data-href="#Single-Vector-Search" class="anchor-icon" translate="no">

@@ -1,8 +1,8 @@
 ---
 id: manage-partitions.md
-title: 파티션 관리
+title: Manage Partitions
 ---
-<h1 id="Manage-Partitions" class="common-anchor-header">파티션 관리<button data-href="#Manage-Partitions" class="anchor-icon" translate="no">
+<h1 id="Manage-Partitions" class="common-anchor-header">Manage Partitions<button data-href="#Manage-Partitions" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -17,8 +17,8 @@ title: 파티션 관리
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>이 가이드에서는 컬렉션에서 파티션을 만들고 관리하는 방법을 안내합니다.</p>
-<h2 id="Overview" class="common-anchor-header">개요<button data-href="#Overview" class="anchor-icon" translate="no">
+    </button></h1><p>This guide walks you through how to create and manage partitions in a collection.</p>
+<h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -33,14 +33,14 @@ title: 파티션 관리
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Milvus에서 파티션은 컬렉션의 하위 분할을 나타냅니다. 이 기능을 사용하면 컬렉션의 물리적 저장 공간을 여러 부분으로 나눌 수 있으므로 전체 컬렉션이 아닌 더 작은 데이터 하위 집합으로 초점을 좁혀 쿼리 성능을 개선할 수 있습니다.</p>
-<p>컬렉션을 만들면 최소한 <strong>_default라는</strong> 이름의 기본 파티션이 자동으로 생성됩니다. 컬렉션 내에 최대 1,024개의 파티션을 만들 수 있습니다.</p>
+    </button></h2><p>A partition in Milvus represents a sub-division of a collection. This functionality allows the physical storage of a collection to be divided into multiple parts, contributing to improved query performance by narrowing down the focus to a smaller subset of data rather than the entire collection.</p>
+<p>Upon the creation of a collection, at least a default partition named _<strong>default</strong> is automatically created. You can create a maximum of 1,024 partitions within a collection.</p>
 <div class="admonition note">
-<p><b>참고</b></p>
-<p>Milvus는 <strong>파티션 키라는</strong> 기능을 도입하여 기본 파티션을 활용하여 특정 필드의 해시값을 기반으로 엔티티를 저장합니다. 이 기능은 멀티테넌시 구현을 용이하게 하여 검색 성능을 향상시킵니다. 자세한 내용은 <a href="https://milvus.io/docs/use-partition-key.md">파티션 키 사용을</a> 참조하세요.</p>
-<p>컬렉션에서 <strong>파티션 키</strong> 기능이 켜져 있으면 Milvus가 모든 파티션 관리를 처리하므로 사용자는 이러한 부담을 덜 수 있습니다.</p>
+<p><b>notes</b></p>
+<p>Milvus  introduces a feature called <strong>Partition Key</strong>, leveraging the underlying partitions to store entities based on the hashed values of a specific field. This feature facilitates the implementation of multi-tenancy, enhancing search performance. For details, read <a href="https://milvus.io/docs/use-partition-key.md">Use Partition Key</a>.</p>
+<p>If the <strong>Partition Key</strong> feature is on in a collection, Milvus takes care of managing all the partitions, relieving you of this responsibility.</p>
 </div>
-<h2 id="Preparations" class="common-anchor-header">준비<button data-href="#Preparations" class="anchor-icon" translate="no">
+<h2 id="Preparations" class="common-anchor-header">Preparations<button data-href="#Preparations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -55,18 +55,21 @@ title: 파티션 관리
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>아래 코드 스니펫은 기존 코드를 재구성하여 Milvus에 연결을 설정하고 빠른 설정 모드에서 컬렉션을 생성하는 것으로, 컬렉션 생성 시 컬렉션이 로드됨을 나타냅니다.</p>
+    </button></h2><p>The code snippet below repurposes the existing code to establish a connection to Milvus and create a collection in a quick-setup mode, indicating that the collection is loaded upon creation.</p>
 <div class="language-python">
-<p>준비를 위해 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> 를 사용하여 Milvus에 연결하고 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> 를 사용하여 빠른 설정 모드로 컬렉션을 생성합니다.</p>
+<p>For preparations, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to Milvus and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> to create a collection in a quick-setup mode.</p>
 </div>
 <div class="language-java">
-<p>준비를 위해 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> 을 사용하여 Milvus에 연결하고 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> 를 사용하여 빠른 설정 모드에서 컬렉션을 생성합니다.</p>
+<p>For preparations, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> to connect to Milvus and <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection in a quick-setup mode.</p>
 </div>
 <div class="language-javascript">
-<p>준비하려면 <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> 을 사용하여 Milvus에 연결하고 <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a> 를 사용하여 빠른 설정 모드에서 컬렉션을 생성합니다.</p>
+<p>For preparations, use <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to Milvus and <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection in a quick-setup mode.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">파이썬 </a> <a href="#java">자바</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> MilvusClient, DataType
 
 <span class="hljs-comment"># 1. Set up a Milvus client</span>
@@ -114,10 +117,10 @@ client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">M
 });  
 <button class="copy-code-btn"></button></code></pre>
 <div class="admonition note">
-<p><b>참고</b></p>
-<p>위의 코드 스니펫에서는 컬렉션과 함께 컬렉션의 인덱스가 생성되어 컬렉션이 생성될 때 로드되었음을 나타냅니다.</p>
+<p><b>notes</b></p>
+<p>In the above code snippet, the index of the collection has been created along with the collection, indicating that the collection is loaded upon creation.</p>
 </div>
-<h2 id="List-Partitions" class="common-anchor-header">목록 파티션<button data-href="#List-Partitions" class="anchor-icon" translate="no">
+<h2 id="List-Partitions" class="common-anchor-header">List Partitions<button data-href="#List-Partitions" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -132,18 +135,21 @@ client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">M
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>컬렉션이 준비되면 컬렉션의 파티션을 나열할 수 있습니다.</p>
+    </button></h2><p>Once a collection is ready, you can list its partitions.</p>
 <div class="language-python">
-<p>파티션을 나열하려면 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/list_partitions.md"><code translate="no">list_partitions()</code></a>.</p>
+<p>To list partitions, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/list_partitions.md"><code translate="no">list_partitions()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>파티션을 나열하려면 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/listPartitions.md"><code translate="no">listPartitions()</code></a>.</p>
+<p>To list partitions, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/listPartitions.md"><code translate="no">listPartitions()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>파티션을 나열하려면 <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/listPartitions.md"><code translate="no">listPartitions()</code></a>.</p>
+<p>To list partitions, use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/listPartitions.md"><code translate="no">listPartitions()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">파이썬 </a> <a href="#java">자바</a> <a href="#javascript">노드.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 3. List partitions</span>
 res = client.list_partitions(collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>)
 <span class="hljs-built_in">print</span>(res)
@@ -178,13 +184,13 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// [ &#x27;_default&#x27; ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>위 코드 스니펫의 출력에는 지정된 컬렉션 내의 파티션 이름이 포함됩니다.</p>
+<p>The output of the above code snippet includes the names of the partitions within the specified collection.</p>
 <div class="admonition note">
-<p><b>참고</b></p>
-<p>컬렉션에서 필드를 파티션 키로 설정한 경우 Milvus는 컬렉션과 함께 최소 <strong>64개의</strong> 파티션을 생성합니다. 파티션을 나열할 때 결과는 위 코드 조각의 출력과 다를 수 있습니다.</p>
-<p>자세한 내용은 <a href="https://milvus.io/docs/use-partition-key.md">파티션 키 사용을</a> 참조하세요.</p>
+<p><b>notes</b></p>
+<p>If you have set a field as the partition key in a collection, Milvus creates at least <strong>64</strong> partitions along with the collection. When listing the partitions, the results may differ from the output of the above code snippets.</p>
+<p>For details, refer to <a href="https://milvus.io/docs/use-partition-key.md">Use Partition Key</a>.</p>
 </div>
-<h2 id="Create-Partitions" class="common-anchor-header">파티션 만들기<button data-href="#Create-Partitions" class="anchor-icon" translate="no">
+<h2 id="Create-Partitions" class="common-anchor-header">Create Partitions<button data-href="#Create-Partitions" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -199,18 +205,21 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>컬렉션에 파티션을 더 추가할 수 있습니다. 컬렉션에는 최대 1,024개의 파티션을 가질 수 있습니다.</p>
+    </button></h2><p>You can add more partitions to the collection. A collection can have up to 1,024 partitions.</p>
 <div class="language-python">
-<p>파티션을 생성하려면 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/create_partition.md"><code translate="no">create_partition()</code></a>.</p>
+<p>To create partitions, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/create_partition.md"><code translate="no">create_partition()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>파티션을 생성하려면 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/createPartition.md"><code translate="no">createPartition()</code></a>.</p>
+<p>To create partitions, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/createPartition.md"><code translate="no">createPartition()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>파티션을 만들려면 <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/createPartition.md"><code translate="no">createPartition()</code></a>.</p>
+<p>To create partitions, use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/createPartition.md"><code translate="no">createPartition()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">파이썬 </a> <a href="#java">자바</a> <a href="#javascript">노드.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 4. Create more partitions</span>
 client.create_partition(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -283,13 +292,13 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// [ &#x27;_default&#x27;, &#x27;partitionA&#x27;, &#x27;partitionB&#x27; ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>위의 코드 스니펫은 컬렉션에 파티션을 만들고 컬렉션의 파티션을 나열합니다.</p>
+<p>The code snippet above creates a partition in a collection and lists the partitions of the collection.</p>
 <div class="admonition note">
-<p><b>참고</b></p>
-<p>컬렉션에서 필드를 파티션 키로 설정한 경우 Milvus에서 컬렉션의 파티션 관리를 처리합니다. 따라서 파티션을 만들려고 할 때 메시지가 표시되는 오류가 발생할 수 있습니다.</p>
-<p>자세한 내용은 <a href="https://milvus.io/docs/use-partition-key.md">파티션 키 사용을</a> 참조하세요.</p>
+<p><b>notes</b></p>
+<p>If you have set a field as the partition key in a collection, Milvus takes care of managing the partitions in the collection. Therefore, you may encounter prompted errors when attempting to create partitions.</p>
+<p>For details, refer to <a href="https://milvus.io/docs/use-partition-key.md">Use Partition Key</a>.</p>
 </div>
-<h2 id="Check-for-a-Specific-Partition" class="common-anchor-header">특정 파티션 확인<button data-href="#Check-for-a-Specific-Partition" class="anchor-icon" translate="no">
+<h2 id="Check-for-a-Specific-Partition" class="common-anchor-header">Check for a Specific Partition<button data-href="#Check-for-a-Specific-Partition" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -304,18 +313,21 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>특정 파티션의 존재 여부를 확인할 수도 있습니다.</p>
+    </button></h2><p>You can also check the existence of a specific partition.</p>
 <div class="language-python">
-<p>특정 파티션을 확인하려면 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/has_partition.md"><code translate="no">has_partition()</code></a>.</p>
+<p>To check for a specific partition, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/has_partition.md"><code translate="no">has_partition()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>특정 파티션을 확인하려면 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/hasPartition.md"><code translate="no">hasPartition()</code></a>.</p>
+<p>To check for a specific partition, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/hasPartition.md"><code translate="no">hasPartition()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>특정 파티션을 확인하려면 <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/hasPartition.md"><code translate="no">hasPartition()</code></a>.</p>
+<p>To check for a specific partition, use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/hasPartition.md"><code translate="no">hasPartition()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">파이썬 </a> <a href="#java">자바</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 5. Check whether a partition exists</span>
 res = client.has_partition(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -389,8 +401,8 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// false</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>위의 코드 스니펫은 컬렉션에 <code translate="no">partitionA</code> 및 <code translate="no">partitionC</code> 이라는 이름의 파티션이 있는지 확인합니다.</p>
-<h2 id="Load--Release-Partitions" class="common-anchor-header">파티션 로드 및 해제<button data-href="#Load--Release-Partitions" class="anchor-icon" translate="no">
+<p>The code snippet above checks whether the collection has a partition named <code translate="no">partitionA</code> and <code translate="no">partitionC</code>.</p>
+<h2 id="Load--Release-Partitions" class="common-anchor-header">Load &amp; Release Partitions<button data-href="#Load--Release-Partitions" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -405,18 +417,21 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>특정 파티션을 로드 및 해제하여 검색 및 쿼리에 사용할 수 있게 하거나 사용할 수 없게 할 수 있습니다.</p>
-<h3 id="Get-Load-Status" class="common-anchor-header">로드 상태 보기</h3><div class="language-python">
-<p>컬렉션 및 해당 파티션의 로드 상태를 확인하려면 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Management/get_load_state.md"><code translate="no">get_load_state()</code></a>.</p>
+    </button></h2><p>You can load and release specific partitions to make them available or unavailable for searches and queries.</p>
+<h3 id="Get-Load-Status" class="common-anchor-header">Get Load Status</h3><div class="language-python">
+<p>To check the load status of a collection and its partitions, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Management/get_load_state.md"><code translate="no">get_load_state()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>컬렉션 및 해당 파티션의 로드 상태를 확인하려면 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Management/getLoadState.md"><code translate="no">getLoadState()</code></a>.</p>
+<p>To check the load status of a collection and its partitions, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Management/getLoadState.md"><code translate="no">getLoadState()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>컬렉션 및 해당 파티션의 로드 상태를 확인하려면 <a href="https://milvus.io/api-reference/node/v2.4.x/Management/getLoadState.md"><code translate="no">getLoadState()</code></a>.</p>
+<p>To check the load status of a collection and its partitions, use <a href="https://milvus.io/api-reference/node/v2.4.x/Management/getLoadState.md"><code translate="no">getLoadState()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">파이썬 </a> <a href="#java">자바</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Release the collection</span>
 client.release_collection(collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>)
 
@@ -574,26 +589,29 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// LoadStateLoaded</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>가능한 로드 상태는 다음 중 하나일 수 있습니다.</p>
+<p>Possible load status may be either of the following</p>
 <ul>
-<li><p><strong>로드됨</strong></p>
-<p>컬렉션의 파티션 중 하나 이상이 로드된 경우 컬렉션은 <code translate="no">Loaded</code> 으로 표시됩니다.</p></li>
+<li><p><strong>Loaded</strong></p>
+<p>A collection is marked as <code translate="no">Loaded</code> if at least one of its partitions has been loaded.</p></li>
 <li><p><strong>NotLoad</strong></p>
-<p>컬렉션의 파티션이 로드되지 않은 경우 컬렉션은 <code translate="no">NotLoad</code> 으로 표시됩니다.</p></li>
-<li><p><strong>로드 중</strong></p>
-<p>컬렉션의 파티션 중 하나 이상이 로드 중인 경우 컬렉션은 로드 중으로 표시됩니다.</p></li>
+<p>A collection is marked as <code translate="no">NotLoad</code> if none of its partitions has been loaded.</p></li>
+<li><p><strong>Loading</strong></p>
+<p>A collection is marked as Loading if at least one of its partitions is in the loading process.</p></li>
 </ul>
-<h3 id="Load-Partitions" class="common-anchor-header">파티션 로드</h3><div class="language-python">
-<p>컬렉션의 모든 파티션을 로드하려면 다음을 호출하면 됩니다. <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Management/load_collection.md"><code translate="no">load_collection()</code></a>. 컬렉션의 특정 파티션을 로드하려면 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/load_partitions.md"><code translate="no">load_partitions()</code></a>.</p>
+<h3 id="Load-Partitions" class="common-anchor-header">Load Partitions</h3><div class="language-python">
+<p>To load all partitions of a collection, you can just call <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Management/load_collection.md"><code translate="no">load_collection()</code></a>. To load specific partitions of a collection, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/load_partitions.md"><code translate="no">load_partitions()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>컬렉션의 모든 파티션을 로드하려면, 그냥 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Management/loadCollection.md"><code translate="no">loadCollection()</code></a>. 컬렉션의 특정 파티션을 로드하려면 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/loadPartitions.md"><code translate="no">loadPartitions()</code></a>.</p>
+<p>To load all partitions of a collection, you can just call <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Management/loadCollection.md"><code translate="no">loadCollection()</code></a>. To load specific partitions of a collection, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/loadPartitions.md"><code translate="no">loadPartitions()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>컬렉션의 모든 파티션을 로드하려면, 그냥 <a href="https://milvus.io/api-reference/node/v2.4.x/Management/loadCollection.md"><code translate="no">loadCollection()</code></a>. 컬렉션의 특정 파티션을 로드하려면 <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/loadPartitions.md"><code translate="no">loadPartitions()</code></a>.</p>
+<p>To load all partitions of a collection, you can just call <a href="https://milvus.io/api-reference/node/v2.4.x/Management/loadCollection.md"><code translate="no">loadCollection()</code></a>. To load specific partitions of a collection, use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/loadPartitions.md"><code translate="no">loadPartitions()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">파이썬 </a> <a href="#java">자바</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python">client.load_partitions(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     partition_names=[<span class="hljs-string">&quot;partitionA&quot;</span>]
@@ -644,9 +662,12 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// LoadStateLoaded</span>
 <span class="hljs-comment">//</span>
 <button class="copy-code-btn"></button></code></pre>
-<p>한 번에 여러 파티션을 로드하려면 다음과 같이 하세요:</p>
+<p>To load multiple partitions at a time, do as follows:</p>
 <div class="multipleCode">
-   <a href="#python">파이썬 </a> <a href="#java">자바</a> <a href="#javascript">노드.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python">client.load_partitions(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     partition_names=[<span class="hljs-string">&quot;partitionA&quot;</span>, <span class="hljs-string">&quot;partitionB&quot;</span>]
@@ -734,7 +755,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// LoadStateLoaded</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>하나 이상의 파티션에서 지정된 필드를 로드하려면 다음과 같이 하세요:</p>
+<p>To load specified fields in one or more partitions, do as follows:</p>
 <pre><code translate="no" class="language-python">client.load_partitions(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     partition_names=[<span class="hljs-string">&quot;partitionA&quot;</span>],
@@ -742,19 +763,22 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
     skip_load_dynamic_field=<span class="hljs-literal">True</span>
 )
 <button class="copy-code-btn"></button></code></pre>
-<p><code translate="no">load_fields</code> 에 나열된 필드만 검색 및 쿼리에서 필터링 조건 및 출력 필드로 사용할 수 있습니다. 목록에 항상 기본 키를 포함해야 합니다. 로드에서 제외된 필드 이름은 필터링이나 출력에 사용할 수 없습니다.</p>
-<p><code translate="no">skip_load_dynamic_field=True</code> 을 사용하여 동적 필드 로드를 건너뛸 수 있습니다. Milvus는 동적 필드를 단일 필드로 취급하므로 동적 필드의 모든 키가 함께 포함되거나 제외됩니다.</p>
-<h3 id="Release-Partitions" class="common-anchor-header">파티션 해제</h3><div class="language-python">
-<p>컬렉션의 모든 파티션을 해제하려면 간단히 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Management/release_collection.md"><code translate="no">release_collection()</code></a>. 컬렉션의 특정 파티션을 해제하려면 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/release_partitions.md"><code translate="no">release_partitions()</code></a>.</p>
+<p>Note that only the fields listed in <code translate="no">load_fields</code> can be used as filtering conditions and output fields in searches and queries. You should always include the primary key in the list. The field names excluded from loading will not be available for filtering or output.</p>
+<p>You can use <code translate="no">skip_load_dynamic_field=True</code> to skip loading the dynamic field. Milvus treats the dynamic field as a single field, so all the keys in the dynamic field will be included or excluded together.</p>
+<h3 id="Release-Partitions" class="common-anchor-header">Release Partitions</h3><div class="language-python">
+<p>To release all partitions of a collection, you can just call <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Management/release_collection.md"><code translate="no">release_collection()</code></a>. To release specific partitions of a collection, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/release_partitions.md"><code translate="no">release_partitions()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>컬렉션의 모든 파티션을 해제하려면 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Management/releaseCollection.md"><code translate="no">releaseCollection()</code></a>. 컬렉션의 특정 파티션을 해제하려면 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/releasePartitions.md"><code translate="no">releasePartitions()</code></a>.</p>
+<p>To release all partitions of a collection, you can just call <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Management/releaseCollection.md"><code translate="no">releaseCollection()</code></a>. To release specific partitions of a collection, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/releasePartitions.md"><code translate="no">releasePartitions()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>컬렉션의 모든 파티션을 해제하려면 다음을 호출하면 됩니다. <a href="https://milvus.io/api-reference/node/v2.4.x/Management/releaseCollection.md"><code translate="no">releaseCollection()</code></a>. 컬렉션의 특정 파티션을 해제하려면 <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/releasePartitions.md"><code translate="no">releasePartitions()</code></a>.</p>
+<p>To release all partitions of a collection, you can just call <a href="https://milvus.io/api-reference/node/v2.4.x/Management/releaseCollection.md"><code translate="no">releaseCollection()</code></a>. To release specific partitions of a collection, use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/releasePartitions.md"><code translate="no">releasePartitions()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">파이썬 </a> <a href="#java">자바</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 7. Release a partition</span>
 client.release_partitions(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -814,7 +838,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// LoadStateNotLoad</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>한 번에 여러 파티션을 해제하려면 다음과 같이 하세요:</p>
+<p>To release multiple partitions at a time, do as follows:</p>
 <pre><code translate="no" class="language-python">client.release_partitions(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     partition_names=[<span class="hljs-string">&quot;_default&quot;</span>, <span class="hljs-string">&quot;partitionA&quot;</span>, <span class="hljs-string">&quot;partitionB&quot;</span>]
@@ -830,7 +854,7 @@ res = client.get_load_state(
 <span class="hljs-comment">#     &quot;state&quot;: &quot;&lt;LoadState: NotLoad&gt;&quot;</span>
 <span class="hljs-comment"># }</span>
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Drop-Partitions" class="common-anchor-header">파티션 삭제<button data-href="#Drop-Partitions" class="anchor-icon" translate="no">
+<h2 id="Drop-Partitions" class="common-anchor-header">Drop Partitions<button data-href="#Drop-Partitions" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -845,18 +869,21 @@ res = client.get_load_state(
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>파티션을 릴리스한 후 더 이상 필요하지 않은 경우 파티션을 삭제할 수 있습니다.</p>
+    </button></h2><p>Once you release a partition, you can drop it if it is no longer needed.</p>
 <div class="language-python">
-<p>파티션을 삭제하려면 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/drop_partition.md"><code translate="no">drop_partition()</code></a>.</p>
+<p>To drop a partition, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/drop_partition.md"><code translate="no">drop_partition()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>파티션을 삭제하려면 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/dropPartition.md"><code translate="no">dropPartition()</code></a>.</p>
+<p>To drop a partition, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/dropPartition.md"><code translate="no">dropPartition()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>파티션을 삭제하려면 <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/dropPartition.md"><code translate="no">dropPartition()</code></a>.</p>
+<p>To drop a partition, use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/dropPartition.md"><code translate="no">dropPartition()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">파이썬 </a> <a href="#java">자바</a> <a href="#javascript">노드.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 8. Drop a partition</span>
 client.drop_partition(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -917,8 +944,8 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
 <div class="admonition note">
-<p><b>참고</b></p>
-<p>파티션을 삭제하기 전에 메모리에서 파티션을 해제해야 합니다.</p>
+<p><b>notes</b></p>
+<p>Before dropping a partition, you need to release it from memory.</p>
 </div>
 <h2 id="FAQ" class="common-anchor-header">FAQ<button data-href="#FAQ" class="anchor-icon" translate="no">
       <svg translate="no"
@@ -936,13 +963,13 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
         ></path>
       </svg>
     </button></h2><ul>
-<li><p><strong>파티션에 얼마나 많은 데이터를 저장할 수 있나요?</strong></p>
-<p>파티션에는 1B 미만의 데이터를 저장하는 것이 좋습니다.</p></li>
-<li><p><strong>생성할 수 있는 파티션의 최대 개수는 몇 개인가요?</strong></p>
-<p>기본적으로 Milvus는 최대 1,024개의 파티션을 생성할 수 있습니다. <code translate="no">rootCoord.maxPartitionNum</code> 을 구성하여 최대 파티션 수를 조정할 수 있습니다. 자세한 내용은 <a href="https://milvus.io/docs/configure_rootcoord.md#rootCoordmaxPartitionNum">시스템 구성을</a> 참조하세요.</p></li>
-<li><p><strong>파티션과 파티션 키를 어떻게 구분하나요?</strong></p>
-<p>파티션은 물리적 저장 단위인 반면, 파티션 키는 지정된 열을 기반으로 특정 파티션에 데이터를 자동으로 할당하는 논리적 개념입니다.</p>
-<p>예를 들어 Milvus에서 파티션 키가 <code translate="no">color</code> 필드로 정의된 컬렉션이 있는 경우, 시스템은 각 엔터티의 <code translate="no">color</code> 필드의 해시값을 기반으로 데이터를 파티션에 자동으로 할당합니다. 이 자동화된 프로세스는 사용자가 데이터를 삽입하거나 검색할 때 파티션을 수동으로 지정해야 하는 수고를 덜어줍니다.</p>
-<p>반면에 수동으로 파티션을 생성할 때는 파티션 키의 기준에 따라 각 파티션에 데이터를 할당해야 합니다. 예를 들어 <code translate="no">color</code> 필드가 있는 컬렉션이 있는 경우 <code translate="no">color</code> 값이 <code translate="no">red</code> 인 엔티티는 <code translate="no">partition A</code> 에, <code translate="no">color</code> 값이 <code translate="no">blue</code> 인 엔티티는 <code translate="no">partition B</code> 에 수동으로 할당해야 합니다. 이 수동 관리에는 더 많은 노력이 필요합니다.</p>
-<p>요약하면, 파티션과 파티션 키는 모두 데이터 계산을 최적화하고 쿼리 효율성을 향상시키는 데 활용됩니다. 파티션 키를 활성화한다는 것은 파티션 데이터 삽입 및 로딩의 수동 관리에 대한 통제권을 포기하는 것을 의미하며, 이러한 프로세스는 Milvus에서 완전히 자동화되어 처리되므로 이를 인식하는 것이 중요합니다.</p></li>
+<li><p><strong>How much data can be stored in a partition?</strong></p>
+<p>It is recommended to store less than 1B of data in a partition.</p></li>
+<li><p><strong>What is the maximum number of partitions that can be created?</strong></p>
+<p>By default, Milvus allows a maximum of 1,024 partitions to be created. You can adjust the maximum number of partitions by configuring <code translate="no">rootCoord.maxPartitionNum</code>. For details, refer to <a href="https://milvus.io/docs/configure_rootcoord.md#rootCoordmaxPartitionNum">System Configurations</a>.</p></li>
+<li><p><strong>How can I differentiate between partitions and partition keys?</strong></p>
+<p>Partitions are physical storage units, whereas partition keys are logical concepts that automatically assign data to specific partitions based on a designated column.</p>
+<p>For instance, in Milvus, if you have a collection with a partition key defined as the <code translate="no">color</code> field, the system automatically assigns data to partitions based on the hashed values of the <code translate="no">color</code> field for each entity. This automated process relieves the user of the responsibility to manually specify the partition when inserting or searching data.</p>
+<p>On the other hand, when manually creating partitions, you need to assign data to each partition based on the criteria of the partition key. If you have a collection with a <code translate="no">color</code> field, you would manually assign entities with a <code translate="no">color</code> value of <code translate="no">red</code> to <code translate="no">partition A</code>, and entities with a <code translate="no">color</code> value of <code translate="no">blue</code> to <code translate="no">partition B</code>. This manual management requires more effort.</p>
+<p>In summary, both partitions and partition keys are utilized to optimize data computation and enhance query efficiency. It is essential to recognize that enabling a partition key means surrendering control over the manual management of partition data insertion and loading, as these processes are fully automated and handled by Milvus.</p></li>
 </ul>

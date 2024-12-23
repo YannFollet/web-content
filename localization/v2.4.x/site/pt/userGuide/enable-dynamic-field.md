@@ -1,8 +1,8 @@
 ---
 id: enable-dynamic-field.md
-title: Ativar o campo dinâmico
+title: Enable Dynamic Field
 ---
-<h1 id="Enable-Dynamic-Field" class="common-anchor-header">Ativar o campo dinâmico<button data-href="#Enable-Dynamic-Field" class="anchor-icon" translate="no">
+<h1 id="Enable-Dynamic-Field" class="common-anchor-header">Enable Dynamic Field<button data-href="#Enable-Dynamic-Field" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -17,8 +17,8 @@ title: Ativar o campo dinâmico
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>Esta página explica como utilizar o campo dinâmico numa coleção para uma inserção e recuperação flexíveis de dados.</p>
-<h2 id="Overview" class="common-anchor-header">Descrição geral<button data-href="#Overview" class="anchor-icon" translate="no">
+    </button></h1><p>This page explains how to use the dynamic field in a collection for flexible data insertion and retrieval.</p>
+<h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -33,10 +33,10 @@ title: Ativar o campo dinâmico
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>O Milvus permite-lhe definir o esquema de uma coleção, definindo o nome e o tipo de dados de cada campo específico, de modo a poder criar índices nesses campos para melhorar o desempenho da pesquisa.</p>
-<p>Uma vez definido um campo, é necessário incluí-lo quando insere dados. E se alguns campos não estiverem sempre presentes em todas as suas entradas de dados? É aqui que entra o campo dinâmico.</p>
-<p>O campo dinâmico numa coleção é um campo JSON reservado chamado $meta. Pode conter campos não definidos pelo esquema e os seus valores como pares de valores chave. Utilizando o campo dinâmico, pode pesquisar e consultar tanto os campos definidos pelo esquema como quaisquer campos não definidos pelo esquema que possam ter.</p>
-<h2 id="Enable-dynamic-field" class="common-anchor-header">Ativar o campo dinâmico<button data-href="#Enable-dynamic-field" class="anchor-icon" translate="no">
+    </button></h2><p>Milvus allows you to define the schema of a collection by setting the name and the data type of each specific field so that you can create indexes in these fields for improved search performance.</p>
+<p>Once a field is defined, you need to include this field when you insert data. What if some fields are not always present in all your data entries? This is where the dynamic field comes in.</p>
+<p>The dynamic field in a collection is a reserved JSON field named $meta. It can hold non-schema-defined fields and their values as key-value pairs. Using the dynamic field, you can search and query both schema-defined fields and any non-schema-defined fields they may have.</p>
+<h2 id="Enable-dynamic-field" class="common-anchor-header">Enable dynamic field<button data-href="#Enable-dynamic-field" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -51,19 +51,22 @@ title: Ativar o campo dinâmico
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Ao definir um esquema para uma coleção, pode definir <code translate="no">enable_dynamic_field</code> como <code translate="no">True</code> para ativar o campo dinâmico reservado, indicando que quaisquer campos não definidos pelo esquema e os respectivos valores inseridos posteriormente serão guardados como pares de valores chave no campo dinâmico reservado.</p>
-<p>O seguinte excerto cria uma coleção com dois campos definidos pelo esquema, nomeadamente id e vetor, e ativa o campo dinâmico.</p>
+    </button></h2><p>When defining a schema for a collection, you can set <code translate="no">enable_dynamic_field</code> to <code translate="no">True</code> to enable the reserved dynamic field, indicating that any non-schema-defined fields and their values inserted later on will be saved as key-value pairs in the reserved dynamic field.</p>
+<p>The following snippet creates a collection with two schema-defined fields, namely id and vector, and enables the dynamic field.</p>
 <div class="language-python">
-<p>Para mais informações sobre parâmetros, consulte <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> na referência do SDK.</p>
+<p>For more information on parameters, refer to <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> in the SDK reference.</p>
 </div>
 <div class="language-java">
-<p>Para obter mais informações sobre parâmetros, consulte <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> na referência do SDK.</p>
+<p>For more information on parameters, refer to <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> in the SDK reference.</p>
 </div>
 <div class="language-javascript">
-<p>Para mais informações sobre os parâmetros, consultar <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a> na referência do SDK.</p>
+<p>For more information on parameters, refer to <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a> in the SDK reference.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">import</span> random, time
 <span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> connections, MilvusClient, DataType
 
@@ -250,7 +253,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// LoadStateLoaded</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Insert-dynamic-data" class="common-anchor-header">Inserir dados dinâmicos<button data-href="#Insert-dynamic-data" class="anchor-icon" translate="no">
+<h2 id="Insert-dynamic-data" class="common-anchor-header">Insert dynamic data<button data-href="#Insert-dynamic-data" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -265,10 +268,13 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Assim que a coleção for criada, pode começar a inserir dados, incluindo os dados dinâmicos na coleção.</p>
-<h3 id="Prepare-data" class="common-anchor-header">Preparar dados</h3><p>Nesta secção, é necessário preparar alguns dados gerados aleatoriamente para a inserção posterior.</p>
+    </button></h2><p>Once the collection is created, you can start inserting data, including the dynamic data into the collection.</p>
+<h3 id="Prepare-data" class="common-anchor-header">Prepare data</h3><p>In this section, you need to prepare some randomly generated data for the insertion later on.</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python">colors = [<span class="hljs-string">&quot;green&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;yellow&quot;</span>, <span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;black&quot;</span>, <span class="hljs-string">&quot;white&quot;</span>, <span class="hljs-string">&quot;purple&quot;</span>, <span class="hljs-string">&quot;pink&quot;</span>, <span class="hljs-string">&quot;orange&quot;</span>, <span class="hljs-string">&quot;brown&quot;</span>, <span class="hljs-string">&quot;grey&quot;</span>]
 data = []
 
@@ -320,7 +326,7 @@ System.<span class="hljs-keyword">out</span>.println(data.<span class="hljs-keyw
 
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data[<span class="hljs-number">0</span>])
 <button class="copy-code-btn"></button></code></pre>
-<p>Pode ver a estrutura dos dados gerados verificando a sua primeira entrada.</p>
+<p>You can view the structure of the generated data by checking its first entry.</p>
 <pre><code translate="no">{
     <span class="hljs-built_in">id</span>: <span class="hljs-number">0</span>,
     vector: [
@@ -335,18 +341,21 @@ System.<span class="hljs-keyword">out</span>.println(data.<span class="hljs-keyw
     color_tag: <span class="hljs-string">&#x27;blue_2064&#x27;</span>
 }
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Insert-data" class="common-anchor-header">Inserir dados</h3><p>Em seguida, pode inserir com segurança os dados na coleção.</p>
+<h3 id="Insert-data" class="common-anchor-header">Insert data</h3><p>Then you can safely insert the data into the collection.</p>
 <div class="language-python">
-<p>Para mais informações sobre parâmetros, consulte <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> na referência do SDK.</p>
+<p>For more information on parameters, refer to <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> in the SDK reference.</p>
 </div>
 <div class="language-java">
-<p>Para obter mais informações sobre os parâmetros, consultar <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> na referência do SDK.</p>
+<p>For more information on parameters, refer to <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> in the SDK reference.</p>
 </div>
 <div class="language-javascript">
-<p>Para mais informações sobre os parâmetros, consultar <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a> na referência do SDK.</p>
+<p>For more information on parameters, refer to <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a> in the SDK reference.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python">res = client.insert(
     collection_name=<span class="hljs-string">&quot;test_collection&quot;</span>,
     data=data,
@@ -404,7 +413,7 @@ Thread.sleep(<span class="hljs-number">5000</span>);
 
 <span class="hljs-keyword">await</span> <span class="hljs-title function_">sleep</span>(<span class="hljs-number">5000</span>)
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Search-with-dynamic-fields" class="common-anchor-header">Pesquisa com campos dinâmicos<button data-href="#Search-with-dynamic-fields" class="anchor-icon" translate="no">
+<h2 id="Search-with-dynamic-fields" class="common-anchor-header">Search with dynamic fields<button data-href="#Search-with-dynamic-fields" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -419,18 +428,21 @@ Thread.sleep(<span class="hljs-number">5000</span>);
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Se tiver criado a coleção com o campo dinâmico ativado e inserido campos não definidos pelo esquema, pode utilizar estes campos na expressão de filtro de uma pesquisa ou consulta da seguinte forma.</p>
+    </button></h2><p>If you have created the collection with the dynamic field enabled and inserted non-schema-defined fields, you can use these fields in the filter expression of a search or a query as follows.</p>
 <div class="language-python">
-<p>Para mais informações sobre parâmetros, consulte <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/search.md"><code translate="no">search()</code></a> na referência do SDK.</p>
+<p>For more information on parameters, refer to <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/search.md"><code translate="no">search()</code></a> in the SDK reference.</p>
 </div>
 <div class="language-java">
-<p>Para obter mais informações sobre parâmetros, consulte <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/search.md"><code translate="no">search()</code></a> na referência do SDK.</p>
+<p>For more information on parameters, refer to <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/search.md"><code translate="no">search()</code></a> in the SDK reference.</p>
 </div>
 <div class="language-javascript">
-<p>Para obter mais informações sobre parâmetros, consulte <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/search.md"><code translate="no">search()</code></a> na referência do SDK.</p>
+<p>For more information on parameters, refer to <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/search.md"><code translate="no">search()</code></a> in the SDK reference.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 4. Search with dynamic fields</span>
 query_vectors = [[<span class="hljs-number">0.3580376395471989</span>, -<span class="hljs-number">0.6023495712049978</span>, <span class="hljs-number">0.18414012509913835</span>, -<span class="hljs-number">0.26286205330961354</span>, <span class="hljs-number">0.9029438446296592</span>]]
 
@@ -523,7 +535,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Recaps" class="common-anchor-header">Recapitulações<button data-href="#Recaps" class="anchor-icon" translate="no">
+<h2 id="Recaps" class="common-anchor-header">Recaps<button data-href="#Recaps" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -538,8 +550,8 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>É importante notar que <strong>color</strong>, <strong>tag</strong> e <strong>color_tag</strong> não estão presentes quando se define o esquema de coleção, mas é possível utilizá-los como campos definidos pelo esquema quando se efectuam pesquisas e consultas.</p>
-<p>Se o nome de um campo não definido pelo esquema contiver caracteres que não sejam dígitos, letras e sublinhados, como sinais de mais (+), asteriscos (*) ou cifrões ($), será necessário incluir a chave em <strong>$meta[]</strong>, conforme mostrado no seguinte trecho de código ao usá-lo em uma expressão booleana ou ao incluí-lo nos campos de saída.</p>
+    </button></h2><p>It is worth noting that <strong>color</strong>, <strong>tag</strong>, and <strong>color_tag</strong> are not present when you define the collection schema, but you can use them as schema-defined fields when you conduct searches and queries.</p>
+<p>If the name of a non-schema-defined field contains characters other than digits, letters, and underscores, such as plus signs (+), asterisks (*), or dollar signs ($), you have to include the key within <strong>$meta[]</strong> as shown in the following code snippet when using it in a boolean expression or including it in the output fields.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-meta">... </span>
 <span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;$meta[&quot;$key&quot;] in [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]&#x27;</span>, 
 output_fields=<span class="hljs-string">&#x27;$meta[&quot;$key&quot;]&#x27;</span>  

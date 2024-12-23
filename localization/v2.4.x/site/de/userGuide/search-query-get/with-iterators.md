@@ -2,11 +2,11 @@
 id: with-iterators.md
 order: 4
 summary: >-
-  Milvus bietet Such- und Abfrage-Iteratoren für die Iteration von Ergebnissen
-  mit einer großen Anzahl von Entitäten.
-title: Mit Iteratoren
+  Milvus provides search and query iterators for iterating results with a large
+  volume of entities.
+title: With Iterators
 ---
-<h1 id="With-Iterators" class="common-anchor-header">Mit Iteratoren<button data-href="#With-Iterators" class="anchor-icon" translate="no">
+<h1 id="With-Iterators" class="common-anchor-header">With Iterators<button data-href="#With-Iterators" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -21,8 +21,8 @@ title: Mit Iteratoren
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>Milvus bietet Such- und Abfrage-Iteratoren für die Iteration durch ein großes Volumen von Entitäten. Da Milvus TopK auf 16384 begrenzt, können Benutzer Iteratoren verwenden, um große Zahlen oder sogar ganze Entitäten in einer Sammlung im Batch-Modus zurückzugeben.</p>
-<h2 id="Overview" class="common-anchor-header">Überblick<button data-href="#Overview" class="anchor-icon" translate="no">
+    </button></h1><p>Milvus provides search and query iterators for iterating through a large volume of entities. Since Milvus limits TopK to 16384, users can use iterators to return large numbers or even whole entities in a collection in batch mode.</p>
+<h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -37,19 +37,19 @@ title: Mit Iteratoren
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Iteratoren sind ein effizientes Werkzeug zum Scannen einer ganzen Sammlung oder zum Iterieren durch eine große Menge von Entitäten durch Angabe von Primärschlüsselwerten oder eines Filterausdrucks. Im Vergleich zu einem Such- oder Abfrageaufruf mit <strong>Offset-</strong> und <strong>Limit-Parametern</strong> ist die Verwendung von Iteratoren effizienter und skalierbarer.</p>
-<h3 id="Benefits-of-using-iterators" class="common-anchor-header">Vorteile der Verwendung von Iteratoren</h3><ul>
-<li><p><strong>Vereinfachung</strong>: Die komplexen <strong>Offset-</strong> und <strong>Limit-Einstellungen</strong> entfallen.</p></li>
-<li><p><strong>Effizient</strong>: Ermöglicht einen skalierbaren Datenabruf, indem nur die benötigten Daten abgerufen werden.</p></li>
-<li><p><strong>Konsistenz</strong>: Gewährleistet eine konsistente Datensatzgröße mit booleschen Filtern.</p></li>
+    </button></h2><p>Iterators are efficient tool for scanning a whole collection or iterating through a large volume of entities by specifying primary key values or a filter expression. Compared to a search or query call with <strong>offset</strong> and <strong>limit</strong> parameters, using iterators is more efficient and scalable.</p>
+<h3 id="Benefits-of-using-iterators" class="common-anchor-header">Benefits of using iterators</h3><ul>
+<li><p><strong>Simplicity</strong>: Eliminates the complex <strong>offset</strong> and <strong>limit</strong> settings.</p></li>
+<li><p><strong>Efficiency</strong>: Provides scalable data retrieval by fetching only the data in need.</p></li>
+<li><p><strong>Consistency</strong>: Ensures a consistent dataset size with boolean filters.</p></li>
 </ul>
 <div class="admonition note">
-<p><b>Hinweise</b></p>
+<p><b>notes</b></p>
 <ul>
-<li>Diese Funktion ist für Milvus 2.3.x oder höher verfügbar.</li>
+<li>This feature is available for Milvus 2.3.x or later.</li>
 </ul>
 </div>
-<h2 id="Preparations" class="common-anchor-header">Vorbereitungen<button data-href="#Preparations" class="anchor-icon" translate="no">
+<h2 id="Preparations" class="common-anchor-header">Preparations<button data-href="#Preparations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -64,15 +64,17 @@ title: Mit Iteratoren
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Der folgende Vorbereitungsschritt stellt eine Verbindung zu Milvus her und fügt zufällig generierte Entitäten in eine Sammlung ein.</p>
-<h3 id="Step-1-Create-a-collection" class="common-anchor-header">Schritt 1: Erstellen einer Sammlung</h3><div class="language-python">
-<p>Verwenden Sie <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> um sich mit dem Milvus-Server zu verbinden und <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> um eine Sammlung zu erstellen.</p>
+    </button></h2><p>The following preparation step connects to Milvus and inserts randomly generated entities into a collection.</p>
+<h3 id="Step-1-Create-a-collection" class="common-anchor-header">Step 1: Create a collection</h3><div class="language-python">
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> to create a collection.</p>
 </div>
 <div class="language-java">
-<p>Verwenden Sie <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> um eine Verbindung zum Milvus-Server herzustellen und <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> um eine Sammlung zu erstellen.</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> MilvusClient
 
 <span class="hljs-comment"># 1. Set up a Milvus client</span>
@@ -120,14 +122,16 @@ client.create_collection(
         .build();
 client.createCollection(quickSetupReq);
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Step-2-Insert-randomly-generated-entities" class="common-anchor-header">Schritt 2: Zufällig generierte Entitäten einfügen</h3><div class="language-python">
-<p>Verwenden Sie <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> um Entitäten in die Sammlung einzufügen.</p>
+<h3 id="Step-2-Insert-randomly-generated-entities" class="common-anchor-header">Step 2: Insert randomly generated entities</h3><div class="language-python">
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> to insert entities into the collection.</p>
 </div>
 <div class="language-java">
-<p>Verwenden Sie <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> um Entitäten in die Sammlung einzufügen.</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> to insert entities into the collection.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 3. Insert randomly generated vectors </span>
 colors = [<span class="hljs-string">&quot;green&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;yellow&quot;</span>, <span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;black&quot;</span>, <span class="hljs-string">&quot;white&quot;</span>, <span class="hljs-string">&quot;purple&quot;</span>, <span class="hljs-string">&quot;pink&quot;</span>, <span class="hljs-string">&quot;orange&quot;</span>, <span class="hljs-string">&quot;brown&quot;</span>, <span class="hljs-string">&quot;grey&quot;</span>]
 data = []
@@ -210,7 +214,7 @@ System.out.println(insertR.getInsertCnt());
 <span class="hljs-comment">// Output</span>
 <span class="hljs-comment">// 10000</span>
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Search-with-iterator" class="common-anchor-header">Suche mit Iterator<button data-href="#Search-with-iterator" class="anchor-icon" translate="no">
+<h2 id="Search-with-iterator" class="common-anchor-header">Search with iterator<button data-href="#Search-with-iterator" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -225,24 +229,26 @@ System.out.println(insertR.getInsertCnt());
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Iteratoren machen Ähnlichkeitssuchen besser skalierbar.</p>
+    </button></h2><p>Iterators make similarity searches more scalable.</p>
 <div class="language-python">
-<p>Um mit einem Iterator zu suchen, rufen Sie die Methode <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/search_iterator.md">search_iterator()</a> auf:</p>
+<p>To search with an iterator, call the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/search_iterator.md">search_iterator()</a> method:</p>
 </div>
 <div class="language-java">
-<p>Um mit einem Iterator zu suchen, rufen Sie die Methode <a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/searchIterator.md">searchIterator()</a> auf:</p>
+<p>To search with an iterator, call the <a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/searchIterator.md">searchIterator()</a> method:</p>
 </div>
 <ol>
-<li><p>Initialisieren Sie den Such-Iterator, um die Suchparameter und Ausgabefelder zu definieren.</p></li>
-<li><p>Verwenden Sie die <strong>next()</strong> -Methode innerhalb einer Schleife, um durch die Suchergebnisse zu paginieren.</p>
+<li><p>Initialize the search iterator to define the search parameters and output fields.</p></li>
+<li><p>Use the <strong>next()</strong> method within a loop to paginate through the search results.</p>
 <ul>
-<li><p>Wenn die Methode ein leeres Array zurückgibt, endet die Schleife, und es sind keine weiteren Seiten verfügbar.</p></li>
-<li><p>Alle Ergebnisse enthalten die angegebenen Ausgabefelder.</p></li>
+<li><p>If the method returns an empty array, the loop ends, and no more pages are available.</p></li>
+<li><p>All results carry the specified output fields.</p></li>
 </ul></li>
-<li><p>Rufen Sie manuell die Methode <strong>close()</strong> auf, um den Iterator zu schließen, sobald alle Daten abgerufen wurden.</p></li>
+<li><p>Manually call the <strong>close()</strong> method to close the iterator once all data has been retrieved.</p></li>
 </ol>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> Collection,connections
 
 <span class="hljs-comment"># 4. Search with iterator</span>
@@ -339,33 +345,33 @@ System.out.println(results.size());
   <thead>
     <tr>
       <th>Parameter</th>
-      <th>Beschreibung</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code translate="no">data</code></td>
-      <td>Eine Liste von Vektoreinbettungen.<br/>Milvus sucht nach den Vektoreinbettungen, die den angegebenen am ähnlichsten sind.</td>
+      <td>A list of vector embeddings.<br/>Milvus searches for the most similar vector embeddings to the specified ones.</td>
     </tr>
     <tr>
       <td><code translate="no">anns_field</code></td>
-      <td>Der Name des Vektorfeldes in der aktuellen Sammlung.</td>
+      <td>The name of the vector field in the current collection.</td>
     </tr>
     <tr>
       <td><code translate="no">batch_size</code></td>
-      <td>Die Anzahl der Entitäten, die jedes Mal zurückgegeben werden sollen, wenn Sie <code translate="no">next()</code> für den aktuellen Iterator aufrufen.<br/>Der Wert ist standardmäßig <strong>1000</strong>. Setzen Sie ihn auf einen geeigneten Wert, um die Anzahl der pro Iteration zurückzugebenden Objekte zu steuern.</td>
+      <td>The number of entities to return each time you call <code translate="no">next()</code> on the current iterator.<br/>The value defaults to <strong>1000</strong>. Set it to a proper value to control the number of entities to return per iteration.</td>
     </tr>
     <tr>
       <td><code translate="no">param</code></td>
-      <td>Die spezifischen Parametereinstellungen für diese Operation.<br/><ul><li><code translate="no">metric_type</code>: Der Metrik-Typ, der auf diese Operation angewendet wird. Dies sollte derselbe sein, der verwendet wird, wenn Sie das oben angegebene Vektorfeld indizieren. Mögliche Werte sind <strong>L2</strong>, <strong>IP</strong>, <strong>COSINE</strong>, <strong>JACCARD</strong>, <strong>HAMMING</strong>.</li><li><code translate="no">params</code>: Zusätzliche Parameter. Einzelheiten finden Sie unter <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/search_iterator.md">search_iterator()</a>.</li></ul></td>
+      <td>The parameter settings specific to this operation.<br/><ul><li><code translate="no">metric_type</code>: The metric type applied to this operation. This should be the same as the one used when you index the vector field specified above. Possible values are <strong>L2</strong>, <strong>IP</strong>, <strong>COSINE</strong>, <strong>JACCARD</strong>, <strong>HAMMING</strong>.</li><li><code translate="no">params</code>: Additional parameters. For details, refer to <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/search_iterator.md">search_iterator()</a>.</li></ul></td>
     </tr>
     <tr>
       <td><code translate="no">output_fields</code></td>
-      <td>Eine Liste von Feldnamen, die in jeder zurückgegebenen Entität enthalten sein sollen.<br/>Der Standardwert ist <strong>None</strong>. Wenn er nicht angegeben wird, wird nur das Primärfeld einbezogen.</td>
+      <td>A list of field names to include in each entity in return.<br/>The value defaults to <strong>None</strong>. If left unspecified, only the primary field is included.</td>
     </tr>
     <tr>
       <td><code translate="no">limit</code></td>
-      <td>Die Gesamtzahl der zurückzugebenden Entitäten.<br/>Der Standardwert ist <strong>-1</strong>, was bedeutet, dass alle passenden Entitäten zurückgegeben werden.</td>
+      <td>The total number of entities to return.<br/>The value defaults to <strong>-1</strong>, indicating all matching entities will be in return.</td>
     </tr>
   </tbody>
 </table>
@@ -373,33 +379,33 @@ System.out.println(results.size());
   <thead>
     <tr>
       <th>Parameter</th>
-      <th>Beschreibung</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code translate="no">withCollectionName</code></td>
-      <td>Legt den Namen der Sammlung fest. Der Sammlungsname darf nicht leer oder null sein.</td>
+      <td>Set the collection name. Collection name cannot be empty or null.</td>
     </tr>
     <tr>
       <td><code translate="no">withVectorFieldName</code></td>
-      <td>Zielvektorfeld nach Name festlegen. Der Feldname darf nicht leer oder ungültig sein.</td>
+      <td>Set target vector field by name. Field name cannot be empty or null.</td>
     </tr>
     <tr>
       <td><code translate="no">withVectors</code></td>
-      <td>Legen Sie die Zielvektoren fest. Bis zu 16384 Vektoren sind zulässig.</td>
+      <td>Set the target vectors. Up to 16384 vectors allowed.</td>
     </tr>
     <tr>
       <td><code translate="no">withBatchSize</code></td>
-      <td>Die Anzahl der Entitäten, die bei jedem Aufruf von <code translate="no">next()</code> für den aktuellen Iterator zurückgegeben werden.<br/>Der Standardwert ist <strong>1000</strong>. Setzen Sie ihn auf einen geeigneten Wert, um die Anzahl der Entitäten zu steuern, die pro Iteration zurückgegeben werden.</td>
+      <td>The number of entities to return each time you call <code translate="no">next()</code> on the current iterator.<br/>The value defaults to <strong>1000</strong>. Set it to a proper value to control the number of entities to return per iteration.</td>
     </tr>
     <tr>
       <td><code translate="no">withParams</code></td>
-      <td>Gibt die Parameter der Suche im JSON-Format an. Weitere Informationen finden Sie unter <a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/searchIterator.md">searchIterator()</a>.</td>
+      <td>Specifies the parameters of search in JSON format. For more information, refer to <a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/searchIterator.md">searchIterator()</a>.</td>
     </tr>
   </tbody>
 </table>
-<h2 id="Query-with-an-iterator" class="common-anchor-header">Abfrage mit einem Iterator<button data-href="#Query-with-an-iterator" class="anchor-icon" translate="no">
+<h2 id="Query-with-an-iterator" class="common-anchor-header">Query with an iterator<button data-href="#Query-with-an-iterator" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -415,13 +421,15 @@ System.out.println(results.size());
         ></path>
       </svg>
     </button></h2><div class="language-python">
-<p>Um mit einem Iterator abzufragen, rufen Sie die Methode <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/query_iterator.md">query_iterator()</a> auf:</p>
+<p>To query with an iterator, call the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/query_iterator.md">query_iterator()</a> method:</p>
 </div>
 <div class="language-java">
-<p>Um mit einem Iterator zu suchen, rufen Sie die Methode <a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/queryIterator.md">queryIterator()</a> auf:</p>
+<p>To search with an iterator, call the <a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/queryIterator.md">queryIterator()</a> method:</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 6. Query with iterator</span>
 iterator = collection.query_iterator(
     batch_size=<span class="hljs-number">10</span>, <span class="hljs-comment"># Controls the size of the return each time you call next()</span>
@@ -494,25 +502,25 @@ System.out.println(results.subList(<span class="hljs-number">0</span>, <span cla
   <thead>
     <tr>
       <th>Parameter</th>
-      <th>Beschreibung</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code translate="no">batch_size</code></td>
-      <td>Die Anzahl der Entitäten, die jedes Mal zurückgegeben werden sollen, wenn Sie <code translate="no">next()</code> für den aktuellen Iterator aufrufen.<br/>Der Standardwert ist <strong>1000</strong>. Setzen Sie ihn auf einen geeigneten Wert, um die Anzahl der Entitäten zu steuern, die pro Iteration zurückgegeben werden sollen.</td>
+      <td>The number of entities to return each time you call <code translate="no">next()</code> on the current iterator.<br/>The value defaults to <strong>1000</strong>. Set it to a proper value to control the number of entities to return per iteration.</td>
     </tr>
     <tr>
       <td><code translate="no">expr</code></td>
-      <td>Eine skalare Filterbedingung, um übereinstimmende Entitäten zu filtern.<br/>Der Standardwert ist <strong>None</strong>, was anzeigt, dass die skalare Filterung ignoriert wird. Um eine skalare Filterbedingung zu erstellen, siehe <a href="https://milvus.io/docs/boolean.md">Boolesche Ausdrucksregeln</a>.</td>
+      <td>A scalar filtering condition to filter matching entities.<br/>The value defaults to <strong>None</strong>, indicating that scalar filtering is ignored. To build a scalar filtering condition, refer to <a href="https://milvus.io/docs/boolean.md">Boolean Expression Rules</a>.</td>
     </tr>
     <tr>
       <td><code translate="no">output_fields</code></td>
-      <td>Eine Liste von Feldnamen, die in jeder zurückgegebenen Entität enthalten sein sollen.<br/>Der Standardwert ist <strong>None</strong>. Wenn er nicht angegeben wird, wird nur das Primärfeld einbezogen.</td>
+      <td>A list of field names to include in each entity in return.<br/>The value defaults to <strong>None</strong>. If left unspecified, only the primary field is included.</td>
     </tr>
     <tr>
       <td><code translate="no">limit</code></td>
-      <td>Die Gesamtzahl der zurückzugebenden Entitäten.<br/>Der Standardwert ist <strong>-1</strong>, was bedeutet, dass alle passenden Entitäten zurückgegeben werden.</td>
+      <td>The total number of entities to return.<br/>The value defaults to <strong>-1</strong>, indicating all matching entities will be in return.</td>
     </tr>
   </tbody>
 </table>
@@ -520,25 +528,25 @@ System.out.println(results.subList(<span class="hljs-number">0</span>, <span cla
   <thead>
     <tr>
       <th>Parameter</th>
-      <th>Beschreibung</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code translate="no">withCollectionName</code></td>
-      <td>Legt den Namen der Sammlung fest. Der Sammlungsname darf nicht leer oder null sein.</td>
+      <td>Set the collection name. Collection name cannot be empty or null.</td>
     </tr>
     <tr>
       <td><code translate="no">withExpr</code></td>
-      <td>Legen Sie den Ausdruck für die Abfrage von Entitäten fest. Um eine skalare Filterbedingung zu erstellen, siehe <a href="https://milvus.io/docs/boolean.md">Boolesche Ausdrucksregeln</a>.</td>
+      <td>Set the expression to query entities. To build a scalar filtering condition, refer to <a href="https://milvus.io/docs/boolean.md">Boolean Expression Rules</a>.</td>
     </tr>
     <tr>
       <td><code translate="no">withBatchSize</code></td>
-      <td>Die Anzahl der Entitäten, die bei jedem Aufruf von <code translate="no">next()</code> für den aktuellen Iterator zurückgegeben werden sollen.<br/>Der Standardwert ist <strong>1000</strong>. Setzen Sie ihn auf einen geeigneten Wert, um die Anzahl der pro Iteration zurückzugebenden Entitäten zu steuern.</td>
+      <td>The number of entities to return each time you call <code translate="no">next()</code> on the current iterator.<br/>The value defaults to <strong>1000</strong>. Set it to a proper value to control the number of entities to return per iteration.</td>
     </tr>
     <tr>
       <td><code translate="no">addOutField</code></td>
-      <td>Gibt ein skalares Ausgabefeld an (Optional).</td>
+      <td>Specifies an output scalar field (Optional).</td>
     </tr>
   </tbody>
 </table>

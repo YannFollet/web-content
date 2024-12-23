@@ -1,11 +1,11 @@
 ---
 id: insert-update-delete.md
 summary: >-
-  Questa guida illustra le operazioni di manipolazione dei dati all'interno di
-  una collezione, tra cui l'inserimento, l'upsertion e la cancellazione.
-title: 'Inserimento, upsert e cancellazione'
+  This guide walks you through the data manipulation operations within a
+  collection, including insertion, upsertion, and deletion.
+title: 'Insert, Upsert & Delete'
 ---
-<h1 id="Insert-Upsert--Delete" class="common-anchor-header">Inserimento, upsert e cancellazione<button data-href="#Insert-Upsert--Delete" class="anchor-icon" translate="no">
+<h1 id="Insert-Upsert--Delete" class="common-anchor-header">Insert, Upsert &amp; Delete<button data-href="#Insert-Upsert--Delete" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -20,8 +20,8 @@ title: 'Inserimento, upsert e cancellazione'
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>Questa guida illustra le operazioni di manipolazione dei dati all'interno di una collezione, tra cui l'inserimento, l'upsertion e la cancellazione.</p>
-<h2 id="Before-you-start" class="common-anchor-header">Prima di iniziare<button data-href="#Before-you-start" class="anchor-icon" translate="no">
+    </button></h1><p>This guide walks you through the data manipulation operations within a collection, including insertion, upsertion, and deletion.</p>
+<h2 id="Before-you-start" class="common-anchor-header">Before you start<button data-href="#Before-you-start" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -37,11 +37,11 @@ title: 'Inserimento, upsert e cancellazione'
         ></path>
       </svg>
     </button></h2><ul>
-<li><p>È stato installato l'SDK prescelto. Per installare un SDK, consultare la sezione <a href="https://milvus.io/docs/install-pymilvus.md">Installazione degli SDK</a>.</p></li>
-<li><p>Avete creato una raccolta. Per creare una raccolta, consultare <a href="/docs/it/manage-collections.md">Gestione delle raccolte</a>.</p></li>
-<li><p>Per inserire un grande volume di dati, si consiglia di usare <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/DataImport/LocalBulkWriter/LocalBulkWriter.md">Importazione dati</a>.</p></li>
+<li><p>You have installed the SDK of your choice. To install an SDK, refer to <a href="https://milvus.io/docs/install-pymilvus.md">Install SDKs</a>.</p></li>
+<li><p>You have created a collection. To create a collection, refer to <a href="/docs/it/manage-collections.md">Manage Collections</a>.</p></li>
+<li><p>To insert a large volume of data, you are advised to use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/DataImport/LocalBulkWriter/LocalBulkWriter.md">Data Import</a>.</p></li>
 </ul>
-<h2 id="Overview" class="common-anchor-header">Panoramica<button data-href="#Overview" class="anchor-icon" translate="no">
+<h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -56,10 +56,10 @@ title: 'Inserimento, upsert e cancellazione'
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Un'entità, nel contesto delle raccolte Milvus, è un'istanza singola e identificabile all'interno di una raccolta. Rappresenta un membro distinto di una particolare classe, sia essa un libro in una biblioteca, un gene in un genoma o qualsiasi altra entità identificabile.</p>
-<p>Le entità all'interno di una collezione condividono un insieme comune di attributi, chiamato schema, che delinea la struttura che ogni entità deve rispettare, compresi i nomi dei campi, i tipi di dati e qualsiasi altro vincolo.</p>
-<p>L'inserimento di entità in una collezione richiede che i dati forniti contengano tutti i campi definiti dallo schema della collezione di destinazione. Inoltre, è possibile includere campi non definiti dallo schema solo se si è abilitato il campo dinamico. Per ulteriori informazioni, consultare <a href="/docs/it/enable-dynamic-field.md">Abilita campo dinamico</a>.</p>
-<h2 id="Preparations" class="common-anchor-header">Preparazione<button data-href="#Preparations" class="anchor-icon" translate="no">
+    </button></h2><p>An entity, within the context of Milvus collections, is a singular, identifiable instance within a collection. It represents a distinct member of a particular class, be it a book in a library, a gene in a genome, or any other identifiable entity.</p>
+<p>Entities within a collection share a common set of attributes, termed schema, outlining the structure that each entity must adhere to, including field names, data types, and any other constraints.</p>
+<p>Successful insertion of entities into a collection requires that the provided data should contain all the schema-defined fields of the target collection. Additionally, you can also include non-schema-defined fields only if you have enabled the dynamic field. For details, refer to <a href="/docs/it/enable-dynamic-field.md">Enable Dynamic Field</a>.</p>
+<h2 id="Preparations" class="common-anchor-header">Preparations<button data-href="#Preparations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -74,18 +74,21 @@ title: 'Inserimento, upsert e cancellazione'
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Il frammento di codice seguente ripropone il codice esistente per stabilire una connessione a un cluster Milvus e impostare rapidamente una raccolta.</p>
+    </button></h2><p>The code snippet below repurposes the existing code to establish a connection to a Milvus cluster and quickly set up a collection.</p>
 <div class="language-python">
-<p>Per la preparazione, usare <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> per connettersi al server Milvus e <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> per creare una raccolta in modalità di configurazione rapida.</p>
+<p>For preparations, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> to create a collection in a quick-setup mode.</p>
 </div>
 <div class="language-java">
-<p>Per i preparativi, usare <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> per connettersi al server Milvus e <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> per creare una raccolta in modalità di configurazione rapida.</p>
+<p>For preparations, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection in a quick-setup mode.</p>
 </div>
 <div class="language-javascript">
-<p>Per le preparazioni, usare <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> per connettersi al server Milvus e <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a> per creare una raccolta in modalità di configurazione rapida.</p>
+<p>For preparations, use <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection in a quick-setup mode.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> MilvusClient
 
 <span class="hljs-comment"># 1. Set up a Milvus client</span>
@@ -142,14 +145,14 @@ client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">M
 });  
 <button class="copy-code-btn"></button></code></pre>
 <div class="admonition note">
-<p><b>note</b></p>
-<p>La collezione generata nel codice precedente contiene solo due campi: <code translate="no">id</code> (come chiave primaria) e <code translate="no">vector</code> (come campo vettore), con le impostazioni <code translate="no">auto_id</code> e <code translate="no">enable_dynamic_field</code> abilitate per default. Quando si inseriscono i dati,</p>
+<p><b>notes</b></p>
+<p>The collection generated in the above code contains only two fields: <code translate="no">id</code> (as the primary key) and <code translate="no">vector</code> (as the vector field), with <code translate="no">auto_id</code> and <code translate="no">enable_dynamic_field</code> settings enabled by default. When inserting data,</p>
 <ul>
-<li><p>Non è necessario includere l <strong>'id</strong> nei dati da inserire, perché il campo primario si incrementa automaticamente con l'inserimento dei dati.</p></li>
-<li><p>I campi non definiti da schemi saranno salvati come coppie chiave-valore in un campo JSON riservato chiamato <strong>$meta</strong>.</p></li>
+<li><p>You do not need to include <strong>id</strong> in the data to be inserted, because the primary field automatically increments as data is inserted.</p></li>
+<li><p>Non-schema-defined fields will be saved as key-value pairs in a reserved JSON field named <strong>$meta</strong>.</p></li>
 </ul>
 </div>
-<h2 id="Insert-entities" class="common-anchor-header">Inserire le entità<button data-href="#Insert-entities" class="anchor-icon" translate="no">
+<h2 id="Insert-entities" class="common-anchor-header">Insert entities<button data-href="#Insert-entities" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -164,18 +167,21 @@ client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">M
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Per inserire le entità, è necessario organizzare i dati in un elenco di dizionari, dove ogni dizionario rappresenta un'entità. Ogni dizionario contiene le chiavi corrispondenti ai campi predefiniti e dinamici dell'insieme di destinazione.</p>
+    </button></h2><p>To insert entities, you need to organize the data into a list of dictionaries, where each dictionary represents an entity. Each dictionary contains the keys corresponding to both pre-defined and dynamic fields in the target collection.</p>
 <div class="language-python">
-<p>Per inserire entità in un insieme, utilizzare il metodo <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> .</p>
+<p>To insert entities into a collection, use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> method.</p>
 </div>
 <div class="language-java">
-<p>Per inserire entità in un insieme, utilizzare il metodo <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> metodo.</p>
+<p>To insert entities into a collection, use the <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> method.</p>
 </div>
 <div class="language-javascript">
-<p>Per inserire entità in un insieme, utilizzare il metodo <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a> metodo.</p>
+<p>To insert entities into a collection, use the <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a> method.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 3. Insert some data</span>
 data=[
     {<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;vector&quot;</span>: [<span class="hljs-number">0.3580376395471989</span>, -<span class="hljs-number">0.6023495712049978</span>, <span class="hljs-number">0.18414012509913835</span>, -<span class="hljs-number">0.26286205330961354</span>, <span class="hljs-number">0.9029438446296592</span>], <span class="hljs-string">&quot;color&quot;</span>: <span class="hljs-string">&quot;pink_8682&quot;</span>},
@@ -268,9 +274,12 @@ System.<span class="hljs-keyword">out</span>.println(insertResp.getInsertCnt());
 <span class="hljs-comment">// 10</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Insert-into-partitions" class="common-anchor-header">Inserire in partizioni</h3><p>Per inserire i dati in una partizione specifica, è possibile specificare il nome della partizione nella richiesta di inserimento come segue:</p>
+<h3 id="Insert-into-partitions" class="common-anchor-header">Insert into partitions</h3><p>To insert data into a specific partition, you can specify the name of the partition in the insert request as follows:</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 4. Insert some more data into a specific partition</span>
 data=[
     {<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-number">10</span>, <span class="hljs-string">&quot;vector&quot;</span>: [-<span class="hljs-number">0.5570353903748935</span>, -<span class="hljs-number">0.8997887893201304</span>, -<span class="hljs-number">0.7123782431855732</span>, -<span class="hljs-number">0.6298990746450119</span>, <span class="hljs-number">0.6699215060604258</span>], <span class="hljs-string">&quot;color&quot;</span>: <span class="hljs-string">&quot;red_1202&quot;</span>},
@@ -382,8 +391,8 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// 10</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>L'output è un dizionario contenente le statistiche sulle entità interessate. Per informazioni dettagliate sulle operazioni di partizione, consultare <a href="/docs/it/manage-partitions.md">Gestione delle partizioni</a>.</p>
-<h2 id="Upsert-entities" class="common-anchor-header">Aggiungere entità<button data-href="#Upsert-entities" class="anchor-icon" translate="no">
+<p>The output is a dictionary containing the statistics on the affected entities. For details on partition operations, refer to <a href="/docs/it/manage-partitions.md">Manage Partitions</a>.</p>
+<h2 id="Upsert-entities" class="common-anchor-header">Upsert entities<button data-href="#Upsert-entities" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -398,28 +407,31 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>L'upsert dei dati è una combinazione di operazioni di aggiornamento e inserimento. In Milvus, un'operazione di upsert esegue un'azione a livello di dati per inserire o aggiornare un'entità in base al fatto che la sua chiave primaria esista già in una collezione. In particolare:</p>
+    </button></h2><p>Upserting data is a combination of update and insert operations. In Milvus, an upsert operation performs a data-level action to either insert or update an entity based on whether its primary key already exists in a collection. Specifically:</p>
 <ul>
-<li><p>Se la chiave primaria dell'entità esiste già nella collezione, l'entità esistente viene sovrascritta.</p></li>
-<li><p>Se la chiave primaria non esiste nell'insieme, verrà inserita una nuova entità.</p></li>
+<li><p>If the primary key of the entity already exists in the collection, the existing entity will be overwritten.</p></li>
+<li><p>If the primary key does not exist in the collection, a new entity will be inserted.</p></li>
 </ul>
 <div class="alert note">
 <ul>
-<li>Le operazioni di Upsert non aggiornano le chiavi primarie.</li>
-<li>Se si intende utilizzare l'operazione <code translate="no">upsert</code> invece di <code translate="no">insert</code> per l'ingestione di dati su larga scala (ad esempio, milioni di vettori), si tenga presente che ciò può comportare un elevato consumo di memoria sui nodi dati Milvus.</li>
+<li>Upsert operations will not update the primary keys.</li>
+<li>If you plan to use the <code translate="no">upsert</code> operation instead of <code translate="no">insert</code> for large-scale data ingestion (e.g. millions of vectors), be aware that this can lead to high memory consumption on Milvus data nodes.</li>
 </ul>
 </div>
 <div class="language-python">
-<p>Per l'upsert delle entità, utilizzare il metodo <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/upsert.md"><code translate="no">upsert()</code></a> per l'upsert delle entità.</p>
+<p>To upsert entities, use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/upsert.md"><code translate="no">upsert()</code></a> method.</p>
 </div>
 <div class="language-java">
-<p>Per l'upsert di entità, utilizzare il metodo <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">upsert()</code></a> metodo.</p>
+<p>To upsert entities, use the <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">upsert()</code></a> method.</p>
 </div>
 <div class="language-javascript">
-<p>Per l'upsert di entità, utilizzare il metodo <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/upsert.md"><code translate="no">upsert()</code></a> metodo.</p>
+<p>To upsert entities, use the <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/upsert.md"><code translate="no">upsert()</code></a> method.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 5. Upsert some data</span>
 data=[
     {<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;vector&quot;</span>: [-<span class="hljs-number">0.619954382375778</span>, <span class="hljs-number">0.4479436794798608</span>, -<span class="hljs-number">0.17493894838751745</span>, -<span class="hljs-number">0.4248030059917294</span>, -<span class="hljs-number">0.8648452746018911</span>], <span class="hljs-string">&quot;color&quot;</span>: <span class="hljs-string">&quot;black_9898&quot;</span>},
@@ -499,9 +511,12 @@ console.log(res.upsert_cnt)
 // <span class="hljs-number">10</span>
 // 
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Upsert-data-in-partitions" class="common-anchor-header">Aggiungere i dati nelle partizioni</h3><p>Per eseguire l'upsert di dati in una partizione specifica, è possibile specificare il nome della partizione nella richiesta di inserimento, come segue:</p>
+<h3 id="Upsert-data-in-partitions" class="common-anchor-header">Upsert data in partitions</h3><p>To upsert data into a specific partition, you can specify the name of the partition in the insert request as follows:</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 6. Upsert data in partitions</span>
 data=[
     {<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-number">10</span>, <span class="hljs-string">&quot;vector&quot;</span>: [<span class="hljs-number">0.06998888224297328</span>, <span class="hljs-number">0.8582816610326578</span>, -<span class="hljs-number">0.9657938677934292</span>, <span class="hljs-number">0.6527905683627726</span>, -<span class="hljs-number">0.8668460657158576</span>], <span class="hljs-string">&quot;color&quot;</span>: <span class="hljs-string">&quot;black_3651&quot;</span>},
@@ -587,8 +602,8 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// 10</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>L'output è un dizionario contenente le statistiche sulle entità interessate. Per informazioni dettagliate sulle operazioni di partizione, consultare <a href="/docs/it/manage-partitions.md">Gestione delle partizioni</a>.</p>
-<h2 id="Delete-entities" class="common-anchor-header">Eliminare le entità<button data-href="#Delete-entities" class="anchor-icon" translate="no">
+<p>The output is a dictionary containing the statistics on the affected entities. For details on partition operations, refer to <a href="/docs/it/manage-partitions.md">Manage Partitions</a>.</p>
+<h2 id="Delete-entities" class="common-anchor-header">Delete entities<button data-href="#Delete-entities" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -604,22 +619,25 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
         ></path>
       </svg>
     </button></h2><div class="language-python">
-<p>Se un'entità non è più necessaria, è possibile eliminarla dall'insieme utilizzando il comando <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/delete.md"><code translate="no">delete()</code></a>.</p>
+<p>If an entity is no longer needed, you can delete it from the collection by using <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/delete.md"><code translate="no">delete()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>Se un'entità non è più necessaria, è possibile eliminarla dall'insieme usando <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/delete.md"><code translate="no">delete()</code></a>.</p>
+<p>If an entity is no longer needed, you can delete it from the collection by using <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/delete.md"><code translate="no">delete()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>Se un'entità non è più necessaria, è possibile eliminarla dall'insieme usando <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/delete.md"><code translate="no">delete()</code></a>.</p>
+<p>If an entity is no longer needed, you can delete it from the collection by using <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/delete.md"><code translate="no">delete()</code></a>.</p>
 </div>
-<p>Milvus offre due modi per identificare le entità da eliminare.</p>
+<p>Milvus offers two ways for you to identify the entities to delete.</p>
 <ul>
-<li><p><strong>Eliminare le entità per filtro.</strong></p>
+<li><p><strong>Delete entities by filter.</strong></p>
    <div class='alert note'>
-<p>Quando si usano le espressioni di filtro per eliminare le entità, bisogna assicurarsi che la collezione sia stata caricata. In caso contrario, Milvus restituirà un errore.</p>
+<p>When using filter expressions to delete entities, ensure the collection has been loaded. Otherwise, Milvus will return an error.</p>
    </div>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 7. Delete entities</span>
 res = client.delete(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -664,10 +682,13 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// 3</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p><strong>Eliminare le entità per ID.</strong></p>
-<p>I seguenti frammenti dimostrano come eliminare le entità per ID da una partizione specifica. Funziona anche se si lascia il nome della partizione non specificato.</p>
+<li><p><strong>Delete entities by IDs.</strong></p>
+<p>The following snippets demonstrate how to delete entities by IDs from a specific partition. It also works if you leave the partition name unspecified.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">res = client.delete(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     ids=[<span class="hljs-number">18</span>, <span class="hljs-number">19</span>],
@@ -708,11 +729,14 @@ System.out.<span class="hljs-built_in">println</span>(deleteResp.getDeleteCnt())
 <span class="hljs-comment">// 2</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>Per i dettagli sull'uso delle espressioni di filtro, consultare <a href="/docs/it/get-and-scalar-query.md">Get &amp; Scalar Query</a>.</p></li>
-<li><p><strong>Eliminare entità per nome di partizione</strong>.</p>
-<p>Se si desidera eliminare le entità da una partizione specifica, è possibile specificare il nome della partizione con il parametro <code translate="no">partition_name</code> nel metodo <code translate="no">delete()</code>. L'esempio seguente elimina le entità da <code translate="no">partitionA</code> che hanno un colore che inizia con <code translate="no">blue</code>.</p>
+<p>For details on how to use filter expressions, refer to <a href="/docs/it/get-and-scalar-query.md">Get &amp; Scalar Query</a>.</p></li>
+<li><p><strong>Delete entities by partition name</strong>.</p>
+<p>If you want to delete entities from a specific partition, you can specify the partition name with the <code translate="no">partition_name</code> parameter in the <code translate="no">delete()</code> method. The following example deletes entities from <code translate="no">partitionA</code> that have a color starting with <code translate="no">blue</code>.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">res = client.delete(
 collection_name=<span class="hljs-string">&#x27;quick_setup&#x27;</span>,
 partition_name=<span class="hljs-string">&#x27;partitionA&#x27;</span>,

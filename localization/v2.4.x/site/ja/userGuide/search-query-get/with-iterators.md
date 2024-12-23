@@ -1,10 +1,12 @@
 ---
 id: with-iterators.md
 order: 4
-summary: Milvusは、大量のエンティティの検索結果を反復処理するための検索イテレータとクエリイテレータを提供する。
-title: イテレータ
+summary: >-
+  Milvus provides search and query iterators for iterating results with a large
+  volume of entities.
+title: With Iterators
 ---
-<h1 id="With-Iterators" class="common-anchor-header">イテレータ<button data-href="#With-Iterators" class="anchor-icon" translate="no">
+<h1 id="With-Iterators" class="common-anchor-header">With Iterators<button data-href="#With-Iterators" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -19,8 +21,8 @@ title: イテレータ
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>Milvusは大量のエンティティを反復処理するための検索および問い合わせイテレータを提供しています。MilvusはTopKを16384に制限しているため、ユーザはイテレータを使用して、バッチモードでコレクション内の大量の、あるいはエンティティ全体を返すことができます。</p>
-<h2 id="Overview" class="common-anchor-header">概要<button data-href="#Overview" class="anchor-icon" translate="no">
+    </button></h1><p>Milvus provides search and query iterators for iterating through a large volume of entities. Since Milvus limits TopK to 16384, users can use iterators to return large numbers or even whole entities in a collection in batch mode.</p>
+<h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -35,19 +37,19 @@ title: イテレータ
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>イテレータは、主キー値やフィルタ式を指定することで、コレクション全体をスキャンしたり、大量のエンティティを反復処理したりするための効率的なツールです。<strong>offset</strong>パラメータや<strong>limit</strong>パラメータを指定した検索コールやクエリコールと比較して、イテレータの使用はより効率的でスケーラブルです。</p>
-<h3 id="Benefits-of-using-iterators" class="common-anchor-header">イテレータを使用するメリット</h3><ul>
-<li><p><strong>単純さ</strong>：複雑な<strong>オフセットや</strong> <strong>リミットの</strong>設定が不要になります。</p></li>
-<li><p><strong>効率性</strong>：必要なデータのみをフェッチすることで、スケーラブルなデータ検索を実現。</p></li>
-<li><p><strong>一貫性</strong>：ブーリアンフィルターにより、一貫したデータセットサイズを保証します。</p></li>
+    </button></h2><p>Iterators are efficient tool for scanning a whole collection or iterating through a large volume of entities by specifying primary key values or a filter expression. Compared to a search or query call with <strong>offset</strong> and <strong>limit</strong> parameters, using iterators is more efficient and scalable.</p>
+<h3 id="Benefits-of-using-iterators" class="common-anchor-header">Benefits of using iterators</h3><ul>
+<li><p><strong>Simplicity</strong>: Eliminates the complex <strong>offset</strong> and <strong>limit</strong> settings.</p></li>
+<li><p><strong>Efficiency</strong>: Provides scalable data retrieval by fetching only the data in need.</p></li>
+<li><p><strong>Consistency</strong>: Ensures a consistent dataset size with boolean filters.</p></li>
 </ul>
 <div class="admonition note">
-<p><b>注釈</b></p>
+<p><b>notes</b></p>
 <ul>
-<li>この機能はMilvus 2.3.x以降で利用可能です。</li>
+<li>This feature is available for Milvus 2.3.x or later.</li>
 </ul>
 </div>
-<h2 id="Preparations" class="common-anchor-header">準備<button data-href="#Preparations" class="anchor-icon" translate="no">
+<h2 id="Preparations" class="common-anchor-header">Preparations<button data-href="#Preparations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -62,15 +64,17 @@ title: イテレータ
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>以下の準備ステップでは、Milvusに接続し、ランダムに生成されたエンティティをコレクションに挿入する。</p>
-<h3 id="Step-1-Create-a-collection" class="common-anchor-header">ステップ1: コレクションの作成</h3><div class="language-python">
-<p>以下の手順で <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a>を使用してMilvusサーバに接続し <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a>を使用してコレクションを作成します。</p>
+    </button></h2><p>The following preparation step connects to Milvus and inserts randomly generated entities into a collection.</p>
+<h3 id="Step-1-Create-a-collection" class="common-anchor-header">Step 1: Create a collection</h3><div class="language-python">
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> to create a collection.</p>
 </div>
 <div class="language-java">
-<p>コレクションを作成するには <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a>を使ってMilvusサーバに接続し <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a>コレクションを作成する。</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> MilvusClient
 
 <span class="hljs-comment"># 1. Set up a Milvus client</span>
@@ -118,14 +122,16 @@ client.create_collection(
         .build();
 client.createCollection(quickSetupReq);
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Step-2-Insert-randomly-generated-entities" class="common-anchor-header">ステップ2: ランダムに生成されたエンティティの挿入</h3><div class="language-python">
-<p>以下を使用する。 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a>を使ってエンティティをコレクションに挿入する。</p>
+<h3 id="Step-2-Insert-randomly-generated-entities" class="common-anchor-header">Step 2: Insert randomly generated entities</h3><div class="language-python">
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> to insert entities into the collection.</p>
 </div>
 <div class="language-java">
-<p>コレクションにエンティティを挿入するには <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a>を使って、エンティティをコレクションに挿入する。</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> to insert entities into the collection.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 3. Insert randomly generated vectors </span>
 colors = [<span class="hljs-string">&quot;green&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;yellow&quot;</span>, <span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;black&quot;</span>, <span class="hljs-string">&quot;white&quot;</span>, <span class="hljs-string">&quot;purple&quot;</span>, <span class="hljs-string">&quot;pink&quot;</span>, <span class="hljs-string">&quot;orange&quot;</span>, <span class="hljs-string">&quot;brown&quot;</span>, <span class="hljs-string">&quot;grey&quot;</span>]
 data = []
@@ -208,7 +214,7 @@ System.out.println(insertR.getInsertCnt());
 <span class="hljs-comment">// Output</span>
 <span class="hljs-comment">// 10000</span>
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Search-with-iterator" class="common-anchor-header">イテレータを使った検索<button data-href="#Search-with-iterator" class="anchor-icon" translate="no">
+<h2 id="Search-with-iterator" class="common-anchor-header">Search with iterator<button data-href="#Search-with-iterator" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -223,24 +229,26 @@ System.out.println(insertR.getInsertCnt());
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>イテレータは類似検索をよりスケーラブルにします。</p>
+    </button></h2><p>Iterators make similarity searches more scalable.</p>
 <div class="language-python">
-<p>イテレータで検索するには<a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/search_iterator.md">search_iterator()</a>メソッドを呼び出します：</p>
+<p>To search with an iterator, call the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/search_iterator.md">search_iterator()</a> method:</p>
 </div>
 <div class="language-java">
-<p>イテレータで検索するには、<a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/searchIterator.md">searchIterator()</a>メソッドを呼び出します：</p>
+<p>To search with an iterator, call the <a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/searchIterator.md">searchIterator()</a> method:</p>
 </div>
 <ol>
-<li><p>検索イテレータを初期化して、検索パラメータと出力フィールドを定義します。</p></li>
-<li><p>検索結果をページ分割するには、ループ内で<strong>next()</strong>メソッドを使用します。</p>
+<li><p>Initialize the search iterator to define the search parameters and output fields.</p></li>
+<li><p>Use the <strong>next()</strong> method within a loop to paginate through the search results.</p>
 <ul>
-<li><p>メソッドが空の配列を返した場合はループが終了し、それ以降のページは使用できなくなります。</p></li>
-<li><p>すべての結果は、指定した出力フィールドを保持します。</p></li>
+<li><p>If the method returns an empty array, the loop ends, and no more pages are available.</p></li>
+<li><p>All results carry the specified output fields.</p></li>
 </ul></li>
-<li><p>すべてのデータが取得されたら、手動で<strong>close()</strong>メソッドを呼び出してイテレータを閉じます。</p></li>
+<li><p>Manually call the <strong>close()</strong> method to close the iterator once all data has been retrieved.</p></li>
 </ol>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> Collection,connections
 
 <span class="hljs-comment"># 4. Search with iterator</span>
@@ -336,68 +344,68 @@ System.out.println(results.size());
 <table class="language-python">
   <thead>
     <tr>
-      <th>パラメータ</th>
-      <th>説明</th>
+      <th>Parameter</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code translate="no">data</code></td>
-      <td><br/>Milvusは指定されたものに最も類似したベクトル埋め込みを検索します。</td>
+      <td>A list of vector embeddings.<br/>Milvus searches for the most similar vector embeddings to the specified ones.</td>
     </tr>
     <tr>
       <td><code translate="no">anns_field</code></td>
-      <td>現在のコレクション内のベクトルフィールドの名前。</td>
+      <td>The name of the vector field in the current collection.</td>
     </tr>
     <tr>
       <td><code translate="no">batch_size</code></td>
-      <td><code translate="no">next()</code><br/>デフォルト値は<strong>1000</strong>です。適切な値に設定して、反復ごとに返すエンティティの数を制御します。</td>
+      <td>The number of entities to return each time you call <code translate="no">next()</code> on the current iterator.<br/>The value defaults to <strong>1000</strong>. Set it to a proper value to control the number of entities to return per iteration.</td>
     </tr>
     <tr>
       <td><code translate="no">param</code></td>
-      <td>この操作に固有のパラメータ設定。<br/><ul><li><code translate="no">metric_type</code>:この操作に適用されるメトリック・タイプ。これは、上記で指定したベクトル・フィールドにインデックスを付けるときに使用するものと同じでなければならない。指定可能な値は、<strong>L2</strong>、<strong>IP</strong>、<strong>COSINE</strong>、<strong>JACCARD</strong>、<strong>HAMMING</strong>である。</li><li><code translate="no">params</code>:追加パラメータ。詳細は<a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/search_iterator.md">search_iterator()</a> を参照。</li></ul></td>
+      <td>The parameter settings specific to this operation.<br/><ul><li><code translate="no">metric_type</code>: The metric type applied to this operation. This should be the same as the one used when you index the vector field specified above. Possible values are <strong>L2</strong>, <strong>IP</strong>, <strong>COSINE</strong>, <strong>JACCARD</strong>, <strong>HAMMING</strong>.</li><li><code translate="no">params</code>: Additional parameters. For details, refer to <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/search_iterator.md">search_iterator()</a>.</li></ul></td>
     </tr>
     <tr>
       <td><code translate="no">output_fields</code></td>
-      <td><br/>デフォルト値は<strong>None</strong>。指定しない場合は、プライマリ・フィールドのみが含まれます。</td>
+      <td>A list of field names to include in each entity in return.<br/>The value defaults to <strong>None</strong>. If left unspecified, only the primary field is included.</td>
     </tr>
     <tr>
       <td><code translate="no">limit</code></td>
-      <td><br/>デフォルト値は<strong>-1</strong> で、一致するすべてのエンティティが返されます。</td>
+      <td>The total number of entities to return.<br/>The value defaults to <strong>-1</strong>, indicating all matching entities will be in return.</td>
     </tr>
   </tbody>
 </table>
 <table class="language-java">
   <thead>
     <tr>
-      <th>パラメータ</th>
-      <th>説明</th>
+      <th>Parameter</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code translate="no">withCollectionName</code></td>
-      <td>コレクション名を設定します。コレクション名は空または NULL にはできません。</td>
+      <td>Set the collection name. Collection name cannot be empty or null.</td>
     </tr>
     <tr>
       <td><code translate="no">withVectorFieldName</code></td>
-      <td>対象のベクトル・フィールドを名前で設定します。フィールド名は空または NULL にはできません。</td>
+      <td>Set target vector field by name. Field name cannot be empty or null.</td>
     </tr>
     <tr>
       <td><code translate="no">withVectors</code></td>
-      <td>対象ベクターを設定します。最大 16384 ベクトルまで指定可能。</td>
+      <td>Set the target vectors. Up to 16384 vectors allowed.</td>
     </tr>
     <tr>
       <td><code translate="no">withBatchSize</code></td>
-      <td><code translate="no">next()</code><br/>デフォルト値は<strong>1000</strong> です。適切な値に設定して、反復ごとに返すエンティティの数を制御します。</td>
+      <td>The number of entities to return each time you call <code translate="no">next()</code> on the current iterator.<br/>The value defaults to <strong>1000</strong>. Set it to a proper value to control the number of entities to return per iteration.</td>
     </tr>
     <tr>
       <td><code translate="no">withParams</code></td>
-      <td>検索のパラメータを JSON 形式で指定します。詳細については、<a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/searchIterator.md">searchIterator()</a> を参照してください。</td>
+      <td>Specifies the parameters of search in JSON format. For more information, refer to <a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/searchIterator.md">searchIterator()</a>.</td>
     </tr>
   </tbody>
 </table>
-<h2 id="Query-with-an-iterator" class="common-anchor-header">イテレータを使用したクエリ<button data-href="#Query-with-an-iterator" class="anchor-icon" translate="no">
+<h2 id="Query-with-an-iterator" class="common-anchor-header">Query with an iterator<button data-href="#Query-with-an-iterator" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -413,13 +421,15 @@ System.out.println(results.size());
         ></path>
       </svg>
     </button></h2><div class="language-python">
-<p>イテレータを使用してクエリを実行するには、<a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/query_iterator.md">query_iterator()</a>メソッドを呼び出します：</p>
+<p>To query with an iterator, call the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/query_iterator.md">query_iterator()</a> method:</p>
 </div>
 <div class="language-java">
-<p>イテレータで検索するには、<a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/queryIterator.md">queryIterator()</a>メソッドをコールします：</p>
+<p>To search with an iterator, call the <a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/queryIterator.md">queryIterator()</a> method:</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 6. Query with iterator</span>
 iterator = collection.query_iterator(
     batch_size=<span class="hljs-number">10</span>, <span class="hljs-comment"># Controls the size of the return each time you call next()</span>
@@ -491,52 +501,52 @@ System.out.println(results.subList(<span class="hljs-number">0</span>, <span cla
 <table class="language-python">
   <thead>
     <tr>
-      <th>パラメータ</th>
-      <th>説明</th>
+      <th>Parameter</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code translate="no">batch_size</code></td>
-      <td><code translate="no">next()</code><br/>デフォルト値は<strong>1000</strong>です。適切な値に設定して、反復ごとに返すエンティティの数を制御します。</td>
+      <td>The number of entities to return each time you call <code translate="no">next()</code> on the current iterator.<br/>The value defaults to <strong>1000</strong>. Set it to a proper value to control the number of entities to return per iteration.</td>
     </tr>
     <tr>
       <td><code translate="no">expr</code></td>
-      <td><br/>デフォルト値は<strong>None</strong> で、スカラー・フィルタリングが無視されることを示す。スカラー・フィルタリング条件を構築するには、「<a href="https://milvus.io/docs/boolean.md">Boolean Expression Rules</a>」を参照してください。</td>
+      <td>A scalar filtering condition to filter matching entities.<br/>The value defaults to <strong>None</strong>, indicating that scalar filtering is ignored. To build a scalar filtering condition, refer to <a href="https://milvus.io/docs/boolean.md">Boolean Expression Rules</a>.</td>
     </tr>
     <tr>
       <td><code translate="no">output_fields</code></td>
-      <td><br/>デフォルト値は<strong>None</strong> です。指定しないままにすると、プライマリ・フィールドのみが含まれます。</td>
+      <td>A list of field names to include in each entity in return.<br/>The value defaults to <strong>None</strong>. If left unspecified, only the primary field is included.</td>
     </tr>
     <tr>
       <td><code translate="no">limit</code></td>
-      <td><br/>値の既定値は<strong>-1</strong> で、一致するすべてのエンティティが返されることを示します。</td>
+      <td>The total number of entities to return.<br/>The value defaults to <strong>-1</strong>, indicating all matching entities will be in return.</td>
     </tr>
   </tbody>
 </table>
 <table class="language-java">
   <thead>
     <tr>
-      <th>パラメータ</th>
-      <th>説明</th>
+      <th>Parameter</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code translate="no">withCollectionName</code></td>
-      <td>コレクション名を設定します。コレクション名は空または NULL にはできません。</td>
+      <td>Set the collection name. Collection name cannot be empty or null.</td>
     </tr>
     <tr>
       <td><code translate="no">withExpr</code></td>
-      <td>エンティティをクエリする式を設定します。スカラー・フィルタリング条件を構築するには、"<a href="https://milvus.io/docs/boolean.md">Boolean Expression Rules</a>" を参照してください。</td>
+      <td>Set the expression to query entities. To build a scalar filtering condition, refer to <a href="https://milvus.io/docs/boolean.md">Boolean Expression Rules</a>.</td>
     </tr>
     <tr>
       <td><code translate="no">withBatchSize</code></td>
-      <td><code translate="no">next()</code><br/>デフォルト値は<strong>1000</strong> です。適切な値に設定して、反復ごとに返すエンティティの数を制御します。</td>
+      <td>The number of entities to return each time you call <code translate="no">next()</code> on the current iterator.<br/>The value defaults to <strong>1000</strong>. Set it to a proper value to control the number of entities to return per iteration.</td>
     </tr>
     <tr>
       <td><code translate="no">addOutField</code></td>
-      <td>出力スカラー・フィールドを指定します（オプション）。</td>
+      <td>Specifies an output scalar field (Optional).</td>
     </tr>
   </tbody>
 </table>

@@ -2,9 +2,9 @@
 id: configure_datanode.md
 related_key: configure
 group: system_configuration.md
-summary: MilvusのdataNodeの設定方法について説明します。
+summary: Learn how to configure dataNode for Milvus.
 ---
-<h1 id="dataNode-related-Configurations" class="common-anchor-header">dataNode関連コンフィギュレーション<button data-href="#dataNode-related-Configurations" class="anchor-icon" translate="no">
+<h1 id="dataNode-related-Configurations" class="common-anchor-header">dataNode-related Configurations<button data-href="#dataNode-related-Configurations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -37,13 +37,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.dataSync.flowGraph.maxQueueLength">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        フローグラフタスクキューの最大長      </td>
+      <td>        Maximum length of task queue in flowgraph      </td>
       <td>16</td>
     </tr>
   </tbody>
@@ -66,13 +66,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.dataSync.flowGraph.maxParallelism">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        フローグラフ内で並列に実行されるタスクの最大数      </td>
+      <td>        Maximum number of tasks executed in parallel in the flowgraph      </td>
       <td>1024</td>
     </tr>
   </tbody>
@@ -95,13 +95,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.dataSync.maxParallelSyncMgrTasks">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        グローバルなデータノード同期mgrの最大同時同期タスク数      </td>
+      <td>        The max concurrent sync task number of datanode sync mgr globally      </td>
       <td>256</td>
     </tr>
   </tbody>
@@ -124,14 +124,14 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.dataSync.skipMode.enable">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        CPU使用量を減らすためにタイムティック・メッセージをスキップする。      </td>
-      <td>真</td>
+      <td>        Support skip some timetick message to reduce CPU usage      </td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
@@ -153,13 +153,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.dataSync.skipMode.skipNum">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        n個のレコードをスキップするごとに1個消費      </td>
+      <td>        Consume one for every n records skipped      </td>
       <td>4</td>
     </tr>
   </tbody>
@@ -182,13 +182,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.dataSync.skipMode.coldTime">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        x 秒間タイムティックの msg だけがあった後、スキップモードをオンにする。      </td>
+      <td>        Turn on skip mode after there are only timetick msg for x seconds      </td>
       <td>60</td>
     </tr>
   </tbody>
@@ -211,16 +211,16 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.segment.insertBufSize">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>メモリにバッファされたセグメント内の各ビンログファイルの最大サイズ。この値を超えるサイズのbinlogファイルは、MinIOまたはS3サービスにフラッシュされます。</li>      
-        <li>単位：バイト</li>      
-        <li>このパラメータを小さく設定しすぎると、システムが少量のデータを頻繁に保存するようになります。このパラメータを大きく設定し過ぎると、システムのメモリ需要が増加します。</li>      </td>
+        <li>The maximum size of each binlog file in a segment buffered in memory. Binlog files whose size exceeds this value are then flushed to MinIO or S3 service.</li>      
+        <li>Unit: Byte</li>      
+        <li>Setting this parameter too small causes the system to store a small amount of data too frequently. Setting it too large increases the system's demand for memory.</li>      </td>
       <td>16777216</td>
     </tr>
   </tbody>
@@ -243,13 +243,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.segment.deleteBufBytes">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        デフォルトは 16MB である。      </td>
+      <td>        Max buffer size in bytes to flush del for a single channel, default as 16MB      </td>
       <td>16777216</td>
     </tr>
   </tbody>
@@ -272,13 +272,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.segment.syncPeriod">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        バッファが空でない場合にセグメントを同期する期間。      </td>
+      <td>        The period to sync segments if buffer is not empty.      </td>
       <td>600</td>
     </tr>
   </tbody>
@@ -301,13 +301,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.memory.forceSyncEnable">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        メモリ使用量が多すぎる場合に強制的に同期させるにはtrueを設定する      </td>
+      <td>        Set true to force sync if memory usage is too high      </td>
       <td>true</td>
     </tr>
   </tbody>
@@ -330,13 +330,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.memory.forceSyncSegmentNum">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        同期するセグメント数。      </td>
+      <td>        number of segments to sync, segments with top largest buffer will be synced.      </td>
       <td>1</td>
     </tr>
   </tbody>
@@ -359,13 +359,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.memory.checkInterval">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        データノードのメモリ使用量をチェックする間隔。      </td>
+      <td>        the interal to check datanode memory usage, in milliseconds      </td>
       <td>3000</td>
     </tr>
   </tbody>
@@ -388,13 +388,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.memory.forceSyncWatermark">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        この透かしに達すると、セグメントが同期される。      </td>
+      <td>        memory watermark for standalone, upon reaching this watermark, segments will be synced.      </td>
       <td>0.5</td>
     </tr>
   </tbody>
@@ -417,16 +417,16 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.channel.workPoolSize">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>全チャンネルのグローバルワークプールのサイズを指定する。</li>      
-        <li>このパラメータが &lt;= 0 の場合、実行可能なCPUの最大数として設定されます。</li>      
-        <li>ブロッキングを避けるため、コレクション数が多い場合は大きく設定することをお勧めします。</li>      </td>
+        <li>specify the size of global work pool of all channels</li>      
+        <li>if this parameter <= 0, will set it as the maximum number of CPUs that can be executing</li>      
+        <li>suggest to set it bigger on large collection numbers to avoid blocking</li>      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -449,15 +449,15 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.channel.updateChannelCheckpointMaxParallel">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <li>チャネルチェックポイント更新用のグローバルワークプールのサイズを指定します。</li>      
-        <li>このパラメータが&lt;= 0の場合、10に設定される</li>      </td>
+        <li>specify the size of global work pool for channel checkpoint updating</li>      
+        <li>if this parameter <= 0, will set it as 10</li>      </td>
       <td>10</td>
     </tr>
   </tbody>
@@ -480,13 +480,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.channel.updateChannelCheckpointInterval">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        データノードが各チャネルのチェックポイントを更新する間隔(秒)      </td>
+      <td>        the interval duration(in seconds) for datanode to update channel checkpoint of each channel      </td>
       <td>60</td>
     </tr>
   </tbody>
@@ -509,13 +509,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.channel.updateChannelCheckpointRPCTimeout">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        UpdateChannelCheckpoint RPC 呼び出しのタイムアウト時間 (秒)     </td>
+      <td>        timeout in seconds for UpdateChannelCheckpoint RPC call      </td>
       <td>20</td>
     </tr>
   </tbody>
@@ -538,13 +538,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.channel.maxChannelCheckpointsPerPRC">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        UpdateChannelCheckpoint RPCごとのチャネル・チェックポイントの最大数。      </td>
+      <td>        The maximum number of channel checkpoints per UpdateChannelCheckpoint RPC.      </td>
       <td>128</td>
     </tr>
   </tbody>
@@ -567,13 +567,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.channel.channelCheckpointUpdateTickInSeconds">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        チャネル・チェックポイント・アップデータが更新を実行する頻度を秒単位で指定します。      </td>
+      <td>        The frequency, in seconds, at which the channel checkpoint updater executes updates.      </td>
       <td>10</td>
     </tr>
   </tbody>
@@ -596,13 +596,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.import.maxConcurrentTaskNum">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        データノードで同時に実行できるインポート/プレインポート・タスクの最大数。      </td>
+      <td>        The maximum number of import/pre-import tasks allowed to run concurrently on a datanode.      </td>
       <td>16</td>
     </tr>
   </tbody>
@@ -625,13 +625,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.import.maxImportFileSizeInGB">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        インポート・ファイルの最大ファイル・サイズ（GB単位）。インポート・ファイルとは、行ベース・ファイルまたは列ベース・ファイルのセットを指します。      </td>
+      <td>        The maximum file size (in GB) for an import file, where an import file refers to either a Row-Based file or a set of Column-Based files.      </td>
       <td>16</td>
     </tr>
   </tbody>
@@ -654,13 +654,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.import.readBufferSizeInMB">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        インポート中にデータノードがチャンク・マネージャから読み込むデータ・ブロック・サイズ（MB単位）。      </td>
+      <td>        The data block size (in MB) read from chunk manager by the datanode during import.      </td>
       <td>16</td>
     </tr>
   </tbody>
@@ -683,13 +683,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.compaction.levelZeroBatchMemoryRatio">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        バッチ・モードで実行されるレベル・ゼロ・コンパクションの最小空きメモリ比率      </td>
+      <td>        The minimal memory ratio of free memory for level zero compaction executing in batch mode      </td>
       <td>0.05</td>
     </tr>
   </tbody>
@@ -712,13 +712,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.compaction.levelZeroMaxBatchSize">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        最大バッチサイズ（Max batch size） L0 コンパクションを実行する際の、バッチ内の L1/L2 セグメントの最大数を示す。デフォルトは -1、1 未満の値は制限なしを意味する。有効範囲：&gt;= 1.  </td>
+      <td>        Max batch size refers to the max number of L1/L2 segments in a batch when executing L0 compaction. Default to -1, any value that is less than 1 means no limit. Valid range: >= 1.      </td>
       <td>-1</td>
     </tr>
   </tbody>
@@ -741,13 +741,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.gracefulStopTimeout">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        秒。グレースフル・ストップなしでノードを強制停止する。      </td>
+      <td>        seconds. force stop node without graceful stop      </td>
       <td>1800</td>
     </tr>
   </tbody>
@@ -770,13 +770,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.slot.slotCap">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        データノード上で同時に実行できるタスク（コンパクション、インポートなど）の最大数      </td>
+      <td>        The maximum number of tasks(e.g. compaction, importing) allowed to run concurrently on a datanode      </td>
       <td>16</td>
     </tr>
   </tbody>
@@ -799,13 +799,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.clusteringCompaction.memoryBufferRatio">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        クラスタリング・コンパクションのメモリ・バッファの比率。閾値より大きいデータはストレージにフラッシュされます。      </td>
+      <td>        The ratio of memory buffer of clustering compaction. Data larger than threshold will be flushed to storage.      </td>
       <td>0.1</td>
     </tr>
   </tbody>
@@ -828,13 +828,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.clusteringCompaction.workPoolSize">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        1つのクラスタリング圧縮ジョブのワーカープールサイズ。      </td>
+      <td>        worker pool size for one clustering compaction job.      </td>
       <td>8</td>
     </tr>
   </tbody>
@@ -857,13 +857,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.ip">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        dataNodeのTCP/IPアドレス。指定されていない場合は、最初のユニキャスト可能なアドレスを使用します。      </td>
+      <td>        TCP/IP address of dataNode. If not specified, use the first unicastable address      </td>
       <td></td>
     </tr>
   </tbody>
@@ -886,13 +886,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.port">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        dataNodeのTCPポート      </td>
+      <td>        TCP port of dataNode      </td>
       <td>21124</td>
     </tr>
   </tbody>
@@ -915,13 +915,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.grpc.serverMaxSendSize">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        dataNodeが送信できる各RPCリクエストの最大サイズ、単位：バイト      </td>
+      <td>        The maximum size of each RPC request that the dataNode can send, unit: byte      </td>
       <td>536870912</td>
     </tr>
   </tbody>
@@ -944,13 +944,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.grpc.serverMaxRecvSize">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        dataNodeが受信できる各RPCリクエストの最大サイズ、単位：バイト      </td>
+      <td>        The maximum size of each RPC request that the dataNode can receive, unit: byte      </td>
       <td>268435456</td>
     </tr>
   </tbody>
@@ -973,13 +973,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.grpc.clientMaxSendSize">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        dataNode上のクライアントが送信できる各RPCリクエストの最大サイズ、単位：バイト      </td>
+      <td>        The maximum size of each RPC request that the clients on dataNode can send, unit: byte      </td>
       <td>268435456</td>
     </tr>
   </tbody>
@@ -1002,13 +1002,13 @@ summary: MilvusのdataNodeの設定方法について説明します。
     </button></h2><table id="dataNode.grpc.clientMaxRecvSize">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        dataNode上のクライアントが受信できる各RPCリクエストの最大サイズ、単位：バイト      </td>
+      <td>        The maximum size of each RPC request that the clients on dataNode can receive, unit: byte      </td>
       <td>536870912</td>
     </tr>
   </tbody>

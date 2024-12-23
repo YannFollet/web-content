@@ -2,9 +2,9 @@
 id: configure_indexnode.md
 related_key: configure
 group: system_configuration.md
-summary: MilvusのindexNodeの設定方法について説明します。
+summary: Learn how to configure indexNode for Milvus.
 ---
-<h1 id="indexNode-related-Configurations" class="common-anchor-header">indexNode関連設定<button data-href="#indexNode-related-Configurations" class="anchor-icon" translate="no">
+<h1 id="indexNode-related-Configurations" class="common-anchor-header">indexNode-related Configurations<button data-href="#indexNode-related-Configurations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -37,13 +37,13 @@ summary: MilvusのindexNodeの設定方法について説明します。
     </button></h2><table id="indexNode.enableDisk">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        enableインデックスノードでディスクベクタインデックスを構築する      </td>
+      <td>        enable index node build disk vector index      </td>
       <td>true</td>
     </tr>
   </tbody>
@@ -66,13 +66,13 @@ summary: MilvusのindexNodeの設定方法について説明します。
     </button></h2><table id="indexNode.ip">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        indexNodeのTCP/IPアドレス。指定されていない場合は、最初のユニキャスト可能なアドレスを使用します。      </td>
+      <td>        TCP/IP address of indexNode. If not specified, use the first unicastable address      </td>
       <td></td>
     </tr>
   </tbody>
@@ -95,13 +95,13 @@ summary: MilvusのindexNodeの設定方法について説明します。
     </button></h2><table id="indexNode.port">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        indexNode の TCP ポート      </td>
+      <td>        TCP port of indexNode      </td>
       <td>21121</td>
     </tr>
   </tbody>
@@ -124,13 +124,13 @@ summary: MilvusのindexNodeの設定方法について説明します。
     </button></h2><table id="indexNode.grpc.serverMaxSendSize">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        indexNodeが送信できる各RPCリクエストの最大サイズ、単位：バイト      </td>
+      <td>        The maximum size of each RPC request that the indexNode can send, unit: byte      </td>
       <td>536870912</td>
     </tr>
   </tbody>
@@ -153,13 +153,13 @@ summary: MilvusのindexNodeの設定方法について説明します。
     </button></h2><table id="indexNode.grpc.serverMaxRecvSize">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        indexNodeが受信できる各RPCリクエストの最大サイズ、単位：バイト      </td>
+      <td>        The maximum size of each RPC request that the indexNode can receive, unit: byte      </td>
       <td>268435456</td>
     </tr>
   </tbody>
@@ -182,13 +182,13 @@ summary: MilvusのindexNodeの設定方法について説明します。
     </button></h2><table id="indexNode.grpc.clientMaxSendSize">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        indexNode上のクライアントが送信できる各RPCリクエストの最大サイズ、単位：バイト      </td>
+      <td>        The maximum size of each RPC request that the clients on indexNode can send, unit: byte      </td>
       <td>268435456</td>
     </tr>
   </tbody>
@@ -211,13 +211,13 @@ summary: MilvusのindexNodeの設定方法について説明します。
     </button></h2><table id="indexNode.grpc.clientMaxRecvSize">
   <thead>
     <tr>
-      <th class="width80">説明</th>
-      <th class="width20">デフォルト値</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        indexNode上のクライアントが受信できる各RPCリクエストの最大サイズ、単位：バイト      </td>
+      <td>        The maximum size of each RPC request that the clients on indexNode can receive, unit: byte      </td>
       <td>536870912</td>
     </tr>
   </tbody>

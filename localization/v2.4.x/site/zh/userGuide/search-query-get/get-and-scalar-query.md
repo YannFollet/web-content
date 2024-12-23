@@ -1,10 +1,12 @@
 ---
 id: get-and-scalar-query.md
 order: 3
-summary: 本指南演示如何通过 ID 获取实体并进行标量过滤。
-title: 获取和标量查询
+summary: >-
+  This guide demonstrates how to get entities by ID and conduct scalar
+  filtering.
+title: Get & Scalar Query
 ---
-<h1 id="Get--Scalar-Query" class="common-anchor-header">获取和标量查询<button data-href="#Get--Scalar-Query" class="anchor-icon" translate="no">
+<h1 id="Get--Scalar-Query" class="common-anchor-header">Get &amp; Scalar Query<button data-href="#Get--Scalar-Query" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -19,8 +21,8 @@ title: 获取和标量查询
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>本指南演示如何通过 ID 获取实体并进行标量过滤。标量过滤可检索符合指定过滤条件的实体。</p>
-<h2 id="Overview" class="common-anchor-header">概述<button data-href="#Overview" class="anchor-icon" translate="no">
+    </button></h1><p>This guide demonstrates how to get entities by ID and conduct scalar filtering. A scalar filtering retrieves entities that match the specified filtering conditions.</p>
+<h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -35,9 +37,9 @@ title: 获取和标量查询
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>标量查询使用布尔表达式根据定义的条件过滤 Collections 中的实体。查询结果是一组符合定义条件的实体。与向量搜索（在 Collections 中识别与给定向量最接近的向量）不同，查询是根据特定条件过滤实体。</p>
-<p>在 Milvus 中，<strong>过滤器总是一个由字段名和操作符组成的字符串</strong>。在本指南中，你将看到各种过滤器示例。要了解更多操作符详情，请参阅<a href="https://milvus.io/docs/get-and-scalar-query.md#Reference-on-scalar-filters">参考资料</a>部分。</p>
-<h2 id="Preparations" class="common-anchor-header">准备工作<button data-href="#Preparations" class="anchor-icon" translate="no">
+    </button></h2><p>A scalar query filters entities in a collection based on a defined condition using boolean expressions. The query result is a set of entities that match the defined condition. Unlike a vector search, which identifies the closest vector to a given vector in a collection, queries filter entities based on specific criteria.</p>
+<p>In Milvus, <strong>a filter is always a string compising field names joined by operators</strong>. In this guide, you will find various filter examples. To learn more about the operator details, go to the <a href="https://milvus.io/docs/get-and-scalar-query.md#Reference-on-scalar-filters">Reference</a> section.</p>
+<h2 id="Preparations" class="common-anchor-header">Preparations<button data-href="#Preparations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -52,18 +54,21 @@ title: 获取和标量查询
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>下面的步骤将重新利用代码连接到 Milvus，快速建立一个 Collections，并将 1000 多个随机生成的实体插入到 Collections 中。</p>
-<h3 id="Step-1-Create-a-collection" class="common-anchor-header">步骤 1：创建 Collections</h3><div class="language-python">
-<p>使用 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a>连接到 Milvus 服务器，并使用 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a>创建 Collections。</p>
+    </button></h2><p>The following steps repurpose the code to connect to Milvus, quickly set up a collection, and insert over 1,000 randomly generated entities into the collection.</p>
+<h3 id="Step-1-Create-a-collection" class="common-anchor-header">Step 1: Create a collection</h3><div class="language-python">
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> to create a collection.</p>
 </div>
 <div class="language-java">
-<p>使用 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a>连接到 Milvus 服务器，并使用 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a>创建 Collections。</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection.</p>
 </div>
 <div class="language-javascript">
-<p>使用 <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a>连接到 Milvus 服务器，并使用 <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a>创建 Collections。</p>
+<p>Use <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> MilvusClient
 
 <span class="hljs-comment"># 1. Set up a Milvus client</span>
@@ -123,17 +128,20 @@ client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">M
     <span class="hljs-attr">dimension</span>: <span class="hljs-number">5</span>,
 }); 
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Step-2-Insert-randomly-generated-entities" class="common-anchor-header">第二步：插入随机生成的实体</h3><div class="language-python">
-<p>使用 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a>将实体插入 Collections。</p>
+<h3 id="Step-2-Insert-randomly-generated-entities" class="common-anchor-header">Step 2: Insert randomly generated entities</h3><div class="language-python">
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> to insert entities into the collection.</p>
 </div>
 <div class="language-java">
-<p>使用 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a>将实体插入 Collections。</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> to insert entities into the collection.</p>
 </div>
 <div class="language-javascript">
-<p>使用 <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a>将实体插入 Collections。</p>
+<p>Use <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a> to insert entities into the collection.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 3. Insert randomly generated vectors </span>
 colors = [<span class="hljs-string">&quot;green&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;yellow&quot;</span>, <span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;black&quot;</span>, <span class="hljs-string">&quot;white&quot;</span>, <span class="hljs-string">&quot;purple&quot;</span>, <span class="hljs-string">&quot;pink&quot;</span>, <span class="hljs-string">&quot;orange&quot;</span>, <span class="hljs-string">&quot;brown&quot;</span>, <span class="hljs-string">&quot;grey&quot;</span>]
 data = []
@@ -269,17 +277,20 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// 1000</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Step-3-Create-partitions-and-insert-more-entities" class="common-anchor-header">第 3 步：创建分区并插入更多实体</h3><div class="language-python">
-<p>使用 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/create_partition.md"><code translate="no">create_partition()</code></a>创建分区，并使用 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a>将更多实体插入 Collections。</p>
+<h3 id="Step-3-Create-partitions-and-insert-more-entities" class="common-anchor-header">Step 3: Create partitions and insert more entities</h3><div class="language-python">
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/create_partition.md"><code translate="no">create_partition()</code></a> to create partitions and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> to insert more entities into the collection.</p>
 </div>
 <div class="language-java">
-<p>使用 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/createPartition.md"><code translate="no">createPartition()</code></a>创建分区并 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a>将更多实体插入 Collections。</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/createPartition.md"><code translate="no">createPartition()</code></a> to create partitions and <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> to insert more entities into the collection.</p>
 </div>
 <div class="language-javascript">
-<p>使用 <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/createPartition.md"><code translate="no">createPartition()</code></a>创建分区，并 <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a>向 Collection 插入更多实体。</p>
+<p>Use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/createPartition.md"><code translate="no">createPartition()</code></a> to create partitions and <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a> to insert more entities into the collection.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 4. Create partitions and insert more entities</span>
 client.create_partition(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -505,7 +516,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// 500</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Get-Entities-by-ID" class="common-anchor-header">按 ID 获取实体<button data-href="#Get-Entities-by-ID" class="anchor-icon" translate="no">
+<h2 id="Get-Entities-by-ID" class="common-anchor-header">Get Entities by ID<button data-href="#Get-Entities-by-ID" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -521,16 +532,19 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
         ></path>
       </svg>
     </button></h2><div class="language-python">
-<p>如果您知道感兴趣的实体的 ID，可以使用 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/get.md"><code translate="no">get()</code></a>方法。</p>
+<p>If you know the IDs of the entities of your interests, you can use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/get.md"><code translate="no">get()</code></a> method.</p>
 </div>
 <div class="language-java">
-<p>如果您知道您感兴趣的实体的 ID，可以使用 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/get.md"><code translate="no">get()</code></a>方法。</p>
+<p>If you know the IDs of the entities of your interests, you can use the <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/get.md"><code translate="no">get()</code></a> method.</p>
 </div>
 <div class="language-javascript">
-<p>如果您知道您感兴趣的实体的 ID，可以使用 <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/get.md"><code translate="no">get()</code></a>方法。</p>
+<p>If you know the IDs of the entities of your interests, you can use the <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/get.md"><code translate="no">get()</code></a> method.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 4. Get entities by ID</span>
 res = client.get(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -646,9 +660,12 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Get-entities-from-partitions" class="common-anchor-header">从分区获取实体</h3><p>您还可以从特定分区中获取实体。</p>
+<h3 id="Get-entities-from-partitions" class="common-anchor-header">Get entities from partitions</h3><p>You can also get entities from specific partitions.</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 5. Get entities from partitions</span>
 res = client.get(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -769,7 +786,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Use-Basic-Operators" class="common-anchor-header">使用基本操作符<button data-href="#Use-Basic-Operators" class="anchor-icon" translate="no">
+<h2 id="Use-Basic-Operators" class="common-anchor-header">Use Basic Operators<button data-href="#Use-Basic-Operators" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -784,20 +801,23 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>在本节中，您将找到如何在标量过滤中使用基本操作符的示例。您也可以将这些筛选器应用于<a href="https://milvus.io/docs/single-vector-search.md#Filtered-search">向量搜索</a>和<a href="https://milvus.io/docs/insert-update-delete.md#Delete-entities">数据删除</a>。</p>
+    </button></h2><p>In this section, you will find examples of how to use basic operators in scalar filtering. You can apply these filters to <a href="https://milvus.io/docs/single-vector-search.md#Filtered-search">vector searches</a> and <a href="https://milvus.io/docs/insert-update-delete.md#Delete-entities">data deletions</a> too.</p>
 <div class="language-python">
-<p>有关详细信息，请参阅 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/query.md"><code translate="no">query()</code></a>中的</p>
+<p>For more information, refer to <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/query.md"><code translate="no">query()</code></a> in the SDK reference.</p>
 </div>
 <div class="language-java">
-<p>更多信息，请参阅 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/query.md"><code translate="no">query()</code></a>以获取更多信息。</p>
+<p>For more information, refer to <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/query.md"><code translate="no">query()</code></a> in the SDK reference.</p>
 </div>
 <div class="language-javascript">
-<p>更多信息，请参阅 <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/query.md"><code translate="no">query()</code></a>中的</p>
+<p>For more information, refer to <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/query.md"><code translate="no">query()</code></a> in the SDK reference.</p>
 </div>
 <ul>
-<li><p>过滤标签值在 1,000 至 1,500 之间的实体。</p>
+<li><p>Filter entities with their tag values falling between 1,000 to 1,500.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 6. Use basic operators</span>
 
 res = client.query(
@@ -883,9 +903,12 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>过滤<strong>颜色</strong>值设置为<strong>棕色</strong>的实体。</p>
+<li><p>Filter entities with their <strong>color</strong> values set to <strong>brown</strong>.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">res = client.query(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     <span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;color == &quot;brown&quot;&#x27;</span>,
@@ -966,9 +989,12 @@ queryResp = client.<span class="hljs-title function_">query</span>(queryReq);
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>过滤<strong>颜色</strong>值未设置为<strong>绿色</strong>和<strong>紫色的</strong>实体。</p>
+<li><p>Filter entities with their <strong>color</strong> values not set to <strong>green</strong> and <strong>purple</strong>.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">res = client.query(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     <span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;color not in [&quot;green&quot;, &quot;purple&quot;]&#x27;</span>,
@@ -1049,9 +1075,12 @@ queryResp = client.<span class="hljs-title function_">query</span>(queryReq);
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>过滤颜色标记以<strong>红色</strong>开头的文章。</p>
+<li><p>Filter articles whose color tags start with <strong>red</strong>.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">res = client.query(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     <span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;color_tag like &quot;red%&quot;&#x27;</span>,
@@ -1132,9 +1161,12 @@ queryResp = client.<span class="hljs-title function_">query</span>(queryReq);
 <span class="hljs-comment">// ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>过滤颜色设置为红色且标签值在 1,000 至 1,500 范围内的实体。</p>
+<li><p>Filter entities with their colors set to red and tag values within the range from 1,000 to 1,500.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">res = client.query(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     <span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;(color == &quot;red&quot;) and (1000 &lt; tag &lt; 1500)&#x27;</span>,
@@ -1216,7 +1248,7 @@ queryResp = client.<span class="hljs-title function_">query</span>(queryReq);
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
 </ul>
-<h2 id="Use-Advanced-Operators" class="common-anchor-header">使用高级操作符<button data-href="#Use-Advanced-Operators" class="anchor-icon" translate="no">
+<h2 id="Use-Advanced-Operators" class="common-anchor-header">Use Advanced Operators<button data-href="#Use-Advanced-Operators" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -1231,11 +1263,14 @@ queryResp = client.<span class="hljs-title function_">query</span>(queryReq);
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>本节将举例说明如何在标量过滤中使用高级操作符。您也可以将这些筛选器应用于<a href="https://milvus.io/docs/single-vector-search.md#Filtered-search">向量搜索</a>和<a href="https://milvus.io/docs/insert-update-delete.md#Delete-entities">数据删除</a>。</p>
-<h3 id="Count-entities" class="common-anchor-header">计数实体</h3><ul>
-<li><p>计算 Collections 中实体的总数。</p>
+    </button></h2><p>In this section, you will find examples of how to use advanced operators in scalar filtering. You can apply these filters to <a href="https://milvus.io/docs/single-vector-search.md#Filtered-search">vector searches</a> and <a href="https://milvus.io/docs/insert-update-delete.md#Delete-entities">data deletions</a> too.</p>
+<h3 id="Count-entities" class="common-anchor-header">Count entities</h3><ul>
+<li><p>Counts the total number of entities in a collection.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 7. Use advanced operators</span>
 
 <span class="hljs-comment"># Count the total number of entities in a collection</span>
@@ -1283,9 +1318,12 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// [ { &#x27;count(*)&#x27;: &#x27;2000&#x27; } ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>计算特定分区中实体的总数。</p>
+<li><p>Counts the total number of entities in specific partitions.</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Count the number of entities in a partition</span>
 res = client.query(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -1332,9 +1370,12 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// [ { &#x27;count(*)&#x27;: &#x27;500&#x27; } ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>统计符合过滤条件的实体数量</p>
+<li><p>Counts the number of entities that match a filtering condition</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Count the number of entities that match a specific filter</span>
 res = client.query(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -1381,7 +1422,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
 </ul>
-<h2 id="Reference-on-scalar-filters" class="common-anchor-header">标量过滤器参考<button data-href="#Reference-on-scalar-filters" class="anchor-icon" translate="no">
+<h2 id="Reference-on-scalar-filters" class="common-anchor-header">Reference on scalar filters<button data-href="#Reference-on-scalar-filters" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -1396,30 +1437,30 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><h3 id="Basic-Operators" class="common-anchor-header">基本操作符</h3><p><strong>布尔表达式</strong>始终是<strong>由字段名和操作符组成的字符串</strong>。本节将详细介绍基本操作符。</p>
+    </button></h2><h3 id="Basic-Operators" class="common-anchor-header">Basic Operators</h3><p>A <strong>boolean expression</strong> is always <strong>a string comprising field names joined by operators</strong>. In this section, you will learn more about basic operators.</p>
 <table>
 <thead>
-<tr><th><strong>操作符</strong></th><th><strong>说明</strong></th></tr>
+<tr><th><strong>Operator</strong></th><th><strong>Description</strong></th></tr>
 </thead>
 <tbody>
-<tr><td><strong>和 (&amp;&amp;)</strong></td><td>如果两个操作数都为真，则为真</td></tr>
-<tr><td><strong>或 (||)</strong></td><td>如果任一操作数为真，则为真</td></tr>
-<tr><td><strong>+, -, *, /</strong></td><td>加法、减法、乘法和除法</td></tr>
-<tr><td><strong>**</strong></td><td>指数</td></tr>
-<tr><td><strong>%</strong></td><td>模数</td></tr>
-<tr><td><strong>&lt;, &gt;</strong></td><td>小于、大于</td></tr>
-<tr><td><strong>==, !=</strong></td><td>等于，不等于</td></tr>
-<tr><td><strong>&lt;=, &gt;=</strong></td><td>小于或等于，大于或等于</td></tr>
-<tr><td><strong>不等于</strong></td><td>逆转给定条件的结果。</td></tr>
-<tr><td><strong>相似</strong></td><td>使用通配符将一个值与类似值进行比较。<br/> 例如，like &quot;prefix%&quot;匹配以 &quot;prefix &quot;开头的字符串。</td></tr>
-<tr><td><strong>in</strong></td><td>测试表达式是否匹配值列表中的任何值。</td></tr>
+<tr><td><strong>and (&amp;&amp;)</strong></td><td>True if both operands are true</td></tr>
+<tr><td><strong>or (||)</strong></td><td>True if either operand is true</td></tr>
+<tr><td><strong>+, -, *, /</strong></td><td>Addition, subtraction, multiplication, and division</td></tr>
+<tr><td><strong>**</strong></td><td>Exponent</td></tr>
+<tr><td><strong>%</strong></td><td>Modulus</td></tr>
+<tr><td><strong>&lt;, &gt;</strong></td><td>Less than, greater than</td></tr>
+<tr><td><strong>==, !=</strong></td><td>Equal to, not equal to</td></tr>
+<tr><td><strong>&lt;=, &gt;=</strong></td><td>Less than or equal to, greater than or equal to</td></tr>
+<tr><td><strong>not</strong></td><td>Reverses the result of a given condition.</td></tr>
+<tr><td><strong>like</strong></td><td>Compares a value to similar values using wildcard operators.<br/> For example, like “prefix%” matches strings that begin with &quot;prefix&quot;.</td></tr>
+<tr><td><strong>in</strong></td><td>Tests if an expression matches any value in a list of values.</td></tr>
 </tbody>
 </table>
-<h3 id="Advanced-operators" class="common-anchor-header">高级操作符</h3><ul>
+<h3 id="Advanced-operators" class="common-anchor-header">Advanced operators</h3><ul>
 <li><p><code translate="no">count(*)</code></p>
-<p>计算 Collections 中实体的确切数量。将其用作输出字段，可获得 Collections 或分区中实体的确切数目。</p>
+<p>Counts the exact number of entities in the collection. Use this as an output field to get the exact number of entities in a collection or partition.</p>
 <p><div class="admonition note"></p>
-<p><p><b>注释</b></p></p>
-<p><p>这适用于已加载的集合。应将其作为唯一的输出字段。</p></p>
+<p><p><b>notes</b></p></p>
+<p><p>This applies to loaded collections. You should use it as the only output field.</p></p>
 <p></div></p></li>
 </ul>

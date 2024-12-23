@@ -1,8 +1,12 @@
 ---
 id: boolean.md
 summary: >-
-  フィルタ式は、検索やクエリの際に特定のスカラーフィールドをフィルタリングし、正確にマッチした結果を得るために使用することができます。このガイドでは、データセットの例を通して、Zillizでのフィルター式の使い方を紹介します。デモンストレーションのため、このガイドではクエリー操作の例のみを提供します。
-title: メタデータのフィルタリング
+  A filter expression can be used to filter a specific scalar field during a
+  search or query to obtain precisely matched results. This guide will introduce
+  how to use filter expressions in Zilliz through an example dataset. For
+  demonstration purposes, this guide will only provide examples of query
+  operations.​
+title: Metadata Filtering
 ---
 <h1 id="Metadata-Filtering​" class="common-anchor-header">Metadata Filtering​<button data-href="#Metadata-Filtering​" class="anchor-icon" translate="no">
       <svg translate="no"

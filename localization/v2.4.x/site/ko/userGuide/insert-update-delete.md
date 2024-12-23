@@ -1,9 +1,11 @@
 ---
 id: insert-update-delete.md
-summary: '이 가이드에서는 삽입, 삽입, 삭제 등 컬렉션 내 데이터 조작 작업에 대해 안내합니다.'
-title: '삽입, 위로 올리기 및 삭제'
+summary: >-
+  This guide walks you through the data manipulation operations within a
+  collection, including insertion, upsertion, and deletion.
+title: 'Insert, Upsert & Delete'
 ---
-<h1 id="Insert-Upsert--Delete" class="common-anchor-header">삽입, 위로 올리기 및 삭제<button data-href="#Insert-Upsert--Delete" class="anchor-icon" translate="no">
+<h1 id="Insert-Upsert--Delete" class="common-anchor-header">Insert, Upsert &amp; Delete<button data-href="#Insert-Upsert--Delete" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -18,8 +20,8 @@ title: '삽입, 위로 올리기 및 삭제'
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>이 가이드에서는 삽입, 위로 삽입 및 삭제를 포함한 컬렉션 내 데이터 조작 작업을 안내합니다.</p>
-<h2 id="Before-you-start" class="common-anchor-header">시작하기 전에<button data-href="#Before-you-start" class="anchor-icon" translate="no">
+    </button></h1><p>This guide walks you through the data manipulation operations within a collection, including insertion, upsertion, and deletion.</p>
+<h2 id="Before-you-start" class="common-anchor-header">Before you start<button data-href="#Before-you-start" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -35,11 +37,11 @@ title: '삽입, 위로 올리기 및 삭제'
         ></path>
       </svg>
     </button></h2><ul>
-<li><p>원하는 SDK를 설치했습니다. SDK를 설치하려면 <a href="https://milvus.io/docs/install-pymilvus.md">SDK 설치를</a> 참조하세요.</p></li>
-<li><p>컬렉션을 만들었습니다. 컬렉션을 만들려면 <a href="/docs/ko/manage-collections.md">컬렉션 관리를</a> 참조하세요.</p></li>
-<li><p>대량의 데이터를 삽입하려면 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/DataImport/LocalBulkWriter/LocalBulkWriter.md">데이터 가져오기를</a> 사용하는 것이 좋습니다.</p></li>
+<li><p>You have installed the SDK of your choice. To install an SDK, refer to <a href="https://milvus.io/docs/install-pymilvus.md">Install SDKs</a>.</p></li>
+<li><p>You have created a collection. To create a collection, refer to <a href="/docs/ko/manage-collections.md">Manage Collections</a>.</p></li>
+<li><p>To insert a large volume of data, you are advised to use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/DataImport/LocalBulkWriter/LocalBulkWriter.md">Data Import</a>.</p></li>
 </ul>
-<h2 id="Overview" class="common-anchor-header">개요<button data-href="#Overview" class="anchor-icon" translate="no">
+<h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -54,10 +56,10 @@ title: '삽입, 위로 올리기 및 삭제'
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Milvus 컬렉션의 컨텍스트 내에서 엔티티는 컬렉션 내에서 식별 가능한 단일 인스턴스입니다. 이는 도서관의 책, 게놈의 유전자 또는 기타 식별 가능한 개체 등 특정 클래스의 고유한 구성원을 나타냅니다.</p>
-<p>컬렉션 내의 엔티티는 스키마라고 하는 공통 속성 집합을 공유하며, 필드 이름, 데이터 유형 및 기타 제약 조건을 포함하여 각 엔티티가 준수해야 하는 구조를 간략하게 설명합니다.</p>
-<p>컬렉션에 엔티티를 성공적으로 삽입하려면 제공된 데이터에 대상 컬렉션의 모든 스키마 정의 필드가 포함되어야 합니다. 또한 동적 필드를 활성화한 경우에만 스키마에 정의되지 않은 필드도 포함할 수 있습니다. 자세한 내용은 <a href="/docs/ko/enable-dynamic-field.md">동적 필드 활성화를</a> 참조하세요.</p>
-<h2 id="Preparations" class="common-anchor-header">준비<button data-href="#Preparations" class="anchor-icon" translate="no">
+    </button></h2><p>An entity, within the context of Milvus collections, is a singular, identifiable instance within a collection. It represents a distinct member of a particular class, be it a book in a library, a gene in a genome, or any other identifiable entity.</p>
+<p>Entities within a collection share a common set of attributes, termed schema, outlining the structure that each entity must adhere to, including field names, data types, and any other constraints.</p>
+<p>Successful insertion of entities into a collection requires that the provided data should contain all the schema-defined fields of the target collection. Additionally, you can also include non-schema-defined fields only if you have enabled the dynamic field. For details, refer to <a href="/docs/ko/enable-dynamic-field.md">Enable Dynamic Field</a>.</p>
+<h2 id="Preparations" class="common-anchor-header">Preparations<button data-href="#Preparations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -72,18 +74,21 @@ title: '삽입, 위로 올리기 및 삭제'
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>아래 코드 스니펫은 기존 코드를 재구성하여 Milvus 클러스터에 대한 연결을 설정하고 컬렉션을 빠르게 설정합니다.</p>
+    </button></h2><p>The code snippet below repurposes the existing code to establish a connection to a Milvus cluster and quickly set up a collection.</p>
 <div class="language-python">
-<p>준비를 위해 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> 를 사용하여 Milvus 서버에 연결하고 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> 를 사용하여 빠른 설정 모드로 컬렉션을 생성합니다.</p>
+<p>For preparations, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> to create a collection in a quick-setup mode.</p>
 </div>
 <div class="language-java">
-<p>준비하려면 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> 을 사용하여 Milvus 서버에 연결하고 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> 를 사용하여 빠른 설정 모드에서 컬렉션을 생성합니다.</p>
+<p>For preparations, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection in a quick-setup mode.</p>
 </div>
 <div class="language-javascript">
-<p>준비하려면 <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> 을 사용하여 Milvus 서버에 연결하고 <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a> 를 사용하여 빠른 설정 모드에서 컬렉션을 생성합니다.</p>
+<p>For preparations, use <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection in a quick-setup mode.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">파이썬 </a> <a href="#java">자바</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> MilvusClient
 
 <span class="hljs-comment"># 1. Set up a Milvus client</span>
@@ -140,14 +145,14 @@ client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">M
 });  
 <button class="copy-code-btn"></button></code></pre>
 <div class="admonition note">
-<p><b>참고</b></p>
-<p>위 코드에서 생성된 컬렉션에는 <code translate="no">id</code> (기본 키)와 <code translate="no">vector</code> (벡터 필드)의 두 필드만 포함되며, <code translate="no">auto_id</code> 및 <code translate="no">enable_dynamic_field</code> 설정이 기본적으로 활성화되어 있습니다. 데이터를 삽입할 때</p>
+<p><b>notes</b></p>
+<p>The collection generated in the above code contains only two fields: <code translate="no">id</code> (as the primary key) and <code translate="no">vector</code> (as the vector field), with <code translate="no">auto_id</code> and <code translate="no">enable_dynamic_field</code> settings enabled by default. When inserting data,</p>
 <ul>
-<li><p>데이터가 삽입되면 기본 필드가 자동으로 증가하므로 삽입할 데이터에 <strong>ID를</strong> 포함할 필요가 없습니다.</p></li>
-<li><p>스키마에 정의되지 않은 필드는 <strong>$meta라는</strong> 예약된 JSON 필드에 키-값 쌍으로 저장됩니다.</p></li>
+<li><p>You do not need to include <strong>id</strong> in the data to be inserted, because the primary field automatically increments as data is inserted.</p></li>
+<li><p>Non-schema-defined fields will be saved as key-value pairs in a reserved JSON field named <strong>$meta</strong>.</p></li>
 </ul>
 </div>
-<h2 id="Insert-entities" class="common-anchor-header">엔티티 삽입<button data-href="#Insert-entities" class="anchor-icon" translate="no">
+<h2 id="Insert-entities" class="common-anchor-header">Insert entities<button data-href="#Insert-entities" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -162,18 +167,21 @@ client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">M
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>엔티티를 삽입하려면 데이터를 사전 목록으로 구성해야 하며, 각 사전은 엔티티를 나타냅니다. 각 사전에는 대상 컬렉션의 사전 정의된 필드와 동적 필드에 해당하는 키가 모두 포함되어 있습니다.</p>
+    </button></h2><p>To insert entities, you need to organize the data into a list of dictionaries, where each dictionary represents an entity. Each dictionary contains the keys corresponding to both pre-defined and dynamic fields in the target collection.</p>
 <div class="language-python">
-<p>컬렉션에 엔티티를 삽입하려면 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> 메서드를 사용합니다.</p>
+<p>To insert entities into a collection, use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> method.</p>
 </div>
 <div class="language-java">
-<p>컬렉션에 엔티티를 삽입하려면 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> 메서드를 사용합니다.</p>
+<p>To insert entities into a collection, use the <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> method.</p>
 </div>
 <div class="language-javascript">
-<p>컬렉션에 엔티티를 삽입하려면 <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a> 메서드를 사용합니다.</p>
+<p>To insert entities into a collection, use the <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/insert.md"><code translate="no">insert()</code></a> method.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 3. Insert some data</span>
 data=[
     {<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;vector&quot;</span>: [<span class="hljs-number">0.3580376395471989</span>, -<span class="hljs-number">0.6023495712049978</span>, <span class="hljs-number">0.18414012509913835</span>, -<span class="hljs-number">0.26286205330961354</span>, <span class="hljs-number">0.9029438446296592</span>], <span class="hljs-string">&quot;color&quot;</span>: <span class="hljs-string">&quot;pink_8682&quot;</span>},
@@ -266,9 +274,12 @@ System.<span class="hljs-keyword">out</span>.println(insertResp.getInsertCnt());
 <span class="hljs-comment">// 10</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Insert-into-partitions" class="common-anchor-header">파티션에 삽입</h3><p>특정 파티션에 데이터를 삽입하려면 다음과 같이 삽입 요청에 파티션 이름을 지정할 수 있습니다:</p>
+<h3 id="Insert-into-partitions" class="common-anchor-header">Insert into partitions</h3><p>To insert data into a specific partition, you can specify the name of the partition in the insert request as follows:</p>
 <div class="multipleCode">
-   <a href="#python">파이썬 </a> <a href="#java">자바</a> <a href="#javascript">노드.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 4. Insert some more data into a specific partition</span>
 data=[
     {<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-number">10</span>, <span class="hljs-string">&quot;vector&quot;</span>: [-<span class="hljs-number">0.5570353903748935</span>, -<span class="hljs-number">0.8997887893201304</span>, -<span class="hljs-number">0.7123782431855732</span>, -<span class="hljs-number">0.6298990746450119</span>, <span class="hljs-number">0.6699215060604258</span>], <span class="hljs-string">&quot;color&quot;</span>: <span class="hljs-string">&quot;red_1202&quot;</span>},
@@ -380,8 +391,8 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// 10</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>출력은 영향을 받는 엔티티에 대한 통계가 포함된 딕셔너리입니다. 파티션 작업에 대한 자세한 내용은 <a href="/docs/ko/manage-partitions.md">파티션 관리를</a> 참조하세요.</p>
-<h2 id="Upsert-entities" class="common-anchor-header">엔티티 삽입<button data-href="#Upsert-entities" class="anchor-icon" translate="no">
+<p>The output is a dictionary containing the statistics on the affected entities. For details on partition operations, refer to <a href="/docs/ko/manage-partitions.md">Manage Partitions</a>.</p>
+<h2 id="Upsert-entities" class="common-anchor-header">Upsert entities<button data-href="#Upsert-entities" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -396,28 +407,31 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>데이터 삽입은 업데이트와 삽입 작업의 조합입니다. Milvus에서 업서트 작업은 기본 키가 컬렉션에 이미 존재하는지 여부에 따라 엔터티를 삽입하거나 업데이트하는 데이터 수준 작업을 수행합니다. 구체적으로 설명하면 다음과 같습니다:</p>
+    </button></h2><p>Upserting data is a combination of update and insert operations. In Milvus, an upsert operation performs a data-level action to either insert or update an entity based on whether its primary key already exists in a collection. Specifically:</p>
 <ul>
-<li><p>엔티티의 기본 키가 컬렉션에 이미 존재하면 기존 엔티티를 덮어씁니다.</p></li>
-<li><p>기본 키가 컬렉션에 존재하지 않으면 새 엔터티가 삽입됩니다.</p></li>
+<li><p>If the primary key of the entity already exists in the collection, the existing entity will be overwritten.</p></li>
+<li><p>If the primary key does not exist in the collection, a new entity will be inserted.</p></li>
 </ul>
 <div class="alert note">
 <ul>
-<li>업서트 작업은 기본 키를 업데이트하지 않습니다.</li>
-<li>대규모 데이터 수집(예: 수백만 개의 벡터)을 위해 <code translate="no">insert</code> 대신 <code translate="no">upsert</code> 작업을 사용하려는 경우, 이 경우 Milvus 데이터 노드에서 높은 메모리 소비가 발생할 수 있다는 점에 유의하세요.</li>
+<li>Upsert operations will not update the primary keys.</li>
+<li>If you plan to use the <code translate="no">upsert</code> operation instead of <code translate="no">insert</code> for large-scale data ingestion (e.g. millions of vectors), be aware that this can lead to high memory consumption on Milvus data nodes.</li>
 </ul>
 </div>
 <div class="language-python">
-<p>엔티티를 삽입하려면 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/upsert.md"><code translate="no">upsert()</code></a> 메서드를 사용합니다.</p>
+<p>To upsert entities, use the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/upsert.md"><code translate="no">upsert()</code></a> method.</p>
 </div>
 <div class="language-java">
-<p>엔티티를 삽입하려면 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">upsert()</code></a> 메서드를 사용합니다.</p>
+<p>To upsert entities, use the <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">upsert()</code></a> method.</p>
 </div>
 <div class="language-javascript">
-<p>엔티티를 삽입하려면 <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/upsert.md"><code translate="no">upsert()</code></a> 메서드를 사용합니다.</p>
+<p>To upsert entities, use the <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/upsert.md"><code translate="no">upsert()</code></a> method.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 5. Upsert some data</span>
 data=[
     {<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;vector&quot;</span>: [-<span class="hljs-number">0.619954382375778</span>, <span class="hljs-number">0.4479436794798608</span>, -<span class="hljs-number">0.17493894838751745</span>, -<span class="hljs-number">0.4248030059917294</span>, -<span class="hljs-number">0.8648452746018911</span>], <span class="hljs-string">&quot;color&quot;</span>: <span class="hljs-string">&quot;black_9898&quot;</span>},
@@ -497,9 +511,12 @@ console.log(res.upsert_cnt)
 // <span class="hljs-number">10</span>
 // 
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Upsert-data-in-partitions" class="common-anchor-header">파티션에 데이터 삽입</h3><p>특정 파티션에 데이터를 삽입하려면 다음과 같이 삽입 요청에 파티션의 이름을 지정할 수 있습니다:</p>
+<h3 id="Upsert-data-in-partitions" class="common-anchor-header">Upsert data in partitions</h3><p>To upsert data into a specific partition, you can specify the name of the partition in the insert request as follows:</p>
 <div class="multipleCode">
-   <a href="#python">파이썬 </a> <a href="#java">자바</a> <a href="#javascript">노드.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 6. Upsert data in partitions</span>
 data=[
     {<span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-number">10</span>, <span class="hljs-string">&quot;vector&quot;</span>: [<span class="hljs-number">0.06998888224297328</span>, <span class="hljs-number">0.8582816610326578</span>, -<span class="hljs-number">0.9657938677934292</span>, <span class="hljs-number">0.6527905683627726</span>, -<span class="hljs-number">0.8668460657158576</span>], <span class="hljs-string">&quot;color&quot;</span>: <span class="hljs-string">&quot;black_3651&quot;</span>},
@@ -585,8 +602,8 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// 10</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>출력은 영향을 받는 엔티티에 대한 통계가 포함된 딕셔너리입니다. 파티션 작업에 대한 자세한 내용은 <a href="/docs/ko/manage-partitions.md">파티션 관리를</a> 참조하세요.</p>
-<h2 id="Delete-entities" class="common-anchor-header">엔터티 삭제<button data-href="#Delete-entities" class="anchor-icon" translate="no">
+<p>The output is a dictionary containing the statistics on the affected entities. For details on partition operations, refer to <a href="/docs/ko/manage-partitions.md">Manage Partitions</a>.</p>
+<h2 id="Delete-entities" class="common-anchor-header">Delete entities<button data-href="#Delete-entities" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -602,22 +619,25 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
         ></path>
       </svg>
     </button></h2><div class="language-python">
-<p>엔티티가 더 이상 필요하지 않은 경우 컬렉션에서 엔티티를 삭제하려면 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/delete.md"><code translate="no">delete()</code></a>.</p>
+<p>If an entity is no longer needed, you can delete it from the collection by using <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/delete.md"><code translate="no">delete()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>엔티티가 더 이상 필요하지 않은 경우 다음을 사용하여 컬렉션에서 삭제할 수 있습니다. <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/delete.md"><code translate="no">delete()</code></a>.</p>
+<p>If an entity is no longer needed, you can delete it from the collection by using <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/delete.md"><code translate="no">delete()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>엔티티가 더 이상 필요하지 않은 경우 다음을 사용하여 컬렉션에서 삭제할 수 있습니다. <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/delete.md"><code translate="no">delete()</code></a>.</p>
+<p>If an entity is no longer needed, you can delete it from the collection by using <a href="https://milvus.io/api-reference/node/v2.4.x/Vector/delete.md"><code translate="no">delete()</code></a>.</p>
 </div>
-<p>Milvus는 삭제할 엔티티를 식별할 수 있는 두 가지 방법을 제공합니다.</p>
+<p>Milvus offers two ways for you to identify the entities to delete.</p>
 <ul>
-<li><p><strong>필터로 엔티티를 삭제합니다.</strong></p>
+<li><p><strong>Delete entities by filter.</strong></p>
    <div class='alert note'>
-<p>필터 표현식을 사용하여 엔티티를 삭제할 때는 컬렉션이 로드되었는지 확인하세요. 그렇지 않으면 Milvus에서 오류를 반환합니다.</p>
+<p>When using filter expressions to delete entities, ensure the collection has been loaded. Otherwise, Milvus will return an error.</p>
    </div>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 7. Delete entities</span>
 res = client.delete(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -662,10 +682,13 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// 3</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p><strong>ID별로 엔티티 삭제하기.</strong></p>
-<p>다음 코드 조각은 특정 파티션에서 ID별로 엔티티를 삭제하는 방법을 보여줍니다. 파티션 이름을 지정하지 않은 상태에서도 작동합니다.</p>
+<li><p><strong>Delete entities by IDs.</strong></p>
+<p>The following snippets demonstrate how to delete entities by IDs from a specific partition. It also works if you leave the partition name unspecified.</p>
 <p><div class="multipleCode">
-<a href="#python">파이썬 </a><a href="#java">자바</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">res = client.delete(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     ids=[<span class="hljs-number">18</span>, <span class="hljs-number">19</span>],
@@ -706,11 +729,14 @@ System.out.<span class="hljs-built_in">println</span>(deleteResp.getDeleteCnt())
 <span class="hljs-comment">// 2</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>필터 표현식을 사용하는 방법에 대한 자세한 내용은 <a href="/docs/ko/get-and-scalar-query.md">가져오기 및 스칼라 쿼리를</a> 참조하세요.</p></li>
-<li><p><strong>파티션 이름으로 엔터티 삭제하기</strong>.</p>
-<p>특정 파티션에서 엔티티를 삭제하려면 <code translate="no">delete()</code> 메서드에서 <code translate="no">partition_name</code> 파라미터로 파티션 이름을 지정하면 됩니다. 다음 예제는 <code translate="no">partitionA</code> 에서 <code translate="no">blue</code> 으로 시작하는 색상을 가진 엔티티를 삭제합니다.</p>
+<p>For details on how to use filter expressions, refer to <a href="/docs/ko/get-and-scalar-query.md">Get &amp; Scalar Query</a>.</p></li>
+<li><p><strong>Delete entities by partition name</strong>.</p>
+<p>If you want to delete entities from a specific partition, you can specify the partition name with the <code translate="no">partition_name</code> parameter in the <code translate="no">delete()</code> method. The following example deletes entities from <code translate="no">partitionA</code> that have a color starting with <code translate="no">blue</code>.</p>
 <p><div class="multipleCode">
-<a href="#python">파이썬 </a><a href="#java">자바</a><a href="#javascript">Node.js</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+</div></p>
 <pre><code translate="no" class="language-python">res = client.delete(
 collection_name=<span class="hljs-string">&#x27;quick_setup&#x27;</span>,
 partition_name=<span class="hljs-string">&#x27;partitionA&#x27;</span>,

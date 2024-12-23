@@ -1,9 +1,11 @@
 ---
 id: metric.md
-summary: 'Milvus는 유클리드 거리, 내적 곱, Jaccard 등 다양한 유사성 메트릭을 지원합니다.'
-title: 유사성 메트릭
+summary: >-
+  Milvus supports a variety of similarity metrics, including Euclidean distance,
+  inner product, Jaccard, etc.
+title: Similarity Metrics
 ---
-<h1 id="Similarity-Metrics" class="common-anchor-header">유사성 메트릭<button data-href="#Similarity-Metrics" class="anchor-icon" translate="no">
+<h1 id="Similarity-Metrics" class="common-anchor-header">Similarity Metrics<button data-href="#Similarity-Metrics" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -18,21 +20,24 @@ title: 유사성 메트릭
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>Milvus에서 유사성 메트릭은 벡터 간의 유사성을 측정하는 데 사용됩니다. 좋은 거리 메트릭을 선택하면 분류 및 클러스터링 성능을 크게 향상시키는 데 도움이 됩니다.</p>
-<p>다음 표는 널리 사용되는 유사도 메트릭이 다양한 입력 데이터 양식과 Milvus 인덱스에 어떻게 적용되는지 보여줍니다. 현재 Milvus는 부동 소수점 임베딩(부동 소수점 벡터 또는 고밀도 벡터라고도 함), 이진 임베딩(이진 벡터라고도 함), 스파스 임베딩(스파스 벡터라고도 함)을 포함한 다양한 유형의 데이터를 지원합니다.</p>
+    </button></h1><p>In Milvus, similarity metrics are used to measure similarities among vectors. Choosing a good distance metric helps improve the classification and clustering performance significantly.</p>
+<p>The following table shows how these widely used similarity metrics fit with various input data forms and Milvus indexes. Currently, Milvus supports various types of data, including floating point embeddings (often known as floating point vectors or dense vectors), binary embeddings (also known as binary vectors), and sparse embeddings (also known as sparse vectors).</p>
 <div class="filter">
- <a href="#floating">부동 소수점 임베딩</a> <a href="#binary">이진 임베딩</a> <a href="#sparse">스파스 임베딩</a></div>
+  <a href="#floating">Floating point embeddings</a>
+  <a href="#binary">Binary embeddings</a>
+  <a href="#sparse">Sparse embeddings</a>
+</div>
 <div class="filter-floating table-wrapper" markdown="block">
 <table class="tg">
 <thead>
   <tr>
-    <th class="tg-0pky" style="width: 204px;">메트릭 유형</th>
-    <th class="tg-0pky">인덱스 유형</th>
+    <th class="tg-0pky" style="width: 204px;">Metric Types</th>
+    <th class="tg-0pky">Index Types</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td class="tg-0pky"><ul><li>유클리드 거리(L2)</li><li>내적 곱(IP)</li><li>코사인 유사도(COSINE)</li></td>
+    <td class="tg-0pky"><ul><li>Euclidean distance (L2)</li><li>Inner product (IP)</li><li>Cosine similarity (COSINE)</li></td>
     <td class="tg-0pky" rowspan="2"><ul><li>FLAT</li><li>IVF_FLAT</li><li>IVF_SQ8</li><li>IVF_PQ</li><li>GPU_IVF_FLAT</li><li>GPU_IVF_PQ</li><li>HNSW</li><li>DISKANN</li></ul></td>
   </tr>
 </tbody>
@@ -42,8 +47,8 @@ title: 유사성 메트릭
 <table class="tg">
 <thead>
   <tr>
-    <th class="tg-0pky" style="width: 204px;">메트릭 유형</th>
-    <th class="tg-0pky">인덱스 유형</th>
+    <th class="tg-0pky" style="width: 204px;">Metric Types</th>
+    <th class="tg-0pky">Index Types</th>
   </tr>
 </thead>
 <tbody>
@@ -58,8 +63,8 @@ title: 유사성 메트릭
 <table class="tg">
 <thead>
   <tr>
-    <th class="tg-0pky" style="width: 204px;">메트릭 유형</th>
-    <th class="tg-0pky">인덱스 유형</th>
+    <th class="tg-0pky" style="width: 204px;">Metric Types</th>
+    <th class="tg-0pky">Index Types</th>
   </tr>
 </thead>
 <tbody>
@@ -70,80 +75,99 @@ title: 유사성 메트릭
 </tbody>
 </table>
 </div>
-<h3 id="Euclidean-distance-L2" class="common-anchor-header">유클리드 거리(L2)</h3><p>기본적으로 유클리드 거리는 두 점을 연결하는 세그먼트의 길이를 측정합니다.</p>
-<p>유클리드 거리의 공식은 다음과 같습니다:</p>
+<h3 id="Euclidean-distance-L2" class="common-anchor-header">Euclidean distance (L2)</h3><p>Essentially, Euclidean distance measures the length of a segment that connects 2 points.</p>
+<p>The formula for Euclidean distance is as follows:</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/euclidean_metric.png" alt="euclidean" class="doc-image" id="euclidean" />
-   </span> <span class="img-wrapper"> <span>유클리드</span> </span></p>
-<p>여기서 <strong>a</strong> = (<sub>a0</sub>, <sub>a1</sub>,...,<sub>an-1</sub>)과 <strong>b</strong> = (<sub>b0</sub>, <sub>b0</sub>,..., <sub>bn-1</sub>)은 n차원 유클리드 공간에서 두 점입니다.</p>
-<p>가장 일반적으로 사용되는 거리 측정법으로 데이터가 연속적인 경우 매우 유용합니다.</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/euclidean_metric.png" alt="euclidean" class="doc-image" id="euclidean" />
+    <span>euclidean</span>
+  </span>
+</p>
+<p>where <strong>a</strong> = (a<sub>0</sub>, a<sub>1</sub>,…, a<sub>n-1</sub>) and <strong>b</strong> = (b<sub>0</sub>, b<sub>0</sub>,…, b<sub>n-1</sub>) are two points in n-dimensional Euclidean space</p>
+<p>It’s the most commonly used distance metric and is very useful when the data are continuous.</p>
 <div class="alert note">
-밀버스는 유클리드 거리를 거리 측정값으로 선택한 경우 제곱근을 적용하기 전의 값만 계산합니다.</div>
-<h3 id="Inner-product-IP" class="common-anchor-header">내부 곱(IP)</h3><p>두 벡터 임베딩 사이의 IP 거리는 다음과 같이 정의됩니다:</p>
-<p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/IP_formula.png" alt="ip" class="doc-image" id="ip" />
-   </span> <span class="img-wrapper"> <span>IP</span> </span></p>
-<p>IP는 정규화되지 않은 데이터를 비교해야 하거나 크기와 각도를 고려해야 할 때 더 유용합니다.</p>
-<div class="alert note">
-<p>정규화된 임베딩에 IP 거리 메트릭을 적용하면 결과는 임베딩 간의 코사인 유사성을 계산하는 것과 동일합니다.</p>
+Milvus only caculates the value before applying square root when Euclidean distance is chosen as the distance metric.
 </div>
-<p>X'가 임베딩 X에서 정규화되었다고 가정해 보겠습니다:</p>
+<h3 id="Inner-product-IP" class="common-anchor-header">Inner product (IP)</h3><p>The IP distance between two vector embeddings are defined as follows:</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/normalize_formula.png" alt="normalize" class="doc-image" id="normalize" />
-   </span> <span class="img-wrapper"> <span>normalize</span> </span></p>
-<p>두 임베딩 간의 상관관계는 다음과 같습니다:</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/IP_formula.png" alt="ip" class="doc-image" id="ip" />
+    <span>ip</span>
+  </span>
+</p>
+<p>IP is more useful if you need to compare non-normalized data or when you care about magnitude and angle.</p>
+<div class="alert note">
+<p>If you apply the IP distance metric to normalized embeddings, the result will be equivalent to calculating the cosine similarity between the embeddings.</p>
+</div>
+<p>Suppose X’ is normalized from embedding X:</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/normalization_formula.png" alt="normalization" class="doc-image" id="normalization" />
-   </span> <span class="img-wrapper"> <span>정규화</span> </span></p>
-<h3 id="Cosine-Similarity" class="common-anchor-header">코사인 유사도</h3><p>코사인 유사도는 두 벡터 세트 사이의 각도의 코사인을 사용하여 얼마나 유사한지 측정합니다. 두 벡터 세트는 같은 원점([0,0,...])에서 시작하지만 서로 다른 방향을 가리키는 두 개의 선분으로 생각할 수 있습니다.</p>
-<p>두 벡터 집합 <strong>A = (<sub>a0</sub>, <sub>a1</sub>,...,<sub>an-1</sub>)</strong> 와 <strong>B = (<sub>b0</sub>, <sub>b1</sub>,..., <sub>bn-1</sub></strong>) 사이의 코사인 유사도를 계산하려면 다음 공식을 사용합니다:</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/normalize_formula.png" alt="normalize" class="doc-image" id="normalize" />
+    <span>normalize</span>
+  </span>
+</p>
+<p>The correlation between the two embeddings is as follows:</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/cosine_similarity.png" alt="cosine_similarity" class="doc-image" id="cosine_similarity" />
-   </span> <span class="img-wrapper"> <span>코사인_유사도</span> </span></p>
-<p>코사인 유사도는 항상 <strong>[-1, 1]</strong> 간격에 있습니다. 예를 들어 두 개의 비례 벡터의 코사인 유사도는 <strong>1</strong>, 두 개의 직교 벡터의 유사도는 <strong>0</strong>, 두 개의 반대 벡터의 유사도는 <strong>-1입니다</strong>. 코사인이 클수록 두 벡터 사이의 각도가 작아져 이 두 벡터가 서로 더 유사하다는 것을 나타냅니다.</p>
-<p>코사인 유사도를 1에서 빼면 두 벡터 사이의 코사인 거리를 구할 수 있습니다.</p>
-<h3 id="Jaccard-distance" class="common-anchor-header">자카드 거리</h3><p>자카드 유사도 계수는 두 샘플 세트 간의 유사도를 측정하며, 정의된 세트의 교집합의 카디널리티를 두 세트의 합집합의 카디널리티로 나눈 값으로 정의됩니다. 유한한 샘플 세트에만 적용할 수 있습니다.</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/normalization_formula.png" alt="normalization" class="doc-image" id="normalization" />
+    <span>normalization</span>
+  </span>
+</p>
+<h3 id="Cosine-Similarity" class="common-anchor-header">Cosine Similarity</h3><p>Cosine similarity uses the cosine of the angle between two sets of vectors to measure how similar they are. You can think of the two sets of vectors as two line segments that start from the same origin ([0,0,…]) but point in different directions.</p>
+<p>To calculate the cosine similarity between two sets of vectors <strong>A = (a<sub>0</sub>, a<sub>1</sub>,…, a<sub>n-1</sub>)</strong> and <strong>B = (b<sub>0</sub>, b<sub>1</sub>,…, b<sub>n-1</sub>)</strong>, use the following formula:</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/jaccard_coeff.png" alt="Jaccard similarity coefficient" class="doc-image" id="jaccard-similarity-coefficient" />
-   </span> <span class="img-wrapper"> <span>Jaccard 유사도 계수</span> </span></p>
-<p>Jaccard 거리는 데이터 세트 간의 유사성을 측정하며 1에서 Jaccard 유사성 계수를 빼면 구할 수 있습니다. 이진 변수의 경우 Jaccard 거리는 타니모토 계수와 동일합니다.</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/cosine_similarity.png" alt="cosine_similarity" class="doc-image" id="cosine_similarity" />
+    <span>cosine_similarity</span>
+  </span>
+</p>
+<p>The cosine similarity is always in the interval <strong>[-1, 1]</strong>. For example, two proportional vectors have a cosine similarity of <strong>1</strong>, two orthogonal vectors have a similarity of <strong>0</strong>, and two opposite vectors have a similarity of <strong>-1</strong>. The larger the cosine, the smaller the angle between two vectors, indicating that these two vectors are more similar to each other.</p>
+<p>By subtracting their cosine similarity from 1, you can get the cosine distance between two vectors.</p>
+<h3 id="Jaccard-distance" class="common-anchor-header">Jaccard distance</h3><p>Jaccard similarity coefficient measures the similarity between two sample sets and is defined as the cardinality of the intersection of the defined sets divided by the cardinality of the union of them. It can only be applied to finite sample sets.</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/jaccard_dist.png" alt="Jaccard distance" class="doc-image" id="jaccard-distance" />
-   </span> <span class="img-wrapper"> <span>자카드 거리</span> </span></p>
-<h3 id="Hamming-distance" class="common-anchor-header">해밍 거리</h3><p>해밍 거리는 이진 데이터 문자열을 측정합니다. 길이가 같은 두 문자열 사이의 거리는 비트가 서로 다른 비트 위치의 수입니다.</p>
-<p>예를 들어 1101 1001과 1001 1101이라는 두 문자열이 있다고 가정해 보겠습니다.</p>
-<p>11011001 ⊕ 10011101 = 01000100. 여기에는 두 개의 1이 포함되어 있으므로 해밍 거리는 d(11011001, 10011101) = 2입니다.</p>
-<h3 id="Structural-Similarity" class="common-anchor-header">구조적 유사성</h3><p>어떤 화학 구조가 더 큰 화학 구조의 일부로 존재하는 경우 전자를 하부 구조라고 하고 후자를 상부 구조라고 합니다. 예를 들어 에탄올은 아세트산의 하부 구조이고 아세트산은 에탄올의 상부 구조입니다.</p>
-<p>구조 유사성은 두 화학식이 서로 유사한지 여부를 판단하는 데 사용되며, 한 화학식이 다른 화학식의 상부 구조인지 하부 구조인지 판단하는 데 사용됩니다.</p>
-<p>A가 B의 상부 구조인지 확인하려면 다음 공식을 사용하세요:</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/jaccard_coeff.png" alt="Jaccard similarity coefficient" class="doc-image" id="jaccard-similarity-coefficient" />
+    <span>Jaccard similarity coefficient</span>
+  </span>
+</p>
+<p>Jaccard distance measures the dissimilarity between data sets and is obtained by subtracting the Jaccard similarity coefficient from 1. For binary variables, Jaccard distance is equivalent to the Tanimoto coefficient.</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/superstructure.png" alt="superstructure" class="doc-image" id="superstructure" />
-   </span> <span class="img-wrapper"> <span>상부 구조</span> </span></p>
-<p>여기서</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/jaccard_dist.png" alt="Jaccard distance" class="doc-image" id="jaccard-distance" />
+    <span>Jaccard distance</span>
+  </span>
+</p>
+<h3 id="Hamming-distance" class="common-anchor-header">Hamming distance</h3><p>Hamming distance measures binary data strings. The distance between two strings of equal length is the number of bit positions at which the bits are different.</p>
+<p>For example, suppose there are two strings, 1101 1001 and 1001 1101.</p>
+<p>11011001 ⊕ 10011101 = 01000100. Since, this contains two 1s, the Hamming distance, d (11011001, 10011101) = 2.</p>
+<h3 id="Structural-Similarity" class="common-anchor-header">Structural Similarity</h3><p>When a chemical structure occurs as a part of a larger chemical structure, the former is called a substructure and the latter is called a superstructure. For example, ethanol is a substructure of acetic acid, and acetic acid is a superstructure of ethanol.</p>
+<p>Structural similarity is used to determine whether two chemical formulae are similar to each other in that one is the superstructure or substructure of the other.</p>
+<p>To determine whether A is a superstructure of B, use the following formula:</p>
+<p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/superstructure.png" alt="superstructure" class="doc-image" id="superstructure" />
+    <span>superstructure</span>
+  </span>
+</p>
+<p>Where:</p>
 <ul>
-<li>A는 검색하려는 화학식의 이진 표현입니다.</li>
-<li>B는 데이터베이스에 있는 화학식의 이진 표현입니다.</li>
+<li>A is the binary representation of a chemical formula to be retrieved</li>
+<li>B is the binary representation of a chemical formula in the database</li>
 </ul>
-<p><code translate="no">0</code> 이 반환되면 <strong>A는</strong> <strong>B의</strong> 상부 구조가 아닙니다. 그렇지 않으면 결과는 그 반대입니다.</p>
-<p>A가 B의 하부 구조인지 확인하려면 다음 공식을 사용합니다:</p>
+<p>Once it returns <code translate="no">0</code>, <strong>A</strong> is not a superstructure of <strong>B</strong>. Otherwise, the result is the other way around.</p>
+<p>To determine whether A is a substructure of B, use the following formula:</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.4.x/assets/substructure.png" alt="substructure" class="doc-image" id="substructure" />
-   </span> <span class="img-wrapper"> <span>하부 구조</span> </span></p>
-<p>여기서:</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.4.x/assets/substructure.png" alt="substructure" class="doc-image" id="substructure" />
+    <span>substructure</span>
+  </span>
+</p>
+<p>Where:</p>
 <ul>
-<li>A는 검색하려는 화학식의 이진 표현입니다.</li>
-<li>B는 데이터베이스에 있는 화학식의 이진 표현입니다.</li>
+<li>A is the binary representation of a chemical formula to be retrieved</li>
+<li>B is the binary representation of a chemical formula in the database</li>
 </ul>
-<p><code translate="no">0</code> 이 반환되면 <strong>A는</strong> <strong>B의</strong> 하위 구조가 아닙니다. 그렇지 않으면 결과는 그 반대입니다.</p>
+<p>Once it returns <code translate="no">0</code>, <strong>A</strong> is not a substructure of <strong>B</strong>. Otherwise, the result is the other way around.</p>
 <h2 id="FAQ" class="common-anchor-header">FAQ<button data-href="#FAQ" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
@@ -160,16 +184,22 @@ title: 유사성 메트릭
         ></path>
       </svg>
     </button></h2><p><details>
-<summary><font color="#4fc4f9">메트릭 유형이 내적 곱인 경우 벡터 검색의 상위 1순위 결과가 검색 벡터 자체가 아닌 이유는 무엇인가요?</font></summary>거리 메트릭으로 내적 곱을 사용할 때 벡터를 정규화하지 않은 경우 이런 문제가 발생합니다.</details>
-<details>
-<summary><font color="#4fc4f9">정규화란 무엇인가요? 정규화가 필요한 이유는 무엇인가요?</font></summary></p>
-<p>정규화란 임베딩(벡터)을 변환하는 과정을 통해 해당 벡터의 규범이 1이 되도록 변환하는 것을 말합니다. 내적 곱을 사용하여 임베딩 유사성을 계산하는 경우, 임베딩을 정규화해야 합니다. 정규화 후 내적 곱은 코사인 유사도와 같습니다.</p>
-<p>
-자세한 내용은 <a href="https://en.wikipedia.org/wiki/Unit_vector">위키백과를</a> 참조하세요.</p>
+<summary><font color="#4fc4f9">Why is the top1 result of a vector search not the search vector itself, if the metric type is inner product?</font></summary>
+This occurs if you have not normalized the vectors when using inner product as the distance metric.
 </details>
 <details>
-<summary><font color="#4fc4f9">거리 측정값으로 유클리드 거리(L2)와 내적 곱(IP)을 사용하면 왜 다른 결과가 나오나요?</font></summary>벡터가 정규화되어 있는지 확인하세요. 그렇지 않은 경우 먼저 벡터를 정규화해야 합니다. 이론적으로 벡터가 정규화되지 않은 경우 L2로 계산된 유사도는 IP로 계산된 유사도와 다릅니다.</details>
-<h2 id="Whats-next" class="common-anchor-header">다음 단계<button data-href="#Whats-next" class="anchor-icon" translate="no">
+<summary><font color="#4fc4f9">What is normalization? Why is normalization needed?</font></summary></p>
+<p>Normalization refers to the process of converting an embedding (vector) so that its norm equals 1. If you use Inner Product to calculate embeddings similarities, you must normalize your embeddings. After normalization, inner product equals cosine similarity.
+</p>
+<p>
+See <a href="https://en.wikipedia.org/wiki/Unit_vector">Wikipedia</a> for more information.
+</p>
+</details>
+<details>
+<summary><font color="#4fc4f9">Why do I get different results using Euclidean distance (L2) and inner product (IP) as the distance metric?</font></summary>
+Check if the vectors are normalized. If not, you need to normalize the vectors first. Theoretically speaking, similarities worked out by L2 are different from similarities worked out by IP, if the vectors are not normalized.
+</details>
+<h2 id="Whats-next" class="common-anchor-header">What’s next<button data-href="#Whats-next" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -185,5 +215,5 @@ title: 유사성 메트릭
         ></path>
       </svg>
     </button></h2><ul>
-<li>Milvus에서 지원되는 <a href="/docs/ko/index.md">인덱스 유형에</a> 대해 자세히 알아보세요.</li>
+<li>Learn more about the supported <a href="/docs/ko/index.md">index types</a> in Milvus.</li>
 </ul>

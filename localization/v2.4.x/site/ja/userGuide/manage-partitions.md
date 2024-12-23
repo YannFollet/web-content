@@ -1,8 +1,8 @@
 ---
 id: manage-partitions.md
-title: パーティションの管理
+title: Manage Partitions
 ---
-<h1 id="Manage-Partitions" class="common-anchor-header">パーティションの管理<button data-href="#Manage-Partitions" class="anchor-icon" translate="no">
+<h1 id="Manage-Partitions" class="common-anchor-header">Manage Partitions<button data-href="#Manage-Partitions" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -17,8 +17,8 @@ title: パーティションの管理
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>このガイドでは、コレクションにパーティションを作成して管理する方法を説明します。</p>
-<h2 id="Overview" class="common-anchor-header">概要<button data-href="#Overview" class="anchor-icon" translate="no">
+    </button></h1><p>This guide walks you through how to create and manage partitions in a collection.</p>
+<h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -33,14 +33,14 @@ title: パーティションの管理
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Milvusのパーティションはコレクションの小区分を表します。この機能により、コレクションの物理ストレージを複数の部分に分割することができ、コレクション全体ではなく、より小さなデータのサブセットに焦点を絞ることで、クエリパフォーマンスの向上に貢献します。</p>
-<p>コレクションを作成すると、少なくとも_<strong>defaultという</strong>名前のデフォルト・パーティションが自動的に作成されます。コレクション内に最大1,024個のパーティションを作成できます。</p>
+    </button></h2><p>A partition in Milvus represents a sub-division of a collection. This functionality allows the physical storage of a collection to be divided into multiple parts, contributing to improved query performance by narrowing down the focus to a smaller subset of data rather than the entire collection.</p>
+<p>Upon the creation of a collection, at least a default partition named _<strong>default</strong> is automatically created. You can create a maximum of 1,024 partitions within a collection.</p>
 <div class="admonition note">
-<p><b>注釈</b></p>
-<p>Milvusは<strong>パーティションキーと</strong>呼ばれる機能を導入し、基礎となるパーティションを活用して、特定のフィールドのハッシュ値に基づいてエンティティを格納します。この機能により、マルチテナントの実装が容易になり、検索パフォーマンスが向上します。詳細については、「<a href="https://milvus.io/docs/use-partition-key.md">パーティション・キーの使用</a>」を参照してください。</p>
-<p><strong>パーティションキー</strong>機能がオンになっているコレクションでは、milvusがすべてのパーティションの管理を行います。</p>
+<p><b>notes</b></p>
+<p>Milvus  introduces a feature called <strong>Partition Key</strong>, leveraging the underlying partitions to store entities based on the hashed values of a specific field. This feature facilitates the implementation of multi-tenancy, enhancing search performance. For details, read <a href="https://milvus.io/docs/use-partition-key.md">Use Partition Key</a>.</p>
+<p>If the <strong>Partition Key</strong> feature is on in a collection, Milvus takes care of managing all the partitions, relieving you of this responsibility.</p>
 </div>
-<h2 id="Preparations" class="common-anchor-header">準備<button data-href="#Preparations" class="anchor-icon" translate="no">
+<h2 id="Preparations" class="common-anchor-header">Preparations<button data-href="#Preparations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -55,18 +55,21 @@ title: パーティションの管理
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>以下のコードスニペットは、既存のコードを再利用し、Milvusへの接続を確立し、クイックセットアップモードでコレクションを作成します。</p>
+    </button></h2><p>The code snippet below repurposes the existing code to establish a connection to Milvus and create a collection in a quick-setup mode, indicating that the collection is loaded upon creation.</p>
 <div class="language-python">
-<p>準備には <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a>でMilvusに接続し <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a>を使用して、クイックセットアップモードでコレクションを作成します。</p>
+<p>For preparations, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to Milvus and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> to create a collection in a quick-setup mode.</p>
 </div>
 <div class="language-java">
-<p>準備の場合 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a>を使ってMilvusに接続し <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a>クイックセットアップモードでコレクションを作成します。</p>
+<p>For preparations, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> to connect to Milvus and <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection in a quick-setup mode.</p>
 </div>
 <div class="language-javascript">
-<p>準備のために <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a>でMilvusに接続し <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a>コレクションをクイックセットアップで作成します。</p>
+<p>For preparations, use <a href="https://milvus.io/api-reference/node/v2.4.x/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to Milvus and <a href="https://milvus.io/api-reference/node/v2.4.x/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection in a quick-setup mode.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> MilvusClient, DataType
 
 <span class="hljs-comment"># 1. Set up a Milvus client</span>
@@ -114,10 +117,10 @@ client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">M
 });  
 <button class="copy-code-btn"></button></code></pre>
 <div class="admonition note">
-<p><b>備考</b></p>
-<p>上記のコードスニペットでは、コレクションのインデックスがコレクションと一緒に作成されており、コレクションが作成時にロードされることを示しています。</p>
+<p><b>notes</b></p>
+<p>In the above code snippet, the index of the collection has been created along with the collection, indicating that the collection is loaded upon creation.</p>
 </div>
-<h2 id="List-Partitions" class="common-anchor-header">パーティションのリスト<button data-href="#List-Partitions" class="anchor-icon" translate="no">
+<h2 id="List-Partitions" class="common-anchor-header">List Partitions<button data-href="#List-Partitions" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -132,18 +135,21 @@ client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">M
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>コレクションが準備できたら、パーティションをリストできます。</p>
+    </button></h2><p>Once a collection is ready, you can list its partitions.</p>
 <div class="language-python">
-<p>パーティションをリストするには <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/list_partitions.md"><code translate="no">list_partitions()</code></a>.</p>
+<p>To list partitions, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/list_partitions.md"><code translate="no">list_partitions()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>パーティションをリストするには <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/listPartitions.md"><code translate="no">listPartitions()</code></a>.</p>
+<p>To list partitions, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/listPartitions.md"><code translate="no">listPartitions()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>パーティションをリストするには <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/listPartitions.md"><code translate="no">listPartitions()</code></a>.</p>
+<p>To list partitions, use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/listPartitions.md"><code translate="no">listPartitions()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 3. List partitions</span>
 res = client.list_partitions(collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>)
 <span class="hljs-built_in">print</span>(res)
@@ -178,13 +184,13 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// [ &#x27;_default&#x27; ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>上記のコード・スニペットの出力には、指定されたコレクション内のパーティションの名前が含まれます。</p>
+<p>The output of the above code snippet includes the names of the partitions within the specified collection.</p>
 <div class="admonition note">
-<p><b>注釈</b></p>
-<p>コレクション内のパーティションキーにフィールドを設定した場合、Milvusはコレクションと一緒に少なくとも<strong>64の</strong>パーティションを作成します。パーティションをリストする場合、結果は上記のコード・スニペットの出力と異なる場合があります。</p>
-<p>詳細については、<a href="https://milvus.io/docs/use-partition-key.md">パーティションキーを使用するを</a>参照してください。</p>
+<p><b>notes</b></p>
+<p>If you have set a field as the partition key in a collection, Milvus creates at least <strong>64</strong> partitions along with the collection. When listing the partitions, the results may differ from the output of the above code snippets.</p>
+<p>For details, refer to <a href="https://milvus.io/docs/use-partition-key.md">Use Partition Key</a>.</p>
 </div>
-<h2 id="Create-Partitions" class="common-anchor-header">パーティションの作成<button data-href="#Create-Partitions" class="anchor-icon" translate="no">
+<h2 id="Create-Partitions" class="common-anchor-header">Create Partitions<button data-href="#Create-Partitions" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -199,18 +205,21 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>コレクションにパーティションを追加できます。コレクションは最大1,024パーティションを持つことができます。</p>
+    </button></h2><p>You can add more partitions to the collection. A collection can have up to 1,024 partitions.</p>
 <div class="language-python">
-<p>パーティションを作成するには <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/create_partition.md"><code translate="no">create_partition()</code></a>.</p>
+<p>To create partitions, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/create_partition.md"><code translate="no">create_partition()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>パーティションを作成するには <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/createPartition.md"><code translate="no">createPartition()</code></a>.</p>
+<p>To create partitions, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/createPartition.md"><code translate="no">createPartition()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>パーティションを作成するには <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/createPartition.md"><code translate="no">createPartition()</code></a>.</p>
+<p>To create partitions, use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/createPartition.md"><code translate="no">createPartition()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 4. Create more partitions</span>
 client.create_partition(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -283,13 +292,13 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// [ &#x27;_default&#x27;, &#x27;partitionA&#x27;, &#x27;partitionB&#x27; ]</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>上記のコード・スニペットは、コレクションにパーティションを作成し、コレクションのパーティションを一覧表示します。</p>
+<p>The code snippet above creates a partition in a collection and lists the partitions of the collection.</p>
 <div class="admonition note">
-<p><b>注釈</b></p>
-<p>コレクション内のパーティションキーにフィールドを設定した場合、milvusがコレクション内のパーティションを管理します。そのため、パーティションを作成しようとすると、プロンプトエラーが表示されることがあります。</p>
-<p>詳細については、<a href="https://milvus.io/docs/use-partition-key.md">パーティションキーの使用を</a>参照してください。</p>
+<p><b>notes</b></p>
+<p>If you have set a field as the partition key in a collection, Milvus takes care of managing the partitions in the collection. Therefore, you may encounter prompted errors when attempting to create partitions.</p>
+<p>For details, refer to <a href="https://milvus.io/docs/use-partition-key.md">Use Partition Key</a>.</p>
 </div>
-<h2 id="Check-for-a-Specific-Partition" class="common-anchor-header">特定のパーティションのチェック<button data-href="#Check-for-a-Specific-Partition" class="anchor-icon" translate="no">
+<h2 id="Check-for-a-Specific-Partition" class="common-anchor-header">Check for a Specific Partition<button data-href="#Check-for-a-Specific-Partition" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -304,18 +313,21 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>特定のパーティションの存在を確認することもできます。</p>
+    </button></h2><p>You can also check the existence of a specific partition.</p>
 <div class="language-python">
-<p>特定のパーティションをチェックするには <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/has_partition.md"><code translate="no">has_partition()</code></a>.</p>
+<p>To check for a specific partition, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/has_partition.md"><code translate="no">has_partition()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>特定のパーティションを調べるには <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/hasPartition.md"><code translate="no">hasPartition()</code></a>.</p>
+<p>To check for a specific partition, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/hasPartition.md"><code translate="no">hasPartition()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>特定のパーティションを調べるには <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/hasPartition.md"><code translate="no">hasPartition()</code></a>.</p>
+<p>To check for a specific partition, use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/hasPartition.md"><code translate="no">hasPartition()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 5. Check whether a partition exists</span>
 res = client.has_partition(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -389,8 +401,8 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// false</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>上記のコード・スニペットは、コレクションに<code translate="no">partitionA</code> と<code translate="no">partitionC</code> という名前のパーティションがあるかどうかをチェックします。</p>
-<h2 id="Load--Release-Partitions" class="common-anchor-header">パーティションのロードと解放<button data-href="#Load--Release-Partitions" class="anchor-icon" translate="no">
+<p>The code snippet above checks whether the collection has a partition named <code translate="no">partitionA</code> and <code translate="no">partitionC</code>.</p>
+<h2 id="Load--Release-Partitions" class="common-anchor-header">Load &amp; Release Partitions<button data-href="#Load--Release-Partitions" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -405,18 +417,21 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>特定のパーティションをロードおよびリリースして、検索やクエリで利用可能にしたり、利用不可能にしたりできます。</p>
-<h3 id="Get-Load-Status" class="common-anchor-header">ロードステータスの取得</h3><div class="language-python">
-<p>コレクションとそのパーティションのロード・ステータスをチェックするには <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Management/get_load_state.md"><code translate="no">get_load_state()</code></a>.</p>
+    </button></h2><p>You can load and release specific partitions to make them available or unavailable for searches and queries.</p>
+<h3 id="Get-Load-Status" class="common-anchor-header">Get Load Status</h3><div class="language-python">
+<p>To check the load status of a collection and its partitions, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Management/get_load_state.md"><code translate="no">get_load_state()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>コレクションとそのパーティションのロードステータスを確認するには、 を使用します。 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Management/getLoadState.md"><code translate="no">getLoadState()</code></a>.</p>
+<p>To check the load status of a collection and its partitions, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Management/getLoadState.md"><code translate="no">getLoadState()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>コレクションとそのパーティションのロードステータスを確認するには、 を使用します。 <a href="https://milvus.io/api-reference/node/v2.4.x/Management/getLoadState.md"><code translate="no">getLoadState()</code></a>.</p>
+<p>To check the load status of a collection and its partitions, use <a href="https://milvus.io/api-reference/node/v2.4.x/Management/getLoadState.md"><code translate="no">getLoadState()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Release the collection</span>
 client.release_collection(collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>)
 
@@ -574,26 +589,29 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// LoadStateLoaded</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>ロード・ステータスは以下のいずれかになります。</p>
+<p>Possible load status may be either of the following</p>
 <ul>
-<li><p><strong>ロード済み</strong></p>
-<p>コレクションは、そのパーティションの少なくとも1つがロードされた場合、<code translate="no">Loaded</code> としてマークされます。</p></li>
-<li><p><strong>ロードされていない</strong></p>
-<p>パーティションが一つもロードされていない場合、コレクションは<code translate="no">NotLoad</code> としてマークされます。</p></li>
-<li><p><strong>ロード</strong></p>
-<p>パーティションの少なくとも1つがロード中であれば、コレクションはLoadingとマークされます。</p></li>
+<li><p><strong>Loaded</strong></p>
+<p>A collection is marked as <code translate="no">Loaded</code> if at least one of its partitions has been loaded.</p></li>
+<li><p><strong>NotLoad</strong></p>
+<p>A collection is marked as <code translate="no">NotLoad</code> if none of its partitions has been loaded.</p></li>
+<li><p><strong>Loading</strong></p>
+<p>A collection is marked as Loading if at least one of its partitions is in the loading process.</p></li>
 </ul>
-<h3 id="Load-Partitions" class="common-anchor-header">パーティションのロード</h3><div class="language-python">
-<p>コレクションのすべてのパーティションをロードするには、単に <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Management/load_collection.md"><code translate="no">load_collection()</code></a>.コレクション内の特定のパーティションをロードするには <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/load_partitions.md"><code translate="no">load_partitions()</code></a>.</p>
+<h3 id="Load-Partitions" class="common-anchor-header">Load Partitions</h3><div class="language-python">
+<p>To load all partitions of a collection, you can just call <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Management/load_collection.md"><code translate="no">load_collection()</code></a>. To load specific partitions of a collection, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/load_partitions.md"><code translate="no">load_partitions()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>コレクションのすべてのパーティションをロードするには、単に <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Management/loadCollection.md"><code translate="no">loadCollection()</code></a>.コレクションの特定のパーティションをロードするには <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/loadPartitions.md"><code translate="no">loadPartitions()</code></a>.</p>
+<p>To load all partitions of a collection, you can just call <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Management/loadCollection.md"><code translate="no">loadCollection()</code></a>. To load specific partitions of a collection, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/loadPartitions.md"><code translate="no">loadPartitions()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>コレクションのすべてのパーティションをロードするには、単に <a href="https://milvus.io/api-reference/node/v2.4.x/Management/loadCollection.md"><code translate="no">loadCollection()</code></a>.コレクションの特定のパーティションをロードするには <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/loadPartitions.md"><code translate="no">loadPartitions()</code></a>.</p>
+<p>To load all partitions of a collection, you can just call <a href="https://milvus.io/api-reference/node/v2.4.x/Management/loadCollection.md"><code translate="no">loadCollection()</code></a>. To load specific partitions of a collection, use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/loadPartitions.md"><code translate="no">loadPartitions()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python">client.load_partitions(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     partition_names=[<span class="hljs-string">&quot;partitionA&quot;</span>]
@@ -644,9 +662,12 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// LoadStateLoaded</span>
 <span class="hljs-comment">//</span>
 <button class="copy-code-btn"></button></code></pre>
-<p>一度に複数のパーティションをロードするには、以下のようにする：</p>
+<p>To load multiple partitions at a time, do as follows:</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python">client.load_partitions(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     partition_names=[<span class="hljs-string">&quot;partitionA&quot;</span>, <span class="hljs-string">&quot;partitionB&quot;</span>]
@@ -734,7 +755,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// LoadStateLoaded</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>1つまたは複数のパーティションの指定されたフィールドをロードするには、次のようにする：</p>
+<p>To load specified fields in one or more partitions, do as follows:</p>
 <pre><code translate="no" class="language-python">client.load_partitions(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     partition_names=[<span class="hljs-string">&quot;partitionA&quot;</span>],
@@ -742,19 +763,22 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
     skip_load_dynamic_field=<span class="hljs-literal">True</span>
 )
 <button class="copy-code-btn"></button></code></pre>
-<p>検索やクエリでフィルタリング条件や出力フィールドとして使用できるのは、<code translate="no">load_fields</code> にリストされたフィールドだけであることに注意してください。リストには必ず主キーを含めること。ロードから除外されたフィールド名は、フィルタリングや出力に使用できません。</p>
-<p><code translate="no">skip_load_dynamic_field=True</code> 、ダイナミック・フィールドのロードをスキップすることができます。Milvusはダイナミックフィールドを1つのフィールドとして扱いますので、ダイナミックフィールド内の全てのキーが一緒にロードまたは除外されます。</p>
-<h3 id="Release-Partitions" class="common-anchor-header">パーティションの解放</h3><div class="language-python">
-<p>コレクションのすべてのパーティションを解放するには <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Management/release_collection.md"><code translate="no">release_collection()</code></a>.コレクション内の特定のパーティションを解放するには <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/release_partitions.md"><code translate="no">release_partitions()</code></a>.</p>
+<p>Note that only the fields listed in <code translate="no">load_fields</code> can be used as filtering conditions and output fields in searches and queries. You should always include the primary key in the list. The field names excluded from loading will not be available for filtering or output.</p>
+<p>You can use <code translate="no">skip_load_dynamic_field=True</code> to skip loading the dynamic field. Milvus treats the dynamic field as a single field, so all the keys in the dynamic field will be included or excluded together.</p>
+<h3 id="Release-Partitions" class="common-anchor-header">Release Partitions</h3><div class="language-python">
+<p>To release all partitions of a collection, you can just call <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Management/release_collection.md"><code translate="no">release_collection()</code></a>. To release specific partitions of a collection, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/release_partitions.md"><code translate="no">release_partitions()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>コレクションのすべてのパーティションを解放するには、単に <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Management/releaseCollection.md"><code translate="no">releaseCollection()</code></a>.コレクションの特定のパーティションを解放するには <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/releasePartitions.md"><code translate="no">releasePartitions()</code></a>.</p>
+<p>To release all partitions of a collection, you can just call <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Management/releaseCollection.md"><code translate="no">releaseCollection()</code></a>. To release specific partitions of a collection, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/releasePartitions.md"><code translate="no">releasePartitions()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>コレクションのすべてのパーティションを解放するには、単に <a href="https://milvus.io/api-reference/node/v2.4.x/Management/releaseCollection.md"><code translate="no">releaseCollection()</code></a>.コレクションの特定のパーティションを解放するには <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/releasePartitions.md"><code translate="no">releasePartitions()</code></a>.</p>
+<p>To release all partitions of a collection, you can just call <a href="https://milvus.io/api-reference/node/v2.4.x/Management/releaseCollection.md"><code translate="no">releaseCollection()</code></a>. To release specific partitions of a collection, use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/releasePartitions.md"><code translate="no">releasePartitions()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 7. Release a partition</span>
 client.release_partitions(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -814,7 +838,7 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// LoadStateNotLoad</span>
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
-<p>一度に複数のパーティションを解放するには、次のようにします：</p>
+<p>To release multiple partitions at a time, do as follows:</p>
 <pre><code translate="no" class="language-python">client.release_partitions(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
     partition_names=[<span class="hljs-string">&quot;_default&quot;</span>, <span class="hljs-string">&quot;partitionA&quot;</span>, <span class="hljs-string">&quot;partitionB&quot;</span>]
@@ -830,7 +854,7 @@ res = client.get_load_state(
 <span class="hljs-comment">#     &quot;state&quot;: &quot;&lt;LoadState: NotLoad&gt;&quot;</span>
 <span class="hljs-comment"># }</span>
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Drop-Partitions" class="common-anchor-header">パーティションの削除<button data-href="#Drop-Partitions" class="anchor-icon" translate="no">
+<h2 id="Drop-Partitions" class="common-anchor-header">Drop Partitions<button data-href="#Drop-Partitions" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -845,18 +869,21 @@ res = client.get_load_state(
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>パーティションをリリースした後、それが不要になったら削除することができます。</p>
+    </button></h2><p>Once you release a partition, you can drop it if it is no longer needed.</p>
 <div class="language-python">
-<p>パーティションを削除するには <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/drop_partition.md"><code translate="no">drop_partition()</code></a>.</p>
+<p>To drop a partition, use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Partitions/drop_partition.md"><code translate="no">drop_partition()</code></a>.</p>
 </div>
 <div class="language-java">
-<p>パーティションを削除するには <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/dropPartition.md"><code translate="no">dropPartition()</code></a>.</p>
+<p>To drop a partition, use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Partitions/dropPartition.md"><code translate="no">dropPartition()</code></a>.</p>
 </div>
 <div class="language-javascript">
-<p>パーティションを削除するには <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/dropPartition.md"><code translate="no">dropPartition()</code></a>.</p>
+<p>To drop a partition, use <a href="https://milvus.io/api-reference/node/v2.4.x/Partitions/dropPartition.md"><code translate="no">dropPartition()</code></a>.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 8. Drop a partition</span>
 client.drop_partition(
     collection_name=<span class="hljs-string">&quot;quick_setup&quot;</span>,
@@ -917,10 +944,10 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
 <span class="hljs-comment">// </span>
 <button class="copy-code-btn"></button></code></pre>
 <div class="admonition note">
-<p><b>メモ</b></p>
-<p>パーティションを削除する前に、それをメモリから解放する必要があります。</p>
+<p><b>notes</b></p>
+<p>Before dropping a partition, you need to release it from memory.</p>
 </div>
-<h2 id="FAQ" class="common-anchor-header">よくある質問<button data-href="#FAQ" class="anchor-icon" translate="no">
+<h2 id="FAQ" class="common-anchor-header">FAQ<button data-href="#FAQ" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -936,13 +963,13 @@ res = <span class="hljs-keyword">await</span> client.<span class="hljs-title fun
         ></path>
       </svg>
     </button></h2><ul>
-<li><p><strong>パーティションにはどれくらいのデータを格納できますか？</strong></p>
-<p>パーティションに格納できるデータは1B以下であることを推奨します。</p></li>
-<li><p><strong>パーティションの最大作成数は？</strong></p>
-<p>Milvusのデフォルトでは、最大1,024パーティションまで作成可能です。パーティションの最大数は<code translate="no">rootCoord.maxPartitionNum</code> 。詳細は<a href="https://milvus.io/docs/configure_rootcoord.md#rootCoordmaxPartitionNum">システム構成を</a>ご参照ください。</p></li>
-<li><p><strong>パーティションとパーティション・キーはどのように区別できますか?</strong></p>
-<p>パーティションは物理的なストレージ単位であり、パーティション・キーは指定された列に基づいてデータを特定のパーティションに自動的に割り当てる論理的な概念です。</p>
-<p>例えば、milvusでは、パーティションキーが<code translate="no">color</code> フィールドとして定義されたコレクションがある場合、システムは自動的に各エンティティの<code translate="no">color</code> フィールドのハッシュ値に基づいてデータをパーティションに割り当てます。この自動化されたプロセスにより、ユーザーはデータの挿入や検索時に手動でパーティションを指定する責任から解放されます。</p>
-<p>一方、手動でパーティションを作成する場合は、パーティション・キーの基準に基づいて各パーティションにデータを割り当てる必要があります。<code translate="no">color</code> フィールドを持つコレクションがある場合、<code translate="no">color</code> の値が<code translate="no">red</code> のエンティ ティを手動で<code translate="no">partition A</code> に割り当て、<code translate="no">color</code> の値が<code translate="no">blue</code> のエンティティを手動で<code translate="no">partition B</code> に割り当てることになります。 この手動管理には、より多くの労力が必要です。</p>
-<p>要約すると、パーティションとパーティション・キーの両方を利用することで、データ計算を最適化し、クエリの効率を高めることができます。パーティションキーを有効にすることは、パーティションデータの挿入とロードを手動で管理することを放棄することを意味する。</p></li>
+<li><p><strong>How much data can be stored in a partition?</strong></p>
+<p>It is recommended to store less than 1B of data in a partition.</p></li>
+<li><p><strong>What is the maximum number of partitions that can be created?</strong></p>
+<p>By default, Milvus allows a maximum of 1,024 partitions to be created. You can adjust the maximum number of partitions by configuring <code translate="no">rootCoord.maxPartitionNum</code>. For details, refer to <a href="https://milvus.io/docs/configure_rootcoord.md#rootCoordmaxPartitionNum">System Configurations</a>.</p></li>
+<li><p><strong>How can I differentiate between partitions and partition keys?</strong></p>
+<p>Partitions are physical storage units, whereas partition keys are logical concepts that automatically assign data to specific partitions based on a designated column.</p>
+<p>For instance, in Milvus, if you have a collection with a partition key defined as the <code translate="no">color</code> field, the system automatically assigns data to partitions based on the hashed values of the <code translate="no">color</code> field for each entity. This automated process relieves the user of the responsibility to manually specify the partition when inserting or searching data.</p>
+<p>On the other hand, when manually creating partitions, you need to assign data to each partition based on the criteria of the partition key. If you have a collection with a <code translate="no">color</code> field, you would manually assign entities with a <code translate="no">color</code> value of <code translate="no">red</code> to <code translate="no">partition A</code>, and entities with a <code translate="no">color</code> value of <code translate="no">blue</code> to <code translate="no">partition B</code>. This manual management requires more effort.</p>
+<p>In summary, both partitions and partition keys are utilized to optimize data computation and enhance query efficiency. It is essential to recognize that enabling a partition key means surrendering control over the manual management of partition data insertion and loading, as these processes are fully automated and handled by Milvus.</p></li>
 </ul>

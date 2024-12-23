@@ -1,10 +1,14 @@
 ---
 id: sparse_vector.md
-title: スパース・ベクトル
+title: Sparse Vector
 summary: >-
-  スパース・ベクトルは、情報検索や自然言語処理におけるデータ表現の重要な手法である。密なベクトルはその優れた意味理解能力で人気があるが、キーワードやフレーズの正確なマッチングを必要とするアプリケーションに関しては、疎なベクトルの方がより正確な結果を提供することが多い。
+  Sparse vectors are an important method of data representation in information
+  retrieval and natural language processing. While dense vectors are popular for
+  their excellent semantic understanding capabilities, sparse vectors often
+  provide more accurate results when it comes to applications that require
+  precise matching of keywords or phrases.​
 ---
-<h1 id="Sparse-Vector​" class="common-anchor-header">スパース・ベクトル<button data-href="#Sparse-Vector​" class="anchor-icon" translate="no">
+<h1 id="Sparse-Vector​" class="common-anchor-header">Sparse Vector​<button data-href="#Sparse-Vector​" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -19,8 +23,8 @@ summary: >-
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>スパース・ベクトルは、情報検索や自然言語処理におけるデータ表現の重要な手法である。密なベクトルはその優れた意味理解能力で人気がありますが、キーワードやフレーズの正確なマッチングを必要とするアプリケーションに関しては、疎なベクトルの方がより正確な結果を提供することがよくあります。</p>
-<h2 id="Overview​" class="common-anchor-header">概要<button data-href="#Overview​" class="anchor-icon" translate="no">
+    </button></h1><p>Sparse vectors are an important method of data representation in information retrieval and natural language processing. While dense vectors are popular for their excellent semantic understanding capabilities, sparse vectors often provide more accurate results when it comes to applications that require precise matching of keywords or phrases.​</p>
+<h2 id="Overview​" class="common-anchor-header">Overview​<button data-href="#Overview​" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -35,28 +39,32 @@ summary: >-
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>スパース・ベクトルは高次元ベクトルの特殊な表現で、ほとんどの要素が0であり、0でない値を持つ次元はわずかです。この特性により、スパースベクトルは大規模で高次元の疎なデータを扱うのに特に効果的です。一般的なアプリケーションは以下の通り。</p>
+    </button></h2><p>A sparse vector is a special representation of high-dimensional vectors where most elements are zero, and only a few dimensions have non-zero values. This characteristic makes sparse vectors particularly effective in handling large-scale, high-dimensional, but sparse data. Common applications include:​</p>
 <ul>
-<li><p><strong>テキスト分析：</strong>各次元が単語に対応し、文書に登場する単語だけがゼロ以外の値を持つ。</p></li>
-<li><p><strong>推薦システム：</strong>ユーザーとアイテムの相互作用行列。各次元は、特定のアイテムに対するユーザーの評価を表し、ほとんどのユーザーは少数のアイテムとしか相互作用しない。</p></li>
-<li><p><strong>画像処理：</strong>局所特徴表現：画像の重要なポイントのみに焦点を当て、高次元の疎なベクトルを生成する。</p></li>
+<li><p><strong>Text Analysis:</strong> Representing documents as bag-of-words vectors, where each dimension corresponds to a word, and only words that appear in the document have non-zero values.​</p></li>
+<li><p><strong>Recommendation Systems:</strong> User-item interaction matrices, where each dimension represents a user’s rating for a particular item, with most users interacting with only a few items.​</p></li>
+<li><p><strong>Image Processing:</strong> Local feature representation, focusing only on key points in the image, resulting in high-dimensional sparse vectors.​</p></li>
 </ul>
-<p>下図に示すように、密なベクトルは通常、各位置が値を持つ連続的な配列として表現される（例：<code translate="no">[0.3, 0.8, 0.2, 0.3, 0.1]</code> ）。対照的に、スパース・ベクトルは非ゼロ要素とそのインデックスのみを格納し、しばしばキーと値のペアとして表現されます（例：<code translate="no">[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]</code> ）。この表現は、特に非常に高次元のデータ（例えば10,000次元）を扱う場合に、記憶領域を大幅に削減し、計算効率を向上させます。</p>
+<p>As shown in the diagram below, dense vectors are typically represented as continuous arrays where each position has a value (e.g., <code translate="no">[0.3, 0.8, 0.2, 0.3, 0.1]</code>). In contrast, sparse vectors store only non-zero elements and their indices, often represented as key-value pairs (e.g., <code translate="no">[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]</code>). This representation significantly reduces storage space and increases computational efficiency, especially when dealing with extremely high-dimensional data (e.g., 10,000 dimensions).​</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.5.x/assets/sparse-vector.png" alt="Spare vector representation" class="doc-image" id="spare-vector-representation" />
-   </span> <span class="img-wrapper"> <span>疎ベクトル表現</span> </span></p>
-<p>スパースベクトルは、テキスト処理における<a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">TF-IDF</a>（項頻度-逆文書頻度）や<a href="https://en.wikipedia.org/wiki/Okapi_BM25">BM25など</a>、様々な手法を用いて生成することができます。さらに、Milvusはスパースベクトルの生成と処理を支援する便利なメソッドを提供しています。詳細は<a href="/docs/ja/embeddings.md">埋め込みを</a>ご参照ください。</p>
-<p>Milvusはテキストデータの全文検索機能も提供しており、スパースベクトルを生成するために外部の埋め込みモデルを使用することなく、生のテキストデータに対して直接ベクトル検索を行うことができます。詳細は<a href="/docs/ja/full-text-search.md">全文検索を</a>ご参照ください。</p>
-<p>ベクトル化されたデータはMilvusに保存され、管理やベクトル検索に利用することができます。下図は基本的なプロセスを示しています。</p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.5.x/assets/sparse-vector.png" alt="Spare vector representation" class="doc-image" id="spare-vector-representation" />
+    <span>Spare vector representation</span>
+  </span>
+</p>
+<p>Sparse vectors can be generated using various methods, such as <a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">TF-IDF</a> (Term Frequency-Inverse Document Frequency) and <a href="https://en.wikipedia.org/wiki/Okapi_BM25">BM25</a> in text processing. Additionally, Milvus offers convenient methods to help generate and process sparse vectors. For details, refer to <a href="/docs/ja/embeddings.md">Embeddings</a>.​</p>
+<p>For text data, Milvus also provides full-text search capabilities, allowing you to perform vector searches directly on raw text data without using external embedding models to generate sparse vectors. For more information, refer to <a href="/docs/ja/full-text-search.md">​Full Text Search</a>.​</p>
+<p>After vectorization, the data can be stored in Milvus for management and vector retrieval. The diagram below illustrates the basic process.​</p>
 <p>
-  
-   <span class="img-wrapper"> <img translate="no" src="/docs/v2.5.x/assets/use-sparse-vector.png" alt="Use sparse vector in Milvus" class="doc-image" id="use-sparse-vector-in-milvus" />
-   </span> <span class="img-wrapper"> <span>Milvusでスパースベクトルを使用する。</span> </span></p>
+  <span class="img-wrapper">
+    <img translate="no" src="/docs/v2.5.x/assets/use-sparse-vector.png" alt="Use sparse vector in Milvus" class="doc-image" id="use-sparse-vector-in-milvus" />
+    <span>Use sparse vector in Milvus</span>
+  </span>
+</p>
 <div class="alert note">
-<p>Milvusはスパースベクトル以外にも、デンスベクトルやバイナリベクトルにも対応しています。密なベクトルは深い意味的関係を把握するのに理想的であり、バイナリベクトルは迅速な類似性比較やコンテンツの重複排除などのシナリオに優れています。詳細については、<a href="/docs/ja/dense-vector.md">密なベクトルと</a> <a href="/docs/ja/binary-vector.md">バイナリベクトルを</a>参照してください。</p>
+<p>In addition to sparse vectors, Milvus also supports dense vectors and binary vectors. Dense vectors are ideal for capturing deep semantic relationships, while binary vectors excel in scenarios like quick similarity comparisons and content deduplication. For more information, refer to <a href="/docs/ja/dense-vector.md">​Dense Vector</a> and <a href="/docs/ja/binary-vector.md">​Binary Vector</a>.​</p>
 </div>
-<h2 id="Use-sparse-vectors-in-Milvus​" class="common-anchor-header">Milvusでスパースベクトルを使う<button data-href="#Use-sparse-vectors-in-Milvus​" class="anchor-icon" translate="no">
+<h2 id="Use-sparse-vectors-in-Milvus​" class="common-anchor-header">Use sparse vectors in Milvus​<button data-href="#Use-sparse-vectors-in-Milvus​" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -71,11 +79,15 @@ summary: >-
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Milvusでは、以下のいずれかの形式でスパースベクトルを表現することができます。</p>
+    </button></h2><p>Milvus supports representing sparse vectors in any of the following formats:​</p>
 <ul>
-<li><p>疎行列 (<code translate="no">scipy.sparse</code> クラスを使用)</p>
+<li><p>Sparse Matrix (using the <code translate="no">scipy.sparse</code> class)</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a><a href="#curl">cURL</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+<a href="#curl">cURL</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> scipy.sparse <span class="hljs-keyword">import</span> csr_matrix​
 ​
 <span class="hljs-comment"># Create a sparse matrix​</span>
@@ -88,9 +100,13 @@ sparse_matrix = csr_matrix((data, (row, col)), shape=(<span class="hljs-number">
 sparse_vector = sparse_matrix.getrow(<span class="hljs-number">0</span>)​
 
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>辞書のリスト (<code translate="no">{dimension_index: value, ...}</code> としてフォーマット)</p>
+<li><p>List of Dictionaries (formatted as <code translate="no">{dimension_index: value, ...}</code>)</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a><a href="#curl">cURL</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+<a href="#curl">cURL</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Represent sparse vector using a dictionary​</span>
 sparse_vector = [{<span class="hljs-number">1</span>: <span class="hljs-number">0.5</span>, <span class="hljs-number">100</span>: <span class="hljs-number">0.3</span>, <span class="hljs-number">500</span>: <span class="hljs-number">0.8</span>, <span class="hljs-number">1024</span>: <span class="hljs-number">0.2</span>, <span class="hljs-number">5000</span>: <span class="hljs-number">0.6</span>}]​
 
@@ -103,21 +119,29 @@ sparseVector.<span class="hljs-title function_">put</span>(1024L, <span class="h
 sparseVector.<span class="hljs-title function_">put</span>(5000L, <span class="hljs-number">0.</span>6f);​
 
 <button class="copy-code-btn"></button></code></pre></li>
-<li><p>タプルイテレータのリスト（<code translate="no">[(dimension_index, value)]</code> としてフォーマットされる）</p>
+<li><p>List of Tuple Iterators (formatted as <code translate="no">[(dimension_index, value)]</code>)</p>
 <p><div class="multipleCode">
-<a href="#python">Python </a><a href="#java">Java</a><a href="#javascript">Node.js</a><a href="#curl">cURL</a></div></p>
+<a href="#python">Python </a>
+<a href="#java">Java</a>
+<a href="#javascript">Node.js</a>
+<a href="#curl">cURL</a>
+</div></p>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Represent sparse vector using a list of tuples​</span>
 sparse_vector = [[(<span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>), (<span class="hljs-number">100</span>, <span class="hljs-number">0.3</span>), (<span class="hljs-number">500</span>, <span class="hljs-number">0.8</span>), (<span class="hljs-number">1024</span>, <span class="hljs-number">0.2</span>), (<span class="hljs-number">5000</span>, <span class="hljs-number">0.6</span>)]]​
 
 <button class="copy-code-btn"></button></code></pre></li>
 </ul>
-<h3 id="Add-vector-field​" class="common-anchor-header">ベクトル・フィールドの追加</h3><p>Milvusでスパースベクトルを使用するには、コレクション作成時にスパースベクトルを格納するフィールドを定義します。このプロセスには以下が含まれます。</p>
+<h3 id="Add-vector-field​" class="common-anchor-header">Add vector field​</h3><p>To use sparse vectors in Milvus, define a field for storing sparse vectors when creating a collection. This process includes:​</p>
 <ol>
-<li><p><code translate="no">datatype</code> をサポートされているスパースベクトルデータ型、<code translate="no">SPARSE_FLOAT_VECTOR</code> に設定します。</p></li>
-<li><p>次元を指定する必要はない。</p></li>
+<li><p>Setting <code translate="no">datatype</code> to the supported sparse vector data type, <code translate="no">SPARSE_FLOAT_VECTOR</code>.​</p></li>
+<li><p>No need to specify the dimension.​</p></li>
 </ol>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a> <a href="#curl">cURL</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+    <a href="#curl">cURL</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> MilvusClient, DataType​
 ​
 client = MilvusClient(uri=<span class="hljs-string">&quot;http://localhost:19530&quot;</span>)​
@@ -203,10 +227,14 @@ schema.addField(AddFieldReq.builder()​
 }&quot;</span>​
 
 <button class="copy-code-btn"></button></code></pre>
-<p>この例では、スパース・ベクトルを格納するために、<code translate="no">sparse_vector</code> というベクトル・ フィールドが追加されている。このフィールドのデータ型は<code translate="no">SPARSE_FLOAT_VECTOR</code> です。</p>
-<h3 id="Set-index-params-for-vector-field​" class="common-anchor-header">ベクトル・フィールドにインデックス・パラメータを設定する</h3><p>スパース・ベクトルのインデックスを作成するプロセスは、<a href="/docs/ja/dense-vector.md">密な</a>ベクトルの場合と似ていますが、指定するインデックス・タイプ (<code translate="no">index_type</code>)、距離メトリック (<code translate="no">metric_type</code>)、インデックス・パラメータ (<code translate="no">params</code>)が異なります。</p>
+<p>In this example, a vector field named <code translate="no">sparse_vector</code> is added for storing sparse vectors. The data type of this field is <code translate="no">SPARSE_FLOAT_VECTOR</code>.​</p>
+<h3 id="Set-index-params-for-vector-field​" class="common-anchor-header">Set index params for vector field​</h3><p>The process of creating an index for sparse vectors is similar to that for <a href="/docs/ja/dense-vector.md">dense vectors</a>, but with differences in the specified index type (<code translate="no">index_type</code>), distance metric (<code translate="no">metric_type</code>), and index parameters (<code translate="no">params</code>).​</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a> <a href="#curl">cURL</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+    <a href="#curl">cURL</a>
+</div>
 <pre><code translate="no" class="language-python">index_params = client.prepare_index_params()​
 ​
 index_params.add_index(​
@@ -255,15 +283,19 @@ indexes.<span class="hljs-title function_">add</span>(<span class="hljs-title cl
     ]&#x27;</span>​
 
 <button class="copy-code-btn"></button></code></pre>
-<p>上の例では</p>
+<p>In the example above:​</p>
 <ul>
-<li><p><code translate="no">SPARSE_INVERTED_INDEX</code> 型のインデックスがスパース・ベクトルに作成されます。スパース・ベクトルの場合、<code translate="no">SPARSE_INVERTED_INDEX</code> または<code translate="no">SPARSE_WAND</code> を指定できます。詳細については、<a href="https://milvus.io/docs/index.md?tab=sparse">スパース・ベクター・インデックスを</a>参照してください。</p></li>
-<li><p>スパース・ベクトルの場合、<code translate="no">metric_type</code> は<code translate="no">IP</code> （内積）のみをサポートしています。これは、2 つのスパース・ベクトルの類似度を測定するために使用されます。類似度の詳細については、<a href="/docs/ja/metric.md">メトリック型を</a>参照してください。</p></li>
-<li><p><code translate="no">drop_ratio_build</code> は、スパースベクトル専用のオプションのインデックスパラメータです。これは、インデックス構築時に除外される小さなベクトル値の割合を制御します。例えば、 を指定すると、インデックス作成時にベクトル値の最小20%が除外され、検索時の計算量が削減されます。<code translate="no">{&quot;drop_ratio_build&quot;: 0.2}</code></p></li>
+<li><p>An index of type <code translate="no">SPARSE_INVERTED_INDEX</code> is created for the sparse vector. For sparse vectors, you can specify <code translate="no">SPARSE_INVERTED_INDEX</code> or <code translate="no">SPARSE_WAND</code>. For details, refer to <a href="https://milvus.io/docs/index.md?tab=sparse">​Sparse Vector Indexes</a>.​</p></li>
+<li><p>For sparse vectors, <code translate="no">metric_type</code> only supports <code translate="no">IP</code> (Inner Product), used to measure the similarity between two sparse vectors. For more information on similarity, refer to <a href="/docs/ja/metric.md">​Metric Types</a>.​</p></li>
+<li><p><code translate="no">drop_ratio_build</code> is an optional index parameter specifically for sparse vectors. It controls the proportion of small vector values excluded during index building. For example, with <code translate="no">{&quot;drop_ratio_build&quot;: 0.2}</code>, the smallest 20% of vector values will be excluded during index creation, reducing computational effort during searches.​</p></li>
 </ul>
-<h3 id="Create-collection​" class="common-anchor-header">コレクションの作成</h3><p>スパース・ベクタとインデックスの設定が完了すると、スパース・ベクタを含むコレクションを 作成できます。以下の例では <ins><code translate="no">create_collection</code></ins>メソッドを使用して、<code translate="no">my_sparse_collection</code> という名前のコレクションを作成します。</p>
+<h3 id="Create-collection​" class="common-anchor-header">Create collection​</h3><p>Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the <ins><code translate="no">create_collection</code></ins> method to create a collection named <code translate="no">my_sparse_collection</code>.​</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a> <a href="#curl">cURL</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+    <a href="#curl">cURL</a>
+</div>
 <pre><code translate="no" class="language-python">client.<span class="hljs-title function_">create_collection</span>(​
     collection_name=<span class="hljs-string">&quot;my_sparse_collection&quot;</span>,​
     schema=schema,​
@@ -310,9 +342,13 @@ client.createCollection(requestCreate);​
 }&quot;</span>​
 
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Insert-data​" class="common-anchor-header">データの挿入</h3><p>コレクションを作成したら、スパース・ベクトルを含むデータを挿入します。</p>
+<h3 id="Insert-data​" class="common-anchor-header">Insert data​</h3><p>After creating the collection, insert data containing sparse vectors.​</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a> <a href="#curl">cURL</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+    <a href="#curl">cURL</a>
+</div>
 <pre><code translate="no" class="language-python">sparse_vectors = [​
     {<span class="hljs-string">&quot;sparse_vector&quot;</span>: {<span class="hljs-number">1</span>: <span class="hljs-number">0.5</span>, <span class="hljs-number">100</span>: <span class="hljs-number">0.3</span>, <span class="hljs-number">500</span>: <span class="hljs-number">0.8</span>}},​
     {<span class="hljs-string">&quot;sparse_vector&quot;</span>: {<span class="hljs-number">10</span>: <span class="hljs-number">0.1</span>, <span class="hljs-number">200</span>: <span class="hljs-number">0.7</span>, <span class="hljs-number">1000</span>: <span class="hljs-number">0.9</span>}},​
@@ -382,9 +418,13 @@ client.<span class="hljs-title function_">insert</span>({​
 <span class="hljs-comment">## {&quot;code&quot;:0,&quot;cost&quot;:0,&quot;data&quot;:{&quot;insertCount&quot;:2,&quot;insertIds&quot;:[&quot;453577185629572534&quot;,&quot;453577185629572535&quot;]}}​</span>
 
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Perform-similarity-search​" class="common-anchor-header">類似検索の実行</h3><p>スパースベクトルを使って類似検索を行うには、クエリベクトルと検索パラメータを用意します。</p>
+<h3 id="Perform-similarity-search​" class="common-anchor-header">Perform similarity search​</h3><p>To perform similarity search using sparse vectors, prepare the query vector and search parameters.​</p>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a> <a href="#curl">cURL</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+    <a href="#javascript">Node.js</a>
+    <a href="#curl">cURL</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># Prepare search parameters​</span>
 search_params = {​
     <span class="hljs-string">&quot;params&quot;</span>: {<span class="hljs-string">&quot;drop_ratio_search&quot;</span>: <span class="hljs-number">0.2</span>},  <span class="hljs-comment"># Additional optional search parameters​</span>
@@ -394,10 +434,14 @@ search_params = {​
 query_vector = [{<span class="hljs-number">1</span>: <span class="hljs-number">0.2</span>, <span class="hljs-number">50</span>: <span class="hljs-number">0.4</span>, <span class="hljs-number">1000</span>: <span class="hljs-number">0.7</span>}]​
 
 <button class="copy-code-btn"></button></code></pre>
-<p>この例では、<code translate="no">drop_ratio_search</code> はスパース・ベクトル専用のオプション・パラメータで、検索中にクエリ・ベクトル内の小さな値を微調整できるようにします。例えば、<code translate="no">{&quot;drop_ratio_search&quot;: 0.2}</code> を指定すると、クエリベクトル内の最小20%の値は検索時に無視されます。</p>
-<p>次に、<code translate="no">search</code> メソッドを使って類似検索を実行する。</p>
+<p>In this example, <code translate="no">drop_ratio_search</code> is an optional parameter specifically for sparse vectors, allowing fine-tuning of small values in the query vector during the search. For example, with <code translate="no">{&quot;drop_ratio_search&quot;: 0.2}</code>, the smallest 20% of values in the query vector will be ignored during the search.​</p>
+<p>Then, execute the similarity search using the <code translate="no">search</code> method:​</p>
 <div class="multipleCode">
- <a href="#python">Python </a> <a href="#java">Java</a> <a href="#javascript">Node.js</a> <a href="#curl">cURL</a></div>
+  <a href="#python">Python </a>
+  <a href="#java">Java</a>
+  <a href="#javascript">Node.js</a>
+  <a href="#curl">cURL</a>
+</div>
 <pre><code translate="no" class="language-python">res = client.search(​
     collection_name=<span class="hljs-string">&quot;my_sparse_collection&quot;</span>,​
     data=query_vector,​
@@ -473,8 +517,8 @@ sparse.<span class="hljs-title function_">put</span>(1000L, <span class="hljs-nu
 <span class="hljs-comment">## {&quot;code&quot;:0,&quot;cost&quot;:0,&quot;data&quot;:[{&quot;distance&quot;:0.63,&quot;id&quot;:&quot;453577185629572535&quot;,&quot;pk&quot;:&quot;453577185629572535&quot;},{&quot;distance&quot;:0.1,&quot;id&quot;:&quot;453577185629572534&quot;,&quot;pk&quot;:&quot;453577185629572534&quot;}]}​</span>
 
 <button class="copy-code-btn"></button></code></pre>
-<p>類似検索パラメーターの詳細については、「<a href="/docs/ja/single-vector-search.md">基本的なANN検索</a>」を参照のこと。</p>
-<h2 id="Limits" class="common-anchor-header">限界<button data-href="#Limits" class="anchor-icon" translate="no">
+<p>For more information on similarity search parameters, refer to <a href="/docs/ja/single-vector-search.md">​Basic ANN Search</a>.​</p>
+<h2 id="Limits" class="common-anchor-header">Limits<button data-href="#Limits" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -489,22 +533,22 @@ sparse.<span class="hljs-title function_">put</span>(1000L, <span class="hljs-nu
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Milvusでスパースベクトルを使用する場合、以下の制限を考慮してください：</p>
+    </button></h2><p>When using sparse vectors in Milvus, consider the following limits:</p>
 <ul>
-<li><p>現在、スパースベクトルでは<strong>IP</strong>距離メトリックのみがサポートされています。スパースベクトルは次元が高いため、L2距離や余弦距離は実用的ではありません。</p></li>
-<li><p>疎なベクトル・フィールドでは、<strong>SPARSE_INVERTED_INDEX</strong>と<strong>SPARSE_WAND</strong>インデックス型のみがサポートされています。</p></li>
-<li><p>スパース・ベクトルでサポートされるデータ型：</p>
+<li><p>Currently, only the <strong>IP</strong> distance metric is supported for sparse vectors. The high dimensionality of sparse vectors makes L2 and cosine distance impractical.</p></li>
+<li><p>For sparse vector fields, only the <strong>SPARSE_INVERTED_INDEX</strong> and <strong>SPARSE_WAND</strong> index types are supported.</p></li>
+<li><p>The data types supported for sparse vectors:</p>
 <ul>
-<li>次元部は符号なし32ビット整数でなければならない；</li>
-<li>値部は非負32ビット浮動小数点数。</li>
+<li>The dimension part must be an unsigned 32-bit integer;</li>
+<li>The value part can be a non-negative 32-bit floating-point number.</li>
 </ul></li>
-<li><p>スパース・ベクトルは、挿入と検索に関して以下の要件を満たす必要があります：</p>
+<li><p>Sparse vectors must meet the following requirements for insertion and search:</p>
 <ul>
-<li>ベクトル内の少なくとも1つの値が非ゼロである；</li>
-<li>ベクトルの添字が非負であること。</li>
+<li>At least one value in the vector is non-zero;</li>
+<li>Vector indices are non-negative.</li>
 </ul></li>
 </ul>
-<h2 id="FAQ" class="common-anchor-header">よくある質問<button data-href="#FAQ" class="anchor-icon" translate="no">
+<h2 id="FAQ" class="common-anchor-header">FAQ<button data-href="#FAQ" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -520,14 +564,14 @@ sparse.<span class="hljs-title function_">put</span>(1000L, <span class="hljs-nu
         ></path>
       </svg>
     </button></h2><ul>
-<li><p><strong>SPARSE_INVERTED_INDEX と SPARSE_WAND の違いと、その選択方法を教えてください。</strong></p>
-<p><strong>SPARSE_INVERTED_INDEXは</strong>伝統的な転置インデックスで、<strong>SPARSE_WANDは</strong> <a href="https://dl.acm.org/doi/10.1145/956863.956944">Weak-AND</a>アルゴリズムを使用して検索中のフルIP距離評価数を減らします。<strong>SPARSE_WANDは</strong>一般的に高速ですが、ベクトル密度が高くなるにつれて性能が低下する可能性があります。どちらかを選択するには、特定のデータセットとユースケースに基づいた実験とベンチマークを実施してください。</p></li>
-<li><p><strong>drop_ratio_buildとdrop_ratio_searchパラメータはどのように選択すればよいですか？</strong></p>
-<p><strong>drop_ratio_buildと</strong> <strong>drop_ratio_searchの</strong>選択は、データの特性や、検索レイテンシー/スループット、精度に対する要件に依存します。</p></li>
-<li><p><strong>スパース埋込みの次元は、uint32空間内の任意の離散値にすることができますか？</strong></p>
-<p>はい，ただし1つの例外があります．スパース埋込みの次元は，<code translate="no">[0, maximum of uint32)</code> の範囲内の任意の値にすることができます． つまり，uint32の最大値を使うことはできません．</p></li>
-<li><p><strong>成長しているセグメントの検索は、インデックスを使って行うのですか?</strong></p>
-<p>成長中のセグメントを検索する際には、セグメントインデックスと同じ型のインデックスを使用します。インデックスが作成される前の新しい成長中のセグメントについては、 総当たり検索を使用します。</p></li>
-<li><p><strong>1つのコレクションに、疎なベクトルと密なベクトルの両方を持つことは可能ですか?</strong></p>
-<p>はい、複数のベクトル型をサポートしているため、疎なベクトル列と密なベクトル列の両方を持つコレクションを作成し、それに対してハイブリッド検索を実行することができます。</p></li>
+<li><p><strong>Can you explain the difference between SPARSE_INVERTED_INDEX and SPARSE_WAND, and how do I choose between them?</strong></p>
+<p><strong>SPARSE_INVERTED_INDEX</strong> is a traditional inverted index, while <strong>SPARSE_WAND</strong> uses the <a href="https://dl.acm.org/doi/10.1145/956863.956944">Weak-AND</a> algorithm to reduce the number of full IP distance evaluations during search. <strong>SPARSE_WAND</strong> is typically faster, but its performance can decline with increasing vector density. To choose between them, conduct experiments and benchmarks based on your specific dataset and use case.</p></li>
+<li><p><strong>How should I choose the drop_ratio_build and drop_ratio_search parameters?</strong></p>
+<p>The choice of <strong>drop_ratio_build</strong> and <strong>drop_ratio_search</strong> depends on the characteristics of your data and your requirements for search latency/throughput and accuracy.</p></li>
+<li><p><strong>Can the dimension of a sparse embedding be any discrete value within the uint32 space?</strong></p>
+<p>Yes, with one exception. The dimension of a sparse embedding can be any value in the range of <code translate="no">[0, maximum of uint32)</code>. This means you cannot use the maximum value of uint32.</p></li>
+<li><p><strong>Are searches on growing segments conducted through an index or by brute force?</strong></p>
+<p>Searches on growing segments are conducted through an index of the same type as the sealed segment index. For new growing segments before the index is built, a brute force search is used.</p></li>
+<li><p><strong>Is it possible to have both sparse and dense vectors in a single collection?</strong></p>
+<p>Yes, with multiple vector type support, you can create collections with both sparse and dense vector columns and perform hybrid searches on them.</p></li>
 </ul>

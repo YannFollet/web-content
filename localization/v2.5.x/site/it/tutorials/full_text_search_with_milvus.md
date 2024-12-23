@@ -1,14 +1,13 @@
 ---
 id: full_text_search_with_milvus.md
 summary: >-
-  Con il rilascio di Milvus 2.5, la ricerca full text consente agli utenti di
-  cercare in modo efficiente il testo in base a parole o frasi chiave, fornendo
-  potenti capacità di recupero del testo. Questa funzione migliora l'accuratezza
-  della ricerca e può essere perfettamente combinata con il reperimento basato
-  sull'embedding per una ricerca ibrida, consentendo di ottenere risultati sia
-  semantici che basati su parole chiave in un'unica interrogazione. In questo
-  quaderno mostreremo l'uso di base della ricerca full text in Milvus.
-title: Ricerca a tutto testo con Milvus
+  With the release of Milvus 2.5, Full Text Search enables users to efficiently
+  search for text based on keywords or phrases, providing powerful text
+  retrieval capabilities. This feature enhances search accuracy and can be
+  seamlessly combined with embedding-based retrieval for hybrid search, allowing
+  for both semantic and keyword-based results in a single query. In this
+  notebook, we will show basic usage of full text search in Milvus.
+title: Full Text Search with Milvus
 ---
 <p><a href="https://colab.research.google.com/github/milvus-io/bootcamp/blob/master/bootcamp/tutorials/quickstart/full_text_search_with_milvus.ipynb" target="_parent">
 <img translate="no" src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
@@ -16,7 +15,7 @@ title: Ricerca a tutto testo con Milvus
 <a href="https://github.com/milvus-io/bootcamp/blob/master/bootcamp/tutorials/quickstart/full_text_search_with_milvus.ipynb" target="_blank">
 <img translate="no" src="https://img.shields.io/badge/View%20on%20GitHub-555555?style=flat&logo=github&logoColor=white" alt="GitHub Repository"/>
 </a></p>
-<h1 id="Full-Text-Search-with-Milvus" class="common-anchor-header">Ricerca a tutto testo con Milvus<button data-href="#Full-Text-Search-with-Milvus" class="anchor-icon" translate="no">
+<h1 id="Full-Text-Search-with-Milvus" class="common-anchor-header">Full Text Search with Milvus<button data-href="#Full-Text-Search-with-Milvus" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -31,8 +30,8 @@ title: Ricerca a tutto testo con Milvus
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>Con il rilascio di Milvus 2.5, la ricerca full text consente agli utenti di cercare in modo efficiente il testo in base a parole o frasi chiave, fornendo potenti capacità di recupero del testo. Questa funzione migliora l'accuratezza della ricerca e può essere perfettamente combinata con il reperimento basato sull'embedding per una ricerca ibrida, consentendo di ottenere risultati sia semantici che basati su parole chiave in un'unica interrogazione. In questo quaderno mostreremo l'uso di base della ricerca full text in Milvus.</p>
-<h2 id="Preparation" class="common-anchor-header">Preparazione<button data-href="#Preparation" class="anchor-icon" translate="no">
+    </button></h1><p>With the release of Milvus 2.5, Full Text Search enables users to efficiently search for text based on keywords or phrases, providing powerful text retrieval capabilities. This feature enhances search accuracy and can be seamlessly combined with embedding-based retrieval for hybrid search, allowing for both semantic and keyword-based results in a single query. In this notebook, we will show basic usage of full text search in Milvus.</p>
+<h2 id="Preparation" class="common-anchor-header">Preparation<button data-href="#Preparation" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -47,15 +46,15 @@ title: Ricerca a tutto testo con Milvus
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><h3 id="Download-the-dataset" class="common-anchor-header">Scaricare il set di dati</h3><p>Il seguente comando scaricherà i dati di esempio utilizzati nella <a href="https://github.com/anthropics/anthropic-cookbook/blob/main/skills/contextual-embeddings/guide.ipynb">demo</a> originale <a href="https://github.com/anthropics/anthropic-cookbook/blob/main/skills/contextual-embeddings/guide.ipynb">di</a> Anthropic.</p>
+    </button></h2><h3 id="Download-the-dataset" class="common-anchor-header">Download the dataset</h3><p>The following command will download the example data used in original Anthropic <a href="https://github.com/anthropics/anthropic-cookbook/blob/main/skills/contextual-embeddings/guide.ipynb">demo</a>.</p>
 <pre><code translate="no" class="language-shell">$ wget <span class="hljs-attr">https</span>:<span class="hljs-comment">//raw.githubusercontent.com/anthropics/anthropic-cookbook/refs/heads/main/skills/contextual-embeddings/data/codebase_chunks.json</span>
 $ wget <span class="hljs-attr">https</span>:<span class="hljs-comment">//raw.githubusercontent.com/anthropics/anthropic-cookbook/refs/heads/main/skills/contextual-embeddings/data/evaluation_set.jsonl</span>
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Install-Milvus-25" class="common-anchor-header">Installare Milvus 2.5</h3><p>Per maggiori dettagli, consultare la <a href="https://milvus.io/docs/install_standalone-docker-compose.md">guida ufficiale all'installazione</a>.</p>
-<h3 id="Install-PyMilvus" class="common-anchor-header">Installare PyMilvus</h3><p>Eseguire il seguente comando per installare PyMilvus:</p>
+<h3 id="Install-Milvus-25" class="common-anchor-header">Install Milvus 2.5</h3><p>Check the <a href="https://milvus.io/docs/install_standalone-docker-compose.md">official installation guide</a> for more details.</p>
+<h3 id="Install-PyMilvus" class="common-anchor-header">Install PyMilvus</h3><p>Run the following command to install PyMilvus:</p>
 <pre><code translate="no" class="language-python">pip install <span class="hljs-string">&quot;pymilvus[model]&quot;</span> -U 
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Define-the-Retriever" class="common-anchor-header">Definire il Retriever</h3><pre><code translate="no" class="language-python"><span class="hljs-keyword">import</span> json
+<h3 id="Define-the-Retriever" class="common-anchor-header">Define the Retriever</h3><pre><code translate="no" class="language-python"><span class="hljs-keyword">import</span> json
 
 <span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> (
     MilvusClient,
@@ -271,7 +270,7 @@ standard_retriever = <span class="hljs-title class_">HybridRetriever</span>(
 <button class="copy-code-btn"></button></code></pre>
 <pre><code translate="no">Fetching 30 files: 100%|██████████| 30/30 [00:00&lt;00:00, 108848.72it/s]
 </code></pre>
-<h3 id="Insert-the-data" class="common-anchor-header">Inserire i dati</h3><pre><code translate="no" class="language-python">path = <span class="hljs-string">&quot;codebase_chunks.json&quot;</span>
+<h3 id="Insert-the-data" class="common-anchor-header">Insert the data</h3><pre><code translate="no" class="language-python">path = <span class="hljs-string">&quot;codebase_chunks.json&quot;</span>
 <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(path, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:
     dataset = json.load(f)
 
@@ -291,12 +290,12 @@ is_insert = <span class="hljs-literal">True</span>
             chunk_content = chunk[<span class="hljs-string">&quot;content&quot;</span>]
             standard_retriever.insert_data(chunk_content, metadata)
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Test-Sparse-Search" class="common-anchor-header">Testare la ricerca sparsa</h3><pre><code translate="no" class="language-python">results = standard_retriever.search(<span class="hljs-string">&quot;create a logger?&quot;</span>, mode=<span class="hljs-string">&quot;sparse&quot;</span>, k=<span class="hljs-number">3</span>)
+<h3 id="Test-Sparse-Search" class="common-anchor-header">Test Sparse Search</h3><pre><code translate="no" class="language-python">results = standard_retriever.search(<span class="hljs-string">&quot;create a logger?&quot;</span>, mode=<span class="hljs-string">&quot;sparse&quot;</span>, k=<span class="hljs-number">3</span>)
 <span class="hljs-built_in">print</span>(results)
 <button class="copy-code-btn"></button></code></pre>
 <pre><code translate="no">[{'doc_id': 'doc_10', 'chunk_id': 'doc_10_chunk_0', 'content': 'use {\n    crate::args::LogArgs,\n    anyhow::{anyhow, Result},\n    simplelog::{Config, LevelFilter, WriteLogger},\n    std::fs::File,\n};\n\npub struct Logger;\n\nimpl Logger {\n    pub fn init(args: &amp;impl LogArgs) -&gt; Result&lt;()&gt; {\n        let filter: LevelFilter = args.log_level().into();\n        if filter != LevelFilter::Off {\n            let logfile = File::create(args.log_file())\n                .map_err(|e| anyhow!(&quot;Failed to open log file: {e:}&quot;))?;\n            WriteLogger::init(filter, Config::default(), logfile)\n                .map_err(|e| anyhow!(&quot;Failed to initalize logger: {e:}&quot;))?;\n        }\n        Ok(())\n    }\n}\n', 'score': 9.12518310546875}, {'doc_id': 'doc_87', 'chunk_id': 'doc_87_chunk_3', 'content': '\t\tLoggerPtr INF = Logger::getLogger(LOG4CXX_TEST_STR(&quot;INF&quot;));\n\t\tINF-&gt;setLevel(Level::getInfo());\n\n\t\tLoggerPtr INF_ERR = Logger::getLogger(LOG4CXX_TEST_STR(&quot;INF.ERR&quot;));\n\t\tINF_ERR-&gt;setLevel(Level::getError());\n\n\t\tLoggerPtr DEB = Logger::getLogger(LOG4CXX_TEST_STR(&quot;DEB&quot;));\n\t\tDEB-&gt;setLevel(Level::getDebug());\n\n\t\t// Note: categories with undefined level\n\t\tLoggerPtr INF_UNDEF = Logger::getLogger(LOG4CXX_TEST_STR(&quot;INF.UNDEF&quot;));\n\t\tLoggerPtr INF_ERR_UNDEF = Logger::getLogger(LOG4CXX_TEST_STR(&quot;INF.ERR.UNDEF&quot;));\n\t\tLoggerPtr UNDEF = Logger::getLogger(LOG4CXX_TEST_STR(&quot;UNDEF&quot;));\n\n', 'score': 7.0077056884765625}, {'doc_id': 'doc_89', 'chunk_id': 'doc_89_chunk_3', 'content': 'using namespace log4cxx;\nusing namespace log4cxx::helpers;\n\nLOGUNIT_CLASS(FMTTestCase)\n{\n\tLOGUNIT_TEST_SUITE(FMTTestCase);\n\tLOGUNIT_TEST(test1);\n\tLOGUNIT_TEST(test1_expanded);\n\tLOGUNIT_TEST(test10);\n//\tLOGUNIT_TEST(test_date);\n\tLOGUNIT_TEST_SUITE_END();\n\n\tLoggerPtr root;\n\tLoggerPtr logger;\n\npublic:\n\tvoid setUp()\n\t{\n\t\troot = Logger::getRootLogger();\n\t\tMDC::clear();\n\t\tlogger = Logger::getLogger(LOG4CXX_TEST_STR(&quot;java.org.apache.log4j.PatternLayoutTest&quot;));\n\t}\n\n', 'score': 6.750633716583252}]
 </code></pre>
-<h2 id="Evaluation" class="common-anchor-header">Valutazione<button data-href="#Evaluation" class="anchor-icon" translate="no">
+<h2 id="Evaluation" class="common-anchor-header">Evaluation<button data-href="#Evaluation" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -311,7 +310,7 @@ is_insert = <span class="hljs-literal">True</span>
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>Ora che abbiamo inserito il dataset in Milvus, possiamo usare la ricerca densa, rada o ibrida per recuperare i primi 5 risultati. È possibile cambiare il sito <code translate="no">mode</code> e valutare ciascuno di essi. Presentiamo la metrica Pass@5, che prevede il recupero dei primi 5 risultati per ogni query e il calcolo del Recall.</p>
+    </button></h2><p>Now that we have inserted the dataset into Milvus, we can use dense, sparse, or hybrid search to retrieve the top 5 results. You can change the <code translate="no">mode</code> and evaluate each one. We present the Pass@5 metric, which involves retrieving the top 5 results for each query and calculating the Recall.</p>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">load_jsonl</span>(<span class="hljs-params">file_path: <span class="hljs-built_in">str</span></span>):
     <span class="hljs-string">&quot;&quot;&quot;Load JSONL file and return a list of dictionaries.&quot;&quot;&quot;</span>
     <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file_path, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> file:

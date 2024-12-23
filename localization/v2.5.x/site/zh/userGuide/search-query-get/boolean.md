@@ -1,9 +1,12 @@
 ---
 id: boolean.md
 summary: >-
-  过滤表达式可用于在搜索或查询过程中过滤特定的标量字段，以获得精确匹配的结果。本指南将通过一个示例数据集介绍如何在 Zilliz
-  中使用过滤表达式。出于演示目的，本指南仅提供查询操作符的示例。
-title: 元数据过滤
+  A filter expression can be used to filter a specific scalar field during a
+  search or query to obtain precisely matched results. This guide will introduce
+  how to use filter expressions in Zilliz through an example dataset. For
+  demonstration purposes, this guide will only provide examples of query
+  operations.​
+title: Metadata Filtering
 ---
 <h1 id="Metadata-Filtering​" class="common-anchor-header">Metadata Filtering​<button data-href="#Metadata-Filtering​" class="anchor-icon" translate="no">
       <svg translate="no"

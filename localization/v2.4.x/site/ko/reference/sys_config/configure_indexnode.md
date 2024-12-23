@@ -2,10 +2,9 @@
 id: configure_indexnode.md
 related_key: configure
 group: system_configuration.md
-summary: Milvus용 인덱스노드 구성 방법을 알아보세요.
-title: ''
+summary: Learn how to configure indexNode for Milvus.
 ---
-<h1 id="indexNode-related-Configurations" class="common-anchor-header">인덱스노드 관련 구성<button data-href="#indexNode-related-Configurations" class="anchor-icon" translate="no">
+<h1 id="indexNode-related-Configurations" class="common-anchor-header">indexNode-related Configurations<button data-href="#indexNode-related-Configurations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -38,13 +37,13 @@ title: ''
     </button></h2><table id="indexNode.enableDisk">
   <thead>
     <tr>
-      <th class="width80">설명</th>
-      <th class="width20">기본값</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        인덱스 노드 빌드 디스크 벡터 인덱스 사용      </td>
+      <td>        enable index node build disk vector index      </td>
       <td>true</td>
     </tr>
   </tbody>
@@ -67,13 +66,13 @@ title: ''
     </button></h2><table id="indexNode.ip">
   <thead>
     <tr>
-      <th class="width80">설명</th>
-      <th class="width20">기본값</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        인덱스 노드의 TCP/IP 주소입니다. 지정하지 않으면 첫 번째 유니캐스트 가능한 주소를 사용합니다.      </td>
+      <td>        TCP/IP address of indexNode. If not specified, use the first unicastable address      </td>
       <td></td>
     </tr>
   </tbody>
@@ -96,13 +95,13 @@ title: ''
     </button></h2><table id="indexNode.port">
   <thead>
     <tr>
-      <th class="width80">설명</th>
-      <th class="width20">기본값</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        indexNode의 TCP 포트      </td>
+      <td>        TCP port of indexNode      </td>
       <td>21121</td>
     </tr>
   </tbody>
@@ -125,13 +124,13 @@ title: ''
     </button></h2><table id="indexNode.grpc.serverMaxSendSize">
   <thead>
     <tr>
-      <th class="width80">설명</th>
-      <th class="width20">기본값</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        인덱스노드가 전송할 수 있는 각 RPC 요청의 최대 크기, 단위: 바이트      </td>
+      <td>        The maximum size of each RPC request that the indexNode can send, unit: byte      </td>
       <td>536870912</td>
     </tr>
   </tbody>
@@ -154,13 +153,13 @@ title: ''
     </button></h2><table id="indexNode.grpc.serverMaxRecvSize">
   <thead>
     <tr>
-      <th class="width80">설명</th>
-      <th class="width20">기본값</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        인덱스 노드가 수신할 수 있는 각 RPC 요청의 최대 크기, 단위: 바이트      </td>
+      <td>        The maximum size of each RPC request that the indexNode can receive, unit: byte      </td>
       <td>268435456</td>
     </tr>
   </tbody>
@@ -183,13 +182,13 @@ title: ''
     </button></h2><table id="indexNode.grpc.clientMaxSendSize">
   <thead>
     <tr>
-      <th class="width80">설명</th>
-      <th class="width20">기본값</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        indexNode의 클라이언트가 보낼 수 있는 각 RPC 요청의 최대 크기, 단위: 바이트      </td>
+      <td>        The maximum size of each RPC request that the clients on indexNode can send, unit: byte      </td>
       <td>268435456</td>
     </tr>
   </tbody>
@@ -212,13 +211,13 @@ title: ''
     </button></h2><table id="indexNode.grpc.clientMaxRecvSize">
   <thead>
     <tr>
-      <th class="width80">설명</th>
-      <th class="width20">기본값</th> 
+      <th class="width80">Description</th>
+      <th class="width20">Default Value</th> 
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>        indexNode의 클라이언트가 수신할 수 있는 각 RPC 요청의 최대 크기, 단위: 바이트      </td>
+      <td>        The maximum size of each RPC request that the clients on indexNode can receive, unit: byte      </td>
       <td>536870912</td>
     </tr>
   </tbody>

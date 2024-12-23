@@ -1,10 +1,12 @@
 ---
 id: with-iterators.md
 order: 4
-summary: Milvus 提供搜索和查询迭代器，用于迭代大量实体的结果。
-title: 使用迭代器
+summary: >-
+  Milvus provides search and query iterators for iterating results with a large
+  volume of entities.
+title: With Iterators
 ---
-<h1 id="With-Iterators" class="common-anchor-header">使用迭代器<button data-href="#With-Iterators" class="anchor-icon" translate="no">
+<h1 id="With-Iterators" class="common-anchor-header">With Iterators<button data-href="#With-Iterators" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -19,8 +21,8 @@ title: 使用迭代器
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h1><p>Milvus 提供搜索和查询迭代器，用于迭代大量实体。由于 Milvus 将 TopK 限制在 16384，用户可以使用迭代器以批处理模式返回大量甚至整个 Collections 中的实体。</p>
-<h2 id="Overview" class="common-anchor-header">概述<button data-href="#Overview" class="anchor-icon" translate="no">
+    </button></h1><p>Milvus provides search and query iterators for iterating through a large volume of entities. Since Milvus limits TopK to 16384, users can use iterators to return large numbers or even whole entities in a collection in batch mode.</p>
+<h2 id="Overview" class="common-anchor-header">Overview<button data-href="#Overview" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -35,19 +37,19 @@ title: 使用迭代器
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>迭代器是扫描整个 Collections 或通过指定主键值或过滤表达式迭代大量实体的有效工具。与带有<strong>偏移</strong>和<strong>限制</strong>参数的搜索或查询调用相比，使用迭代器更高效、更可扩展。</p>
-<h3 id="Benefits-of-using-iterators" class="common-anchor-header">使用迭代器的好处</h3><ul>
-<li><p><strong>简单</strong>：消除了复杂的<strong>偏移</strong>和<strong>限制</strong>设置。</p></li>
-<li><p><strong>高效</strong>：只获取需要的数据，提供可扩展的数据检索。</p></li>
-<li><p><strong>一致性</strong>通过布尔筛选器确保数据集大小一致。</p></li>
+    </button></h2><p>Iterators are efficient tool for scanning a whole collection or iterating through a large volume of entities by specifying primary key values or a filter expression. Compared to a search or query call with <strong>offset</strong> and <strong>limit</strong> parameters, using iterators is more efficient and scalable.</p>
+<h3 id="Benefits-of-using-iterators" class="common-anchor-header">Benefits of using iterators</h3><ul>
+<li><p><strong>Simplicity</strong>: Eliminates the complex <strong>offset</strong> and <strong>limit</strong> settings.</p></li>
+<li><p><strong>Efficiency</strong>: Provides scalable data retrieval by fetching only the data in need.</p></li>
+<li><p><strong>Consistency</strong>: Ensures a consistent dataset size with boolean filters.</p></li>
 </ul>
 <div class="admonition note">
-<p><b>注释</b></p>
+<p><b>notes</b></p>
 <ul>
-<li>此功能适用于 Milvus 2.3.x 或更高版本。</li>
+<li>This feature is available for Milvus 2.3.x or later.</li>
 </ul>
 </div>
-<h2 id="Preparations" class="common-anchor-header">准备工作<button data-href="#Preparations" class="anchor-icon" translate="no">
+<h2 id="Preparations" class="common-anchor-header">Preparations<button data-href="#Preparations" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -62,15 +64,17 @@ title: 使用迭代器
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>以下准备步骤连接 Milvus 并将随机生成的实体插入 Collections。</p>
-<h3 id="Step-1-Create-a-collection" class="common-anchor-header">步骤 1：创建 Collections</h3><div class="language-python">
-<p>使用 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a>连接到 Milvus 服务器，并使用 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a>来创建 Collections。</p>
+    </button></h2><p>The following preparation step connects to Milvus and inserts randomly generated entities into a collection.</p>
+<h3 id="Step-1-Create-a-collection" class="common-anchor-header">Step 1: Create a collection</h3><div class="language-python">
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Client/MilvusClient.md"><code translate="no">MilvusClient</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_collection.md"><code translate="no">create_collection()</code></a> to create a collection.</p>
 </div>
 <div class="language-java">
-<p>使用 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a>连接到 Milvus 服务器，并使用 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a>创建 Collections。</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Client/MilvusClientV2.md"><code translate="no">MilvusClientV2</code></a> to connect to the Milvus server and <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Collections/createCollection.md"><code translate="no">createCollection()</code></a> to create a collection.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> MilvusClient
 
 <span class="hljs-comment"># 1. Set up a Milvus client</span>
@@ -118,14 +122,16 @@ client.create_collection(
         .build();
 client.createCollection(quickSetupReq);
 <button class="copy-code-btn"></button></code></pre>
-<h3 id="Step-2-Insert-randomly-generated-entities" class="common-anchor-header">第二步：插入随机生成的实体</h3><div class="language-python">
-<p>使用 <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a>将实体插入 Collections。</p>
+<h3 id="Step-2-Insert-randomly-generated-entities" class="common-anchor-header">Step 2: Insert randomly generated entities</h3><div class="language-python">
+<p>Use <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Vector/insert.md"><code translate="no">insert()</code></a> to insert entities into the collection.</p>
 </div>
 <div class="language-java">
-<p>使用 <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a>将实体插入 Collections。</p>
+<p>Use <a href="https://milvus.io/api-reference/java/v2.4.x/v2/Vector/insert.md"><code translate="no">insert()</code></a> to insert entities into the collection.</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 3. Insert randomly generated vectors </span>
 colors = [<span class="hljs-string">&quot;green&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;yellow&quot;</span>, <span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;black&quot;</span>, <span class="hljs-string">&quot;white&quot;</span>, <span class="hljs-string">&quot;purple&quot;</span>, <span class="hljs-string">&quot;pink&quot;</span>, <span class="hljs-string">&quot;orange&quot;</span>, <span class="hljs-string">&quot;brown&quot;</span>, <span class="hljs-string">&quot;grey&quot;</span>]
 data = []
@@ -208,7 +214,7 @@ System.out.println(insertR.getInsertCnt());
 <span class="hljs-comment">// Output</span>
 <span class="hljs-comment">// 10000</span>
 <button class="copy-code-btn"></button></code></pre>
-<h2 id="Search-with-iterator" class="common-anchor-header">使用迭代器搜索<button data-href="#Search-with-iterator" class="anchor-icon" translate="no">
+<h2 id="Search-with-iterator" class="common-anchor-header">Search with iterator<button data-href="#Search-with-iterator" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -223,24 +229,26 @@ System.out.println(insertR.getInsertCnt());
           d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
         ></path>
       </svg>
-    </button></h2><p>迭代器使相似性搜索更具可扩展性。</p>
+    </button></h2><p>Iterators make similarity searches more scalable.</p>
 <div class="language-python">
-<p>要使用迭代器搜索，请调用<a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/search_iterator.md">search_iterator()</a>方法：</p>
+<p>To search with an iterator, call the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/search_iterator.md">search_iterator()</a> method:</p>
 </div>
 <div class="language-java">
-<p>要使用迭代器搜索，请调用<a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/searchIterator.md">searchIterator()</a>方法：</p>
+<p>To search with an iterator, call the <a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/searchIterator.md">searchIterator()</a> method:</p>
 </div>
 <ol>
-<li><p>初始化搜索迭代器，定义搜索参数和输出字段。</p></li>
-<li><p>在循环中使用<strong>next()</strong>方法对搜索结果进行分页。</p>
+<li><p>Initialize the search iterator to define the search parameters and output fields.</p></li>
+<li><p>Use the <strong>next()</strong> method within a loop to paginate through the search results.</p>
 <ul>
-<li><p>如果该方法返回一个空数组，则循环结束，不再提供更多页面。</p></li>
-<li><p>所有结果都包含指定的输出字段。</p></li>
+<li><p>If the method returns an empty array, the loop ends, and no more pages are available.</p></li>
+<li><p>All results carry the specified output fields.</p></li>
 </ul></li>
-<li><p>检索完所有数据后，手动调用<strong>close()</strong>方法关闭迭代器。</p></li>
+<li><p>Manually call the <strong>close()</strong> method to close the iterator once all data has been retrieved.</p></li>
 </ol>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-keyword">from</span> pymilvus <span class="hljs-keyword">import</span> Collection,connections
 
 <span class="hljs-comment"># 4. Search with iterator</span>
@@ -336,68 +344,68 @@ System.out.println(results.size());
 <table class="language-python">
   <thead>
     <tr>
-      <th>参数</th>
-      <th>描述</th>
+      <th>Parameter</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code translate="no">data</code></td>
-      <td>一个向量嵌入列表。<br/>Milvus 会搜索与指定向量嵌入最相似的向量嵌入。</td>
+      <td>A list of vector embeddings.<br/>Milvus searches for the most similar vector embeddings to the specified ones.</td>
     </tr>
     <tr>
       <td><code translate="no">anns_field</code></td>
-      <td>当前 Collections 中的向量字段名称。</td>
+      <td>The name of the vector field in the current collection.</td>
     </tr>
     <tr>
       <td><code translate="no">batch_size</code></td>
-      <td>每次在当前迭代器上调用<code translate="no">next()</code> 时要返回的实体数量。<br/>默认值为<strong>1000</strong>。将其设置为适当的值，以控制每次迭代返回的实体数量。</td>
+      <td>The number of entities to return each time you call <code translate="no">next()</code> on the current iterator.<br/>The value defaults to <strong>1000</strong>. Set it to a proper value to control the number of entities to return per iteration.</td>
     </tr>
     <tr>
       <td><code translate="no">param</code></td>
-      <td>该操作符特有的参数设置。<br/><ul><li><code translate="no">metric_type</code>:应用于此操作的度量类型。应与上面指定的向量场索引时使用的类型相同。可能的值有<strong>L2</strong>、<strong>IP</strong>、<strong>COSINE</strong>、<strong>JACCARD</strong>、<strong>HAMMING</strong>。</li><li><code translate="no">params</code>:附加参数。详情请参阅<a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/search_iterator.md">search_iterator()</a>。</li></ul></td>
+      <td>The parameter settings specific to this operation.<br/><ul><li><code translate="no">metric_type</code>: The metric type applied to this operation. This should be the same as the one used when you index the vector field specified above. Possible values are <strong>L2</strong>, <strong>IP</strong>, <strong>COSINE</strong>, <strong>JACCARD</strong>, <strong>HAMMING</strong>.</li><li><code translate="no">params</code>: Additional parameters. For details, refer to <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/search_iterator.md">search_iterator()</a>.</li></ul></td>
     </tr>
     <tr>
       <td><code translate="no">output_fields</code></td>
-      <td>要包含在返回的每个实体中的字段名列表。<br/>默认值为 "<strong>无"</strong>。如果未指定，则只包含主字段。</td>
+      <td>A list of field names to include in each entity in return.<br/>The value defaults to <strong>None</strong>. If left unspecified, only the primary field is included.</td>
     </tr>
     <tr>
       <td><code translate="no">limit</code></td>
-      <td>要返回的实体总数。<br/>默认值为<strong>-1</strong>，表示将返回所有匹配实体。</td>
+      <td>The total number of entities to return.<br/>The value defaults to <strong>-1</strong>, indicating all matching entities will be in return.</td>
     </tr>
   </tbody>
 </table>
 <table class="language-java">
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Parameter</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code translate="no">withCollectionName</code></td>
-      <td>设置 Collections 名称。Collection 名称不能为空或 null。</td>
+      <td>Set the collection name. Collection name cannot be empty or null.</td>
     </tr>
     <tr>
       <td><code translate="no">withVectorFieldName</code></td>
-      <td>按名称设置目标向量字段。字段名称不能为空或空。</td>
+      <td>Set target vector field by name. Field name cannot be empty or null.</td>
     </tr>
     <tr>
       <td><code translate="no">withVectors</code></td>
-      <td>设置目标向量。最多允许 16384 个向量。</td>
+      <td>Set the target vectors. Up to 16384 vectors allowed.</td>
     </tr>
     <tr>
       <td><code translate="no">withBatchSize</code></td>
-      <td>每次在当前迭代器上调用<code translate="no">next()</code> 时返回的实体数量。<br/>默认值为<strong>1000</strong>。将其设置为适当的值，以控制每次迭代返回的实体数量。</td>
+      <td>The number of entities to return each time you call <code translate="no">next()</code> on the current iterator.<br/>The value defaults to <strong>1000</strong>. Set it to a proper value to control the number of entities to return per iteration.</td>
     </tr>
     <tr>
       <td><code translate="no">withParams</code></td>
-      <td>以 JSON 格式指定搜索参数。更多信息，请参阅<a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/searchIterator.md">searchIterator()</a>。</td>
+      <td>Specifies the parameters of search in JSON format. For more information, refer to <a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/searchIterator.md">searchIterator()</a>.</td>
     </tr>
   </tbody>
 </table>
-<h2 id="Query-with-an-iterator" class="common-anchor-header">使用迭代器查询<button data-href="#Query-with-an-iterator" class="anchor-icon" translate="no">
+<h2 id="Query-with-an-iterator" class="common-anchor-header">Query with an iterator<button data-href="#Query-with-an-iterator" class="anchor-icon" translate="no">
       <svg translate="no"
         aria-hidden="true"
         focusable="false"
@@ -413,13 +421,15 @@ System.out.println(results.size());
         ></path>
       </svg>
     </button></h2><div class="language-python">
-<p>要使用迭代器查询，请调用<a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/query_iterator.md">query_iterator()</a>方法：</p>
+<p>To query with an iterator, call the <a href="https://milvus.io/api-reference/pymilvus/v2.4.x/ORM/Collection/query_iterator.md">query_iterator()</a> method:</p>
 </div>
 <div class="language-java">
-<p>要使用迭代器搜索，请调用<a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/queryIterator.md">queryIterator()</a>方法：</p>
+<p>To search with an iterator, call the <a href="https://milvus.io/api-reference/java/v2.4.x/v1/QuerySearch/queryIterator.md">queryIterator()</a> method:</p>
 </div>
 <div class="multipleCode">
-   <a href="#python">Python </a> <a href="#java">Java</a></div>
+    <a href="#python">Python </a>
+    <a href="#java">Java</a>
+</div>
 <pre><code translate="no" class="language-python"><span class="hljs-comment"># 6. Query with iterator</span>
 iterator = collection.query_iterator(
     batch_size=<span class="hljs-number">10</span>, <span class="hljs-comment"># Controls the size of the return each time you call next()</span>
@@ -491,52 +501,52 @@ System.out.println(results.subList(<span class="hljs-number">0</span>, <span cla
 <table class="language-python">
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Parameter</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code translate="no">batch_size</code></td>
-      <td>每次在当前迭代器上调用<code translate="no">next()</code> 时要返回的实体数量。<br/>该值默认为<strong>1000</strong>。将其设置为合适的值，以控制每次迭代返回的实体数。</td>
+      <td>The number of entities to return each time you call <code translate="no">next()</code> on the current iterator.<br/>The value defaults to <strong>1000</strong>. Set it to a proper value to control the number of entities to return per iteration.</td>
     </tr>
     <tr>
       <td><code translate="no">expr</code></td>
-      <td>用于过滤匹配实体的标量过滤条件。<br/>该值默认为 "<strong>无"</strong>，表示忽略标量过滤。要创建标量过滤条件，请参阅<a href="https://milvus.io/docs/boolean.md">布尔表达式规则</a>。</td>
+      <td>A scalar filtering condition to filter matching entities.<br/>The value defaults to <strong>None</strong>, indicating that scalar filtering is ignored. To build a scalar filtering condition, refer to <a href="https://milvus.io/docs/boolean.md">Boolean Expression Rules</a>.</td>
     </tr>
     <tr>
       <td><code translate="no">output_fields</code></td>
-      <td>要包含在返回的每个实体中的字段名列表。<br/>该值默认为 "<strong>无"</strong>。如果未指定，则只包含主字段。</td>
+      <td>A list of field names to include in each entity in return.<br/>The value defaults to <strong>None</strong>. If left unspecified, only the primary field is included.</td>
     </tr>
     <tr>
       <td><code translate="no">limit</code></td>
-      <td>要返回的实体总数。<br/>默认值为<strong>-1</strong>，表示将返回所有匹配实体。</td>
+      <td>The total number of entities to return.<br/>The value defaults to <strong>-1</strong>, indicating all matching entities will be in return.</td>
     </tr>
   </tbody>
 </table>
 <table class="language-java">
   <thead>
     <tr>
-      <th>参数</th>
-      <th>说明</th>
+      <th>Parameter</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code translate="no">withCollectionName</code></td>
-      <td>设置 Collections 名称。Collection 名称不能为空或 null。</td>
+      <td>Set the collection name. Collection name cannot be empty or null.</td>
     </tr>
     <tr>
       <td><code translate="no">withExpr</code></td>
-      <td>设置查询实体的表达式。要建立标量过滤条件，请参阅<a href="https://milvus.io/docs/boolean.md">布尔表达式规则</a>。</td>
+      <td>Set the expression to query entities. To build a scalar filtering condition, refer to <a href="https://milvus.io/docs/boolean.md">Boolean Expression Rules</a>.</td>
     </tr>
     <tr>
       <td><code translate="no">withBatchSize</code></td>
-      <td>每次在当前迭代器上调用<code translate="no">next()</code> 时要返回的实体数量。<br/>默认值为<strong>1000</strong>。将其设置为适当的值，以控制每次迭代返回的实体数。</td>
+      <td>The number of entities to return each time you call <code translate="no">next()</code> on the current iterator.<br/>The value defaults to <strong>1000</strong>. Set it to a proper value to control the number of entities to return per iteration.</td>
     </tr>
     <tr>
       <td><code translate="no">addOutField</code></td>
-      <td>指定输出标量字段（可选）。</td>
+      <td>Specifies an output scalar field (Optional).</td>
     </tr>
   </tbody>
 </table>
